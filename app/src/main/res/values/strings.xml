@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">PartyCalc</string>
+    <string name="item_buy_name">Product</string>
+    <string name="item_buy_sum">100+200</string>
+    <string name="item_buy_delete_content">Delete item</string>
+</resources>
