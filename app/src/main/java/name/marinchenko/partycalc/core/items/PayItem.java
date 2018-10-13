@@ -37,6 +37,6 @@ public class PayItem extends BaseItem {
 
     @Override
     public String toString() {
-        return "PayItem" + super.toString();
+        return "pay" + super.toString();
     }
 }

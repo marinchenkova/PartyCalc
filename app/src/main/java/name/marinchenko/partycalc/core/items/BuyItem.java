@@ -15,6 +15,6 @@ public class BuyItem extends BaseItem {
 
     @Override
     public String toString() {
-        return "BuyItem" + super.toString();
+        return "buy" + super.toString();
     }
 }

@@ -31,9 +31,7 @@ public class BaseItem {
     public void setValue(final int value) { this.value = value; }
 
     @Override
-    public String toString() {
-        return this.id + ":" + this.name + "(" + this.value + ")";
-    }
+    public String toString() { return this.id + ":" + this.name + "(" + this.value + ")"; }
 
     @Override
     public boolean equals(Object o) {

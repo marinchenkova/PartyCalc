@@ -90,7 +90,7 @@ public class ItemSet<T extends BaseItem> extends HashSet<T> {
     }
 
     private static void updatePayItemDebt(final BaseItem item,
-                                   final int mean) {
+                                          final int mean) {
         if (item instanceof PayItem) ((PayItem) item).calcDebt(mean);
     }
 }

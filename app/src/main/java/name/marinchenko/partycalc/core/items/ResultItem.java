@@ -28,6 +28,6 @@ public class ResultItem extends BaseItem {
 
     @Override
     public String toString() {
-        return "ResultItem" + super.toString() + "->" + this.to;
+        return "res" + super.toString() + "->" + this.to;
     }
 }
