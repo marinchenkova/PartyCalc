@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">PartyCalc</string>
-    <string name="item_buy_name">Product</string>
-    <string name="item_buy_sum">100+200</string>
-    <string name="item_buy_delete_content">Delete item</string>
+
+    <string name="products_title">Products</string>
+    <string name="payers_title">Payers</string>
+    <string name="results_title">Results</string>
+
+    <string name="product_default">Something</string>
+    <string name="payer_default">John Doe</string>
+    <string name="sum_default">100+200</string>
+    <string name="list_header_default">Header</string>
+
+    <string name="add_product">Add product</string>
+    <string name="add_payer">Add payer</string>
+
+
+
 </resources>

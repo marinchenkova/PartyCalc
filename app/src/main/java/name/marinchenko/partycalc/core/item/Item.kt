@@ -7,6 +7,8 @@ abstract class Item<I: Id<*>>(val id: I) {
     var title = ""
     var sum = 0
 
+    fun sumString() = "$sum"
+
     override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=$sum)"
 
     override fun hashCode() = id.toInt()

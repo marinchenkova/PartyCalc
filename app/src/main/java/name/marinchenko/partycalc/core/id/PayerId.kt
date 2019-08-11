@@ -5,7 +5,8 @@ import kotlin.experimental.inv
 class PayerId(id: Int): Id<Int>(id) {
 
     override fun toInt() = id
+    override fun toLong() = id.toLong()
 
-    override fun byte() = super.byte().inv()
+    override fun toByte() = super.toByte().inv()
 
 }
