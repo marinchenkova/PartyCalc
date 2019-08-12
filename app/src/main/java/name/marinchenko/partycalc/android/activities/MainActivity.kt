@@ -3,17 +3,21 @@ package name.marinchenko.partycalc.android.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.MotionEvent
+import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.adapter.ProductListAdapter
-import name.marinchenko.partycalc.core.id.ProductId
+import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
+import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
+import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
+import name.marinchenko.partycalc.core.item.Item
+import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var productListAdapter: ProductListAdapter? = null
+    private var productsAdapter: ProductRecyclerAdapter? = null
+    private var payersAdapter: PayerRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,18 +32,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAdapters() {
-        productListAdapter = ProductListAdapter(layoutInflater, R.layout.item)
-        list_products.adapter = productListAdapter
-        list_products.setOnItemLongClickListener { _, _, position, _ ->
-            productListAdapter?.removeItem(position)
-            true
-        }
+        productsAdapter = ProductRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+            override fun onItemClick(item: Item) {
+                productsAdapter?.removeItem(item)
+            }
+        })
 
+        payersAdapter = PayerRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+            override fun onItemClick(item: Item) {
+                payersAdapter?.removeItem(item)
+            }
+        })
+
+        list_products.layoutManager = LinearLayoutManager(this)
+        list_payers.layoutManager = LinearLayoutManager(this)
+
+        list_products.adapter = productsAdapter
+        list_payers.adapter = payersAdapter
     }
 
     private fun initButtons() {
         add_product_button.setOnClickListener {
-            productListAdapter?.addItem(Product(ProductId(0)))
+            productsAdapter?.addItem(Product(0))
+        }
+
+        add_payer_button.setOnClickListener {
+            payersAdapter?.addItem(Payer(0))
         }
     }
 }
