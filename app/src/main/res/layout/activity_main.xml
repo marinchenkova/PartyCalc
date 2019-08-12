@@ -32,14 +32,24 @@
             android:layout_height="wrap_content"
             />
 
-        <ImageButton
-            android:id="@+id/add_product_button"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_add_green_24dp"
-            android:contentDescription="@string/add_product"
-            />
+            android:layout_margin="8dp"
+            >
+
+            <ImageButton
+                android:id="@+id/add_product_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_add_green_24dp"
+                android:background="@color/colorTransparent"
+                android:contentDescription="@string/add_product"
+                />
+
+        </android.support.v7.widget.CardView>
+
+
 
         <TextView
             android:layout_width="match_parent"
@@ -57,15 +67,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            >
 
         <ImageButton
             android:id="@+id/add_payer_button"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_margin="4dp"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_add_green_24dp"
+            android:background="@color/colorTransparent"
             android:contentDescription="@string/add_payer"
             />
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"
