@@ -19,7 +19,7 @@ import name.marinchenko.partycalc.core.item.Product
 
 class MainActivity : AppCompatActivity() {
 
-    private val idFactory = IdFactory()
+    private val factory = DataFactory(this)
     private lateinit var productsAdapter: ProductRecyclerAdapter
     private lateinit var payersAdapter: PayerRecyclerAdapter
 
@@ -70,16 +70,16 @@ class MainActivity : AppCompatActivity() {
     private fun initButtons() {
         add_product_button.setOnClickListener {
             productsAdapter.addItem(Product(
-                    idFactory.nextId(),
-                    getRandomProductTitle(),
+                    factory.nextId(),
+                    factory.nextProductTitle(),
                     getRandomSumString()
             ))
         }
 
         add_payer_button.setOnClickListener {
             payersAdapter.addItem(Payer(
-                    idFactory.nextId(),
-                    getRandomPayerTitle(),
+                    factory.nextId(),
+                    factory.nextPayerTitle(),
                     getRandomSumString()
             ))
         }
