@@ -1,13 +1,23 @@
 package name.marinchenko.partycalc.core.item
 
-abstract class Item(val id: Long) {
+abstract class Item(
+        val id: Long,
+        val hintTitle: String,
+        val hintSum: String
+) {
 
     var title = ""
-    var sum = 0
+    var sumString = ""
 
-    fun sumString() = "$sum"
+    fun sum(): Int {
+        return try {
+            sumString.toInt()
+        } catch (e: Exception) {
+            0
+        }
+    }
 
-    override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=$sum)"
+    override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=${sum()})"
 
     override fun hashCode() = id.toInt()
 

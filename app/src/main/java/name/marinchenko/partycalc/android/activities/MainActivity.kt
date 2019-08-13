@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.util.*
 import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
@@ -18,6 +19,7 @@ import name.marinchenko.partycalc.core.item.Product
 
 class MainActivity : AppCompatActivity() {
 
+    private val idFactory = IdFactory()
     private lateinit var productsAdapter: ProductRecyclerAdapter
     private lateinit var payersAdapter: PayerRecyclerAdapter
 
@@ -67,11 +69,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButtons() {
         add_product_button.setOnClickListener {
-            productsAdapter.addItem(Product(0))
+            productsAdapter.addItem(Product(
+                    idFactory.nextId(),
+                    getRandomProductTitle(),
+                    getRandomSumString()
+            ))
         }
 
         add_payer_button.setOnClickListener {
-            payersAdapter.addItem(Payer(0))
+            payersAdapter.addItem(Payer(
+                    idFactory.nextId(),
+                    getRandomPayerTitle(),
+                    getRandomSumString()
+            ))
         }
     }
 }

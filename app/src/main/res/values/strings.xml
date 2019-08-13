@@ -1,17 +1,45 @@
 <resources>
     <string name="app_name">PartyCalc</string>
 
+    <!-- Products -->
     <string name="products_title">Products</string>
+    <string name="product_default">Something</string>
+    <string name="add_product">Add product</string>
+    <!-- Random titles -->
+    <string name="product_random_0">Acid Apple</string>
+    <string name="product_random_1">Big Banana</string>
+    <string name="product_random_2">Candy Carrot</string>
+    <string name="product_random_3">Double Donut</string>
+    <string name="product_random_4">Egypt Eggplant</string>
+    <string name="product_random_5">Foggy Fish</string>
+    <string name="product_random_6">Graceful Grape</string>
+    <string name="product_random_7">Holy Hamburger</string>
+    <string name="product_random_8">Icy Ice</string>
+    <string name="product_random_9">Jelly Juice</string>
+
+
+    <!-- Payers -->
     <string name="payers_title">Payers</string>
+    <string name="payer_default">Somebody</string>
+    <string name="add_payer">Add payer</string>
+    <!-- Random names -->
+    <string name="payer_random_0">Andy Adams</string>
+    <string name="payer_random_1">Billy Baldwin</string>
+    <string name="payer_random_2">Carl Carlton</string>
+    <string name="payer_random_3">Dean DeBlois</string>
+    <string name="payer_random_4">Earl Emerson</string>
+    <string name="payer_random_5">Freddy Freeman</string>
+    <string name="payer_random_6">Gillian Gilbert</string>
+    <string name="payer_random_7">Heidi Happy</string>
+    <string name="payer_random_8">Ivan Illich</string>
+    <string name="payer_random_9">Johnny Jewel</string>
+
+
+
     <string name="results_title">Results</string>
 
-    <string name="product_default">Something</string>
-    <string name="payer_default">John Doe</string>
     <string name="sum_default">100+200</string>
-    <string name="list_header_default">Header</string>
 
-    <string name="add_product">Add product</string>
-    <string name="add_payer">Add payer</string>
 
 
 

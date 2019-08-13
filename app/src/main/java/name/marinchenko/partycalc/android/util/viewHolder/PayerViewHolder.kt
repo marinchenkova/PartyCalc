@@ -12,8 +12,14 @@ class PayerViewHolder(view: View?): ItemViewHolder(view) {
     override fun bind(item: Item, listener: OnItemClickListener) {
         item as Payer
         itemView.setOnClickListener { listener.onItemClick(item) }
-        itemView?.findViewById<EditText>(R.id.item_title)?.setText(item.title)
-        itemView.findViewById<EditText>(R.id.item_sum)?.setText(item.sumString())
+
+        val titleView = itemView?.findViewById<EditText>(R.id.item_title)
+        titleView?.setText(item.title)
+        titleView?.hint = item.hintTitle
+
+        val sumView = itemView.findViewById<EditText>(R.id.item_sum)
+        sumView?.setText(item.sumString)
+        sumView?.hint = item.hintSum
     }
 
 }
