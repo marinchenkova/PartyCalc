@@ -1,5 +1,6 @@
 package name.marinchenko.partycalc.android.util.viewHolder
 
+import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.EditText
 import name.marinchenko.partycalc.R
@@ -20,6 +21,8 @@ class ProductViewHolder(view: View?): ItemViewHolder(view) {
         val sumView = itemView.findViewById<EditText>(R.id.item_sum)
         sumView?.setText(item.sumString)
         sumView?.hint = item.hintSum
+
+        itemView.findViewById<CardView>(R.id.card_view).setCardBackgroundColor(item.color)
     }
 
 }

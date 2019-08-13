@@ -1,5 +1,7 @@
 package name.marinchenko.partycalc.core.item
 
+import android.graphics.Color
+
 abstract class Item(
         val id: Long,
         val hintTitle: String,

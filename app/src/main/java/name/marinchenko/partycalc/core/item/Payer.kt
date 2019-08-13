@@ -1,6 +1,14 @@
 package name.marinchenko.partycalc.core.item
 
-class Payer(id: Long, hintTitle: String, hintSum: String): Item(id, hintTitle, hintSum) {
+class Payer(
+        id: Long,
+        hintTitle: String,
+        hintSum: String
+): Item(
+        id,
+        hintTitle,
+        hintSum
+) {
 
     private val productIds = mutableSetOf<Long>()
 
