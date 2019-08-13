@@ -7,14 +7,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.*
+import name.marinchenko.partycalc.android.util.ItemKitFactory
 import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
-import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
-import name.marinchenko.partycalc.android.util.listener.SwipeToDeleteListener
+import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
+import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
+import name.marinchenko.partycalc.android.util.listener.SwipeListener
 import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
+import name.marinchenko.partycalc.core.item.Result
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,19 +24,29 @@ class MainActivity : AppCompatActivity() {
     private val factory = ItemKitFactory(this)
     private lateinit var productsAdapter: ProductRecyclerAdapter
     private lateinit var payersAdapter: PayerRecyclerAdapter
+    private lateinit var resultsAdapter: ResultRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initLists()
+        initData()
     }
 
     private fun initLists() {
-        initAdapters()
         initLayoutManagers()
+        initAdapters()
         initSwipeToDelete()
         initButtons()
+    }
+
+    private fun initData() {
+        resultsAdapter.addResult(Result(
+                Payer(0,"", ""),
+                Payer(0,"", ""),
+                0
+        ))
     }
 
     private fun initAdapters() {
@@ -50,18 +62,26 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        resultsAdapter = ResultRecyclerAdapter(layoutInflater)
+
         list_products.adapter = productsAdapter
         list_payers.adapter = payersAdapter
+        list_results.adapter = resultsAdapter
     }
 
     private fun initLayoutManagers() {
         list_products.layoutManager = LinearLayoutManager(this)
         list_payers.layoutManager = LinearLayoutManager(this)
+        list_results.layoutManager = LinearLayoutManager(this)
     }
 
     private fun initSwipeToDelete() {
-        val productTouchHelper = ItemTouchHelper(SwipeToDeleteListener(productsAdapter))
-        val payerTouchHelper = ItemTouchHelper(SwipeToDeleteListener(payersAdapter))
+        val productTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
+            productsAdapter.removeItem(viewHolder?.adapterPosition)
+        })
+        val payerTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
+            payersAdapter.removeItem(viewHolder?.adapterPosition)
+        })
 
         productTouchHelper.attachToRecyclerView(list_products)
         payerTouchHelper.attachToRecyclerView(list_payers)
