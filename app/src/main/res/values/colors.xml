@@ -5,4 +5,19 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="mat100_1">#EF9A9A</color>
+    <color name="mat100_2">#F48FB1</color>
+    <color name="mat100_3">#CE93D8</color>
+    <color name="mat100_4">#B39DDB</color>
+    <color name="mat100_5">#9FA8DA</color>
+    <color name="mat100_6">#90CAF9</color>
+    <color name="mat100_7">#81D4FA</color>
+    <color name="mat100_8">#80DEEA</color>
+    <color name="mat100_9">#80CBC4</color>
+    <color name="mat100_10">#A5D6A7</color>
+    <color name="mat100_11">#C5E1A5</color>
+    <color name="mat100_12">#E6EE9C</color>
+    <color name="mat100_13">#FFE082</color>
+    <color name="mat100_14">#FFCC80</color>
+    <color name="mat100_15">#FFAB91</color>
 </resources>

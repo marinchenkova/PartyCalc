@@ -31,5 +31,11 @@ abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
         notifyDataSetChanged()
     }
 
+    fun removeItem(position: Int?) {
+        position ?: return
+        list.removeAt(position)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount() = list.size
 }
