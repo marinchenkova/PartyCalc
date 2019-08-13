@@ -37,5 +37,9 @@ abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
         notifyDataSetChanged()
     }
 
+    fun getItemNum(position: Int?) =
+            if (position == null) 0
+            else list[position].num
+
     override fun getItemCount() = list.size
 }

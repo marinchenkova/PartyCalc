@@ -23,9 +23,9 @@
     <string name="payer_default">Somebody</string>
     <string name="add_payer">Add payer</string>
     <!-- Random names -->
-    <string name="payer_random_0">Andy Adams</string>
-    <string name="payer_random_1">Billy Baldwin</string>
-    <string name="payer_random_2">Carl Carlton</string>
+    <string name="payer_random_0">Adria Arjona</string>
+    <string name="payer_random_1">Benny Benassi</string>
+    <string name="payer_random_2">Carmen Consoli</string>
     <string name="payer_random_3">Dean DeBlois</string>
     <string name="payer_random_4">Earl Emerson</string>
     <string name="payer_random_5">Freddy Freeman</string>
@@ -33,6 +33,22 @@
     <string name="payer_random_7">Heidi Happy</string>
     <string name="payer_random_8">Ivan Illich</string>
     <string name="payer_random_9">Johnny Jewel</string>
+    <string name="payer_random_10">Kate Kane</string>
+    <string name="payer_random_11">Louise Lombard</string>
+    <string name="payer_random_12">Michael Myers</string>
+    <string name="payer_random_13">Nicholas Nickleby</string>
+    <string name="payer_random_14">Otto Octavius</string>
+    <string name="payer_random_15">Peter Pan</string>
+    <string name="payer_random_16">Quentin Quire</string>
+    <string name="payer_random_17">Ryan Reynolds</string>
+    <string name="payer_random_18">Samuel Sterns</string>
+    <string name="payer_random_19">Tina Turner</string>
+    <string name="payer_random_20">Utane Uta</string>
+    <string name="payer_random_21">Vincent Vega</string>
+    <string name="payer_random_22">Walter White</string>
+    <string name="payer_random_23">The xXx</string>
+    <string name="payer_random_24">Yuri Yasuda</string>
+    <string name="payer_random_25">Zohan</string>
 
 
 

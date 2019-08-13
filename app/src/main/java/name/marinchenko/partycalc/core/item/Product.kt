@@ -4,9 +4,11 @@ class Product(
         id: Long,
         hintTitle: String,
         hintSum: String,
-        val color: Int
+        val color: Int,
+        num: Int
 ): Item(
         id,
         hintTitle,
-        hintSum
+        hintSum,
+        num
 )

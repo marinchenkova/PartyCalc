@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.ItemKitFactory
+import name.marinchenko.partycalc.android.util.ItemFactory
 import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
@@ -15,16 +15,15 @@ import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.android.util.listener.SwipeListener
 import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
-import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val factory = ItemKitFactory(this)
-    private lateinit var productsAdapter: ProductRecyclerAdapter
-    private lateinit var payersAdapter: PayerRecyclerAdapter
-    private lateinit var resultsAdapter: ResultRecyclerAdapter
+    private val factory = ItemFactory(this)
+    private lateinit var productAdapter: ProductRecyclerAdapter
+    private lateinit var payerAdapter: PayerRecyclerAdapter
+    private lateinit var resultAdapter: ResultRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,31 +41,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        resultsAdapter.addResult(Result(
-                Payer(0,"", ""),
-                Payer(0,"", ""),
+        resultAdapter.addResult(Result(
+                Payer(0,"", "", 0),
+                Payer(0,"", "", 0),
                 0
         ))
     }
 
     private fun initAdapters() {
-        productsAdapter = ProductRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+        productAdapter = ProductRecyclerAdapter(layoutInflater, object : OnItemClickListener {
             override fun onItemClick(item: Item) {
-                //productsAdapter.removeItem(item)
+                //productAdapter.removeItem(item)
             }
         })
 
-        payersAdapter = PayerRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+        payerAdapter = PayerRecyclerAdapter(layoutInflater, object : OnItemClickListener {
             override fun onItemClick(item: Item) {
-                //payersAdapter.removeItem(item)
+                //payerAdapter.removeItem(item)
             }
         })
 
-        resultsAdapter = ResultRecyclerAdapter(layoutInflater)
+        resultAdapter = ResultRecyclerAdapter(layoutInflater)
 
-        list_products.adapter = productsAdapter
-        list_payers.adapter = payersAdapter
-        list_results.adapter = resultsAdapter
+        list_products.adapter = productAdapter
+        list_payers.adapter = payerAdapter
+        list_results.adapter = resultAdapter
     }
 
     private fun initLayoutManagers() {
@@ -77,10 +76,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSwipeToDelete() {
         val productTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
-            productsAdapter.removeItem(viewHolder?.adapterPosition)
+            val pos = viewHolder?.adapterPosition
+            factory.removedProduct(productAdapter.getItemNum(pos))
+            productAdapter.removeItem(pos)
         })
+
         val payerTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
-            payersAdapter.removeItem(viewHolder?.adapterPosition)
+            val pos = viewHolder?.adapterPosition
+            factory.removedPayer(payerAdapter.getItemNum(pos))
+            payerAdapter.removeItem(pos)
         })
 
         productTouchHelper.attachToRecyclerView(list_products)
@@ -88,23 +92,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initButtons() {
-        add_product_button.setOnClickListener {
-            val kit = factory.nextProductKit()
-            productsAdapter.addItem(Product(
-                    kit.id,
-                    kit.titleHint,
-                    kit.sumHint,
-                    kit.color
-            ))
-        }
-
-        add_payer_button.setOnClickListener {
-            val kit = factory.nextPayerKit()
-            payersAdapter.addItem(Payer(
-                    kit.id,
-                    kit.titleHint,
-                    kit.sumHint
-            ))
-        }
+        add_product_button.setOnClickListener { productAdapter.addItem(factory.nextProduct()) }
+        add_payer_button.setOnClickListener { payerAdapter.addItem(factory.nextPayer()) }
     }
 }
