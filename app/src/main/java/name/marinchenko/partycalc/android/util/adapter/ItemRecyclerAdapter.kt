@@ -68,7 +68,7 @@ abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
     override fun getItemId(position: Int) = list[position].id
 
     fun getItemNum(position: Int?) =
-            if (position == null) 0
+            if (position == null || position >= list.size) -1
             else list[position].num
 
     override fun getItemCount() = list.size

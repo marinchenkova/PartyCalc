@@ -6,6 +6,7 @@ import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.ItemFactory
@@ -22,10 +23,14 @@ import name.marinchenko.partycalc.core.item.Result
 
 class MainActivity : ToolbarActivity() {
 
+
+    override val baseLayout: View get() = base_layout
+
     private val factory = ItemFactory(this)
     private lateinit var productAdapter: ProductRecyclerAdapter
     private lateinit var payerAdapter: PayerRecyclerAdapter
     private lateinit var resultAdapter: ResultRecyclerAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,8 @@ class MainActivity : ToolbarActivity() {
         initLists()
         initData()
     }
+
+
 
     private fun initLists() {
         initLayoutManagers()

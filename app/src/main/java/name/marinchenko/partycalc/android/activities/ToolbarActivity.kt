@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import name.marinchenko.partycalc.R
 import org.jetbrains.anko.inputMethodManager
@@ -14,6 +15,8 @@ import org.jetbrains.anko.toast
 
 
 abstract class ToolbarActivity: AppCompatActivity() {
+
+    protected abstract val baseLayout: View
 
     override fun onResume() {
         super.onResume()
@@ -40,14 +43,15 @@ abstract class ToolbarActivity: AppCompatActivity() {
         if (event?.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
             if (v is EditText) {
-                v.clearFocus()
                 val outRect = Rect()
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    baseLayout.requestFocus()
                     inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
                 }
             }
         }
+
         return super.dispatchTouchEvent(event)
     }
 
