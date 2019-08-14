@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.android.util.viewHolder.ItemViewHolder
 import name.marinchenko.partycalc.core.item.Item
+import java.util.*
 
 
 abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
         protected val inflater: LayoutInflater,
         @LayoutRes protected val itemLayout: Int,
-        private val listener: OnItemClickListener
+        private val clickListener: OnItemClickListener?
 ) : RecyclerView.Adapter<VH>() {
 
     private val list = mutableListOf<Item>()
@@ -19,7 +20,7 @@ abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
     private var lastRemovedItemPos: Int? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(list[position], listener)
+        holder.bind(list[position], clickListener)
     }
 
     fun addItem(item: Item) {
@@ -27,7 +28,23 @@ abstract class ItemRecyclerAdapter<VH: ItemViewHolder>(
         notifyDataSetChanged()
     }
 
-    fun removeItem(item: Item?) {
+    fun moveItem(from: Int?, to: Int?): Boolean {
+        if (from == null || to == null) return false
+
+        if (from < to) {
+            for (i in from until to) Collections.swap(list, i, i + 1)
+        }
+        else {
+            for (i in from downTo to + 1) {
+                Collections.swap(list, i, i - 1)
+            }
+        }
+
+        notifyItemMoved(from, to)
+        return true
+    }
+
+    private fun removeItem(item: Item?) {
         item ?: return
         lastRemovedItem = item
         lastRemovedItemPos = list.indexOf(item)

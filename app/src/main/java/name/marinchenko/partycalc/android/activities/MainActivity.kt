@@ -4,7 +4,6 @@ package name.marinchenko.partycalc.android.activities
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,7 +14,7 @@ import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
-import name.marinchenko.partycalc.android.util.listener.SwipeListener
+import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Result
@@ -40,7 +39,7 @@ class MainActivity : ToolbarActivity() {
     private fun initLists() {
         initLayoutManagers()
         initAdapters()
-        initSwipeToDelete()
+        initItemTouchHelpers()
         initButtons()
     }
 
@@ -61,7 +60,7 @@ class MainActivity : ToolbarActivity() {
 
         payerAdapter = PayerRecyclerAdapter(layoutInflater, object : OnItemClickListener {
             override fun onItemClick(item: Item) {
-                //payerAdapter.removeItem(item)
+                //productAdapter.removeItem(item)
             }
         })
 
@@ -78,20 +77,30 @@ class MainActivity : ToolbarActivity() {
         list_results.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun initSwipeToDelete() {
-        val productTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
-            val pos = viewHolder?.adapterPosition
-            factory.removedProduct(productAdapter.getItemNum(pos))
-            productAdapter.removeItem(pos)
-            showUndoSnackBar(productAdapter, R.string.product_removed)
-        })
+    private fun initItemTouchHelpers() {
+        val productTouchHelper = ItemTouchHelper(ItemTouchListener(
+                { _, holder, target ->
+                    productAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
+                },
+                { holder, _ ->
+                    val pos = holder?.adapterPosition
+                    productAdapter.removeItem(pos)
+                    factory.removedProduct(productAdapter.getItemNum(pos))
+                    showUndoSnackBar(productAdapter, R.string.product_removed)
+                }
+        ))
 
-        val payerTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
-            val pos = viewHolder?.adapterPosition
-            factory.removedPayer(payerAdapter.getItemNum(pos))
-            payerAdapter.removeItem(pos)
-            showUndoSnackBar(payerAdapter, R.string.payer_removed)
-        })
+        val payerTouchHelper = ItemTouchHelper(ItemTouchListener(
+                { _, holder, target ->
+                    payerAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
+                },
+                { holder, _ ->
+                    val pos = holder?.adapterPosition
+                    payerAdapter.removeItem(pos)
+                    factory.removedPayer(payerAdapter.getItemNum(pos))
+                    showUndoSnackBar(payerAdapter, R.string.payer_removed)
+                }
+        ))
 
         productTouchHelper.attachToRecyclerView(list_products)
         payerTouchHelper.attachToRecyclerView(list_payers)

@@ -9,9 +9,9 @@ import name.marinchenko.partycalc.core.item.Payer
 
 class PayerViewHolder(view: View?): ItemViewHolder(view) {
 
-    override fun bind(item: Item, listener: OnItemClickListener) {
+    override fun bind(item: Item, clickListener: OnItemClickListener?) {
         item as Payer
-        itemView.setOnClickListener { listener.onItemClick(item) }
+        itemView.setOnClickListener { clickListener?.onItemClick(item) }
 
         val titleView = itemView?.findViewById<EditText>(R.id.item_title)
         titleView?.setText(item.title)

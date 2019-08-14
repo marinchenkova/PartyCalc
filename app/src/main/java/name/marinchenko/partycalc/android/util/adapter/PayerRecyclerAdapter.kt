@@ -4,17 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
-import name.marinchenko.partycalc.android.util.viewHolder.ItemViewHolder
 import name.marinchenko.partycalc.android.util.viewHolder.PayerViewHolder
-import name.marinchenko.partycalc.android.util.viewHolder.ProductViewHolder
 
 class PayerRecyclerAdapter(
         inflater: LayoutInflater,
-        listener: OnItemClickListener
+        clickListener: OnItemClickListener
 ) : ItemRecyclerAdapter<PayerViewHolder>(
         inflater,
         R.layout.payer_item,
-        listener
+        clickListener
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PayerViewHolder {

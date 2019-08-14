@@ -8,11 +8,11 @@ import name.marinchenko.partycalc.android.util.viewHolder.ProductViewHolder
 
 class ProductRecyclerAdapter(
         inflater: LayoutInflater,
-        listener: OnItemClickListener
+        clickListener: OnItemClickListener
 ) : ItemRecyclerAdapter<ProductViewHolder>(
         inflater,
         R.layout.product_item,
-        listener
+        clickListener
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
