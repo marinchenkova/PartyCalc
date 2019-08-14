@@ -24,5 +24,4 @@ class ProductViewHolder(view: View?): ItemViewHolder(view) {
 
         itemView.findViewById<CardView>(R.id.card_view).setCardBackgroundColor(item.color)
     }
-
 }
