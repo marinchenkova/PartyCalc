@@ -20,7 +20,7 @@ abstract class Item(
         }
     }
 
-    override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=${sum()})"
+    override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=${sum()}, hintTitle=$hintTitle)"
 
     override fun hashCode() = id.toInt()
 

@@ -10,7 +10,6 @@ const val RANDOM_COLORS_NUM = 20
 
 
 fun randomInt(from: Int, to: Int) = (from..to).random()
-fun randomLong(from: Long, to: Long) = (from..to).random()
 
 fun randomExcept(from: Int, to: Int, except: Set<Int>): Int {
     val list = (from..to).toList().minus(except)

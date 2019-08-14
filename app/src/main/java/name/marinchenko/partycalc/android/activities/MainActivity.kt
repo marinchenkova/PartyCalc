@@ -9,24 +9,22 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.ItemFactory
 import name.marinchenko.partycalc.android.util.adapter.ItemRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
-import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
+import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Result
+import org.jetbrains.anko.toast
 
 
 class MainActivity : ToolbarActivity() {
 
-
     override val baseLayout: View get() = base_layout
 
-    private val factory = ItemFactory(this)
     private lateinit var productAdapter: ProductRecyclerAdapter
     private lateinit var payerAdapter: PayerRecyclerAdapter
     private lateinit var resultAdapter: ResultRecyclerAdapter
@@ -40,8 +38,6 @@ class MainActivity : ToolbarActivity() {
         initLists()
         initData()
     }
-
-
 
     private fun initLists() {
         initLayoutManagers()
@@ -59,13 +55,13 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+        productAdapter = ProductRecyclerAdapter(this, object : OnItemClickListener {
             override fun onItemClick(item: Item) {
                 //productAdapter.removeItem(item)
             }
         })
 
-        payerAdapter = PayerRecyclerAdapter(layoutInflater, object : OnItemClickListener {
+        payerAdapter = PayerRecyclerAdapter(this, object : OnItemClickListener {
             override fun onItemClick(item: Item) {
                 //productAdapter.removeItem(item)
             }
@@ -92,7 +88,6 @@ class MainActivity : ToolbarActivity() {
                 { holder, _ ->
                     val pos = holder?.adapterPosition
                     productAdapter.removeItem(pos)
-                    factory.removedProduct(productAdapter.getItemNum(pos))
                     showUndoSnackBar(productAdapter, R.string.product_removed)
                 }
         ))
@@ -104,7 +99,6 @@ class MainActivity : ToolbarActivity() {
                 { holder, _ ->
                     val pos = holder?.adapterPosition
                     payerAdapter.removeItem(pos)
-                    factory.removedPayer(payerAdapter.getItemNum(pos))
                     showUndoSnackBar(payerAdapter, R.string.payer_removed)
                 }
         ))
@@ -120,7 +114,7 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initButtons() {
-        add_product_button.setOnClickListener { productAdapter.addItem(factory.nextProduct()) }
-        add_payer_button.setOnClickListener { payerAdapter.addItem(factory.nextPayer()) }
+        add_product_button.setOnClickListener { productAdapter.newItem() }
+        add_payer_button.setOnClickListener { payerAdapter.newItem() }
     }
 }
