@@ -24,7 +24,7 @@ class ProductRecyclerAdapter(
         get() = ProductFactory(ctx)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        return ProductViewHolder(ctx.layoutInflater.inflate(
+        return ProductViewHolder(ctx, ctx.layoutInflater.inflate(
                 itemLayout,
                 parent,
                 false

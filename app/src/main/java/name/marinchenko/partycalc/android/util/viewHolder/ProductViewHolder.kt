@@ -1,5 +1,6 @@
 package name.marinchenko.partycalc.android.util.viewHolder
 
+import android.content.Context
 import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.EditText
@@ -8,7 +9,7 @@ import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
 import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Product
 
-class ProductViewHolder(view: View?): ItemViewHolder(view) {
+class ProductViewHolder(ctx: Context, view: View?): ItemViewHolder(ctx, view) {
 
     override fun bind(item: Item, clickListener: OnItemClickListener?) {
         item as Product

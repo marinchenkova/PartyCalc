@@ -24,7 +24,7 @@ class PayerRecyclerAdapter(
         get() = PayerFactory(ctx)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PayerViewHolder {
-        return PayerViewHolder(ctx.layoutInflater.inflate(
+        return PayerViewHolder(ctx, ctx.layoutInflater.inflate(
                 itemLayout,
                 parent,
                 false
