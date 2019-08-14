@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">PartyCalc</string>
 
+    <!-- Toolbar -->
+    <string name="toolbar_popup">Popup menu</string>
+    <string name="toolbar_popup_settings">Settings</string>
+
+
     <!-- Products -->
     <string name="products_title">Products</string>
     <string name="product_default">Something</string>

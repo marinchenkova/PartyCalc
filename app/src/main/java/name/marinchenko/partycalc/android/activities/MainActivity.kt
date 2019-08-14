@@ -18,7 +18,7 @@ import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Result
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ToolbarActivity() {
 
     private val factory = ItemFactory(this)
     private lateinit var productAdapter: ProductRecyclerAdapter
@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initToolbar("Session")
         initLists()
         initData()
     }
