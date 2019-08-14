@@ -2,12 +2,15 @@ package name.marinchenko.partycalc.android.activities
 
 
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.ItemFactory
+import name.marinchenko.partycalc.android.util.adapter.ItemRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
 import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
@@ -80,16 +83,24 @@ class MainActivity : ToolbarActivity() {
             val pos = viewHolder?.adapterPosition
             factory.removedProduct(productAdapter.getItemNum(pos))
             productAdapter.removeItem(pos)
+            showUndoSnackBar(productAdapter, R.string.product_removed)
         })
 
         val payerTouchHelper = ItemTouchHelper(SwipeListener { viewHolder, _ ->
             val pos = viewHolder?.adapterPosition
             factory.removedPayer(payerAdapter.getItemNum(pos))
             payerAdapter.removeItem(pos)
+            showUndoSnackBar(payerAdapter, R.string.payer_removed)
         })
 
         productTouchHelper.attachToRecyclerView(list_products)
         payerTouchHelper.attachToRecyclerView(list_payers)
+    }
+
+    private fun showUndoSnackBar(itemAdapter: ItemRecyclerAdapter<*>, @StringRes what: Int) {
+        Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.undo) { itemAdapter.undoRemoveItem() }
+                .show()
     }
 
     private fun initButtons() {

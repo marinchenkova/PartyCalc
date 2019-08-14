@@ -10,6 +10,7 @@
     <string name="products_title">Products</string>
     <string name="product_default">Something</string>
     <string name="add_product">Add product</string>
+    <string name="product_removed">Product removed</string>
     <!-- Random titles -->
     <string name="product_random_0">Acid Apple</string>
     <string name="product_random_1">Big Banana</string>
@@ -27,6 +28,7 @@
     <string name="payers_title">Payers</string>
     <string name="payer_default">Somebody</string>
     <string name="add_payer">Add payer</string>
+    <string name="payer_removed">Payer removed</string>
     <!-- Random names -->
     <string name="payer_random_0">Adria Arjona</string>
     <string name="payer_random_1">Benny Benassi</string>
@@ -56,12 +58,12 @@
     <string name="payer_random_25">Zohan</string>
 
 
-
+    <!-- Results -->
     <string name="results_title">Results</string>
 
+
+
     <string name="sum_default">100+200</string>
-
-
-
+    <string name="undo">Undo</string>
 
 </resources>
