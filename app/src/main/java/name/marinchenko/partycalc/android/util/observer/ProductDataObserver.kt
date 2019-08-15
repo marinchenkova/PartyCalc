@@ -15,4 +15,5 @@ class ProductDataObserver(private val action: () -> Unit): RecyclerView.AdapterD
     override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
         action()
     }
+
 }

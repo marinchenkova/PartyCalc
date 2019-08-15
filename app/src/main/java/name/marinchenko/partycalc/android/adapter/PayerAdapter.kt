@@ -47,7 +47,6 @@ class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(
     }
 
     private fun updatePayerChecks(update: List<Product>) {
-        Log.d("PayerAdapter", "updated products")
         list.forEach { it.updatePayerChecks(update) }
         notifyDataSetChanged()
     }

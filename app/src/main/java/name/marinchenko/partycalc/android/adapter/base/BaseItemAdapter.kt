@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.core.item.IItem
+import name.marinchenko.partycalc.core.item.Product
 import java.util.*
 
 abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected val ctx: Context):
@@ -22,6 +23,13 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
     override fun addItem(item: I) {
         list.add(item)
         notifyDataSetChanged()
+    }
+
+    override fun editItem(item: I, position: Int) {
+        if (list.contains(item) && list.indexOf(item) == position) {
+            list[position] = item
+            notifyItemChanged(position)
+        }
     }
 
     override fun moveItem(from: Int?, to: Int?): Boolean {

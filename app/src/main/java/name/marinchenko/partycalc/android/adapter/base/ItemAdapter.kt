@@ -12,4 +12,6 @@ interface ItemAdapter<I: IItem>: SimpleAdapter<I> {
 
     fun moveItem(from: Int?, to: Int?): Boolean
 
+    fun editItem(item: I, position: Int)
+
 }
