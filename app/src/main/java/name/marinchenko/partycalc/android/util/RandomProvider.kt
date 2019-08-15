@@ -11,8 +11,9 @@ const val RANDOM_COLORS_NUM = 26
 
 fun randomInt(from: Int, to: Int) = (from..to).random()
 
-fun randomExcept(from: Int, to: Int, except: Set<Int>): Int {
-    val list = (from..to).toList().minus(except)
+fun randomExcept(from: Int, to: Int, except: Set<Int>?): Int {
+    val list = (from..to).toList()
+    if (except != null) list.minus(except)
     return if (list.isEmpty()) -1 else list[randomInt(0, list.size - 1)]
 }
 

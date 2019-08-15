@@ -6,12 +6,12 @@ import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
 
 
-abstract class ItemFactory(protected val ctx: Context) {
+abstract class ItemFactory<I: Any>(protected val ctx: Context) {
 
     private var idCount = 0L
 
     protected fun nextId() = idCount++
 
-    abstract fun nextItem(used: Set<Int>): Item
+    abstract fun nextItem(used: Set<Int>?): I
 
 }

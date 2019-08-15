@@ -1,9 +1,7 @@
 package name.marinchenko.partycalc.android.util.listener
 
-import name.marinchenko.partycalc.core.item.Item
+interface OnItemClickListener<T> {
 
-interface OnItemClickListener {
-
-    fun onItemClick(item: Item)
+    fun onItemClick(item: T)
 
 }

@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.activities
+package name.marinchenko.partycalc.android.activity
 
 
 import android.os.Bundle
@@ -9,25 +9,21 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.adapter.ItemRecyclerAdapter
-import name.marinchenko.partycalc.android.util.adapter.PayerRecyclerAdapter
-import name.marinchenko.partycalc.android.util.adapter.ProductRecyclerAdapter
-import name.marinchenko.partycalc.android.util.adapter.ResultRecyclerAdapter
+import name.marinchenko.partycalc.android.adapter.*
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
-import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
+import name.marinchenko.partycalc.core.item.PayerCheck
 import name.marinchenko.partycalc.core.item.Result
-import org.jetbrains.anko.toast
 
 
 class MainActivity : ToolbarActivity() {
 
     override val baseLayout: View get() = base_layout
 
-    private lateinit var productAdapter: ProductRecyclerAdapter
-    private lateinit var payerAdapter: PayerRecyclerAdapter
-    private lateinit var resultAdapter: ResultRecyclerAdapter
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var payerAdapter: PayerAdapter
+    private lateinit var resultAdapter: ResultAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,19 +51,9 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductRecyclerAdapter(this, object : OnItemClickListener {
-            override fun onItemClick(item: Item) {
-                //productAdapter.removeItem(item)
-            }
-        })
-
-        payerAdapter = PayerRecyclerAdapter(this, object : OnItemClickListener {
-            override fun onItemClick(item: Item) {
-                //productAdapter.removeItem(item)
-            }
-        })
-
-        resultAdapter = ResultRecyclerAdapter(layoutInflater)
+        productAdapter = ProductAdapter(this)
+        payerAdapter = PayerAdapter(this)
+        resultAdapter = ResultAdapter(layoutInflater)
 
         list_products.adapter = productAdapter
         list_payers.adapter = payerAdapter
@@ -107,9 +93,9 @@ class MainActivity : ToolbarActivity() {
         payerTouchHelper.attachToRecyclerView(list_payers)
     }
 
-    private fun showUndoSnackBar(itemAdapter: ItemRecyclerAdapter<*>, @StringRes what: Int) {
+    private fun showUndoSnackBar(adapter: UndoRemoveItemAdapter, @StringRes what: Int) {
         Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.undo) { itemAdapter.undoRemoveItem() }
+                .setAction(R.string.undo) { adapter.undoRemoveItem() }
                 .show()
     }
 

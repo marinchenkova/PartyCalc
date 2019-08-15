@@ -1,28 +1,27 @@
 package name.marinchenko.partycalc.android.util.viewHolder
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.view.View
-import android.widget.EditText
-import name.marinchenko.partycalc.R
+import kotlinx.android.synthetic.main.product_item.view.*
 import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
-import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Product
 
-class ProductViewHolder(ctx: Context, view: View?): ItemViewHolder(ctx, view) {
+class ProductViewHolder(
+        ctx: Context,
+        private val listener: OnItemClickListener<Product>?,
+        view: View?
+): AbstractItemViewHolder<Product>(ctx, view) {
 
-    override fun bind(item: Item, clickListener: OnItemClickListener?) {
-        item as Product
-        itemView.setOnClickListener { clickListener?.onItemClick(item) }
+    override fun bind(item: Product, position: Int) {
+        itemView.setOnClickListener { listener?.onItemClick(item) }
 
-        val titleView = itemView?.findViewById<EditText>(R.id.item_title)
-        titleView?.setText(item.title)
-        titleView?.hint = item.hintTitle
+        itemView?.item_title?.setText(item.title)
+        itemView?.item_title?.hint = item.hintTitle
 
-        val sumView = itemView.findViewById<EditText>(R.id.item_sum)
-        sumView?.setText(item.sumString)
-        sumView?.hint = item.hintSum
+        itemView?.item_sum?.setText(item.sumString)
+        itemView?.item_sum?.hint = item.hintSum
 
-        itemView.findViewById<CardView>(R.id.card_view).setCardBackgroundColor(item.color)
+        itemView?.card_view?.setCardBackgroundColor(item.color)
     }
+
 }

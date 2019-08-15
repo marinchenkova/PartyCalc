@@ -45,6 +45,7 @@
     <string name="payer_default">Somebody</string>
     <string name="add_payer">Add payer</string>
     <string name="payer_removed">Payer removed</string>
+    <string name="check_stub">Product</string>
     <!-- Random names -->
     <string name="payer_random_0">Adria Arjona</string>
     <string name="payer_random_1">Benny Benassi</string>

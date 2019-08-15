@@ -12,22 +12,9 @@ class Payer(
         num
 ) {
 
-    private val productIds = mutableSetOf<Long>()
-
-    fun productSum(products: List<Product>) = products
-                    .filter { productIds.contains(it.id) }
-                    .sumBy { it.sum() }
-
-    fun addProduct(productId: Long) {
-        productIds.add(productId)
-    }
-
-    fun removeProduct(productId: Long) {
-        productIds.remove(productId)
-    }
-
-    fun removeAllProducts() {
-        productIds.clear()
-    }
+    val payerChecks = mutableSetOf<PayerCheck>(
+            PayerCheck(0, "Stub0"),
+            PayerCheck(1, "Stub1", true)
+    )
 
 }

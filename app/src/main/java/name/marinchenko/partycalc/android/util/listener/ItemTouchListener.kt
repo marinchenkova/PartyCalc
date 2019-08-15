@@ -2,7 +2,7 @@ package name.marinchenko.partycalc.android.util.listener
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import name.marinchenko.partycalc.android.util.viewHolder.ItemViewHolder
+import name.marinchenko.partycalc.android.util.viewHolder.SelectableItemViewHolder
 
 class ItemTouchListener(
         private val onMoveAction: (view: RecyclerView?,
@@ -27,7 +27,7 @@ class ItemTouchListener(
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-            if (viewHolder is ItemViewHolder) {
+            if (viewHolder is SelectableItemViewHolder) {
                 viewHolder.onItemSelected()
             }
         }
@@ -36,7 +36,7 @@ class ItemTouchListener(
 
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?) {
         super.clearView(recyclerView, viewHolder)
-        if (viewHolder is ItemViewHolder) {
+        if (viewHolder is SelectableItemViewHolder) {
             viewHolder.onItemClear()
         }
     }

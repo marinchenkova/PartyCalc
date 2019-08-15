@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.adapter
+package name.marinchenko.partycalc.android.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.viewHolder.ResultViewHolder
 import name.marinchenko.partycalc.core.item.Result
 
-class ResultRecyclerAdapter(private val inflater: LayoutInflater)
+class ResultAdapter(private val inflater: LayoutInflater)
     : RecyclerView.Adapter<ResultViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {

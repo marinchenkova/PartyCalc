@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.activities
+package name.marinchenko.partycalc.android.activity
 
 import android.graphics.Rect
 import android.support.annotation.IdRes
