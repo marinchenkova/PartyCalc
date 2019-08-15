@@ -6,15 +6,15 @@ import name.marinchenko.partycalc.core.item.Product
 
 class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
 
-    override fun nextItem(used: Set<Int>?): Product {
-        val rand = randomExcept(0, RANDOM_PRODUCTS_NUM - 1, used)
+    override fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>): Product {
+        val num = randomExcept(0, RANDOM_PRODUCTS_NUM - 1, usedNums)
 
         return Product(
-                nextId(),
-                ctx.getRandomProductTitle(rand),
+                nextId(usedIds),
+                ctx.getRandomProductTitle(num),
                 getRandomSumString(),
-                ctx.getRandomColorResId(rand),
-                rand
+                ctx.getRandomColorResId(num),
+                num
         )
     }
 

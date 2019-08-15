@@ -2,6 +2,7 @@ package name.marinchenko.partycalc.android.util
 
 import android.content.Context
 import name.marinchenko.partycalc.R
+import kotlin.random.Random
 
 
 const val RANDOM_PRODUCTS_NUM = 26
@@ -11,9 +12,14 @@ const val RANDOM_COLORS_NUM = 26
 
 fun randomInt(from: Int, to: Int) = (from..to).random()
 
-fun randomExcept(from: Int, to: Int, except: Set<Int>?): Int {
-    val list = (from..to).toList()
-    if (except != null) list.minus(except)
+fun randomExcept(used: Set<Long>): Long {
+    val res = Random.nextLong()
+    return if (used.contains(res)) randomExcept(used)
+    else res
+}
+
+fun randomExcept(from: Int, to: Int, used: Set<Int>): Int {
+    val list = (from..to).toList().minus(used)
     return if (list.isEmpty()) -1 else list[randomInt(0, list.size - 1)]
 }
 

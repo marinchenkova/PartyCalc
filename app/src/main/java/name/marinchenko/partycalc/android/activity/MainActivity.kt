@@ -9,11 +9,14 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.adapter.*
+import name.marinchenko.partycalc.android.adapter.PayerAdapter
+import name.marinchenko.partycalc.android.adapter.ProductAdapter
+import name.marinchenko.partycalc.android.adapter.ResultAdapter
+import name.marinchenko.partycalc.android.adapter.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
-import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
+import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.core.item.Payer
-import name.marinchenko.partycalc.core.item.PayerCheck
+import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 
 
@@ -51,7 +54,13 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductAdapter(this)
+        productAdapter = ProductAdapter(this, null,
+                object : SimpleEventListener<List<Product>>{
+                    override fun onEvent(item: List<Product>) {
+                        payerAdapter.productsWereUpdated(item)
+                    }
+                }
+        )
         payerAdapter = PayerAdapter(this)
         resultAdapter = ResultAdapter(layoutInflater)
 

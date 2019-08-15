@@ -13,10 +13,22 @@ class Payer(
         num
 ) {
 
-    val payerChecks = mutableSetOf<PayerCheck>(
-            PayerCheck(0, "Stub0"),
-            PayerCheck(1, "Stub1", true)
-    )
+    val payerChecks = mutableSetOf<PayerCheck>()
 
-    override fun toString() = "Payer(id=$id, hintTitle=$hintTitle, hintSum=$hintSum, num=$num, checks=$payerChecks)"
+
+    fun updatePayerChecks(products: List<Product>) {
+        val newSet = products.mapNotNull { prod ->
+            val checkForUpdate = payerChecks.find { check ->
+                check.product.id == prod.id
+            }
+            if (checkForUpdate == null) return@mapNotNull PayerCheck(prod)
+            else return@mapNotNull checkForUpdate.update(prod)
+        }.toSet()
+        payerChecks.clear()
+        payerChecks.addAll(newSet)
+    }
+
+    override fun toString() = "Payer(id=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +
+            "num=$num, checks=$payerChecks)"
+
 }

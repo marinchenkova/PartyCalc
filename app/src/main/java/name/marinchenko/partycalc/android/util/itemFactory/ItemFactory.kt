@@ -8,10 +8,8 @@ import name.marinchenko.partycalc.core.item.Payer
 
 abstract class ItemFactory<I: Any>(protected val ctx: Context) {
 
-    private var idCount = 0L
+    protected fun nextId(usedIds: Set<Long>) = randomExcept(usedIds)
 
-    protected fun nextId() = idCount++
-
-    abstract fun nextItem(used: Set<Int>?): I
+    abstract fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>): I
 
 }

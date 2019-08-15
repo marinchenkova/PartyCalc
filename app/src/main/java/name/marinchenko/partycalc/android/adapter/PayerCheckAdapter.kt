@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
+import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.util.viewHolder.PayerCheckViewHolder
 import name.marinchenko.partycalc.core.item.PayerCheck
 import org.jetbrains.anko.layoutInflater
@@ -12,7 +12,7 @@ import org.jetbrains.anko.layoutInflater
 class PayerCheckAdapter(
         private val ctx: Context,
         var parentPosition: Int,
-        private val listener: OnItemClickListener<Pair<PayerCheck, Int>>? = null
+        private val listener: SimpleEventListener<Pair<PayerCheck, Int>>? = null
 ): RecyclerView.Adapter<PayerCheckViewHolder>(), SimpleItemAdapter<PayerCheck> {
 
     private val list = mutableListOf<PayerCheck>()
@@ -21,16 +21,6 @@ class PayerCheckAdapter(
     fun updateList(new: Set<PayerCheck>) {
         list.clear()
         list.addAll(new)
-        notifyDataSetChanged()
-    }
-
-    fun editItem(position: Int, update: PayerCheck) {
-        list[position] = update
-        notifyDataSetChanged()
-    }
-
-    fun editItem(position: Int, update: String) {
-        list[position].title = update
         notifyDataSetChanged()
     }
 

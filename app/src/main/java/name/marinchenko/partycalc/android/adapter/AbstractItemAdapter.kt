@@ -16,7 +16,10 @@ abstract class AbstractItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(
     private var lastRemovedItemPos: Int? = null
 
     override fun newItem() {
-        addItem(factory.nextItem(list.map { it.num }.toSet()))
+        addItem(factory.nextItem(
+                list.map { it.num }.toHashSet(),
+                list.map { it.id }.toHashSet()
+        ))
     }
 
     override fun addItem(item: I) {

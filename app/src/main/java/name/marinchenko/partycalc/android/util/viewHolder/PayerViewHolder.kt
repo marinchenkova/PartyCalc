@@ -5,15 +5,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import kotlinx.android.synthetic.main.payer_item.view.*
 import name.marinchenko.partycalc.android.adapter.PayerCheckAdapter
-import name.marinchenko.partycalc.android.util.listener.OnItemClickListener
+import name.marinchenko.partycalc.android.util.isVisible
+import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
 
 
 class PayerViewHolder(
         ctx: Context,
-        private var clickListener: OnItemClickListener<Pair<Boolean, Int>>?,
-        checkListener: OnItemClickListener<Pair<PayerCheck, Int>>?,
+        private var clickListener: SimpleEventListener<Pair<Boolean, Int>>?,
+        checkListener: SimpleEventListener<Pair<PayerCheck, Int>>?,
         view: View):
         AbstractItemViewHolder<Payer>(ctx, view) {
 
@@ -27,7 +29,7 @@ class PayerViewHolder(
     override fun bind(item: Payer, position: Int) {
         adapter.parentPosition = position
 
-        itemView.setOnClickListener { clickListener?.onItemClick(Pair(expandView(), position)) }
+        itemView.setOnClickListener { clickListener?.onEvent(Pair(expandView(), position)) }
 
         itemView?.item_title?.setText(item.title)
         itemView?.item_title?.hint = item.hintTitle
@@ -44,11 +46,8 @@ class PayerViewHolder(
     }
 
     private fun expandView(expanded: Boolean = !isExpanded()): Boolean {
-        // buggy animation
-        //TransitionManager.beginDelayedTransition(itemView?.card_view, ChangeBounds())
-
-        itemView?.list_payer_checks?.visibility = if (expanded) View.VISIBLE else View.GONE
-        return expanded
+        if (adapter.itemCount > 0) itemView?.list_payer_checks?.setVisibility(expanded)
+        return itemView?.list_payer_checks?.isVisible() ?: false
     }
 
     private fun isExpanded() = itemView?.list_payer_checks?.visibility == View.VISIBLE
