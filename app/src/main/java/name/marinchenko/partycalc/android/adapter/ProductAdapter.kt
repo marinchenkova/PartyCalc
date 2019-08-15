@@ -3,6 +3,7 @@ package name.marinchenko.partycalc.android.adapter
 import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.android.util.itemFactory.ProductFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
@@ -15,7 +16,7 @@ class ProductAdapter(
         ctx: Context,
         private val clickListener: SimpleEventListener<Product>? = null,
         private val listListener: SimpleEventListener<List<Product>>? = null
-): AbstractItemAdapter<ProductViewHolder, Product>(ctx) {
+): UndoRemoveItemAdapter<ProductViewHolder, Product>(ctx) {
 
     init {
         this.registerAdapterDataObserver(ProductDataObserver {

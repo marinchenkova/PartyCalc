@@ -12,7 +12,7 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
-import name.marinchenko.partycalc.android.adapter.UndoRemoveItemAdapter
+import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.core.item.Payer
@@ -102,7 +102,7 @@ class MainActivity : ToolbarActivity() {
         payerTouchHelper.attachToRecyclerView(list_payers)
     }
 
-    private fun showUndoSnackBar(adapter: UndoRemoveItemAdapter, @StringRes what: Int) {
+    private fun showUndoSnackBar(adapter: UndoRemoveAdapter, @StringRes what: Int) {
         Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) { adapter.undoRemoveItem() }
                 .show()

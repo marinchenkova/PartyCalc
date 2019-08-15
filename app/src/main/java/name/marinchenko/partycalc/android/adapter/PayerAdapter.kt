@@ -1,8 +1,10 @@
 package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.android.util.itemFactory.PayerFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
@@ -13,7 +15,7 @@ import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
 
-class PayerAdapter(ctx: Context): AbstractItemAdapter<PayerViewHolder, Payer>(ctx) {
+class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(ctx) {
 
     private val clickListener = object : SimpleEventListener<Pair<Boolean, Int>> {
         override fun onEvent(item: Pair<Boolean, Int>) {
@@ -45,6 +47,7 @@ class PayerAdapter(ctx: Context): AbstractItemAdapter<PayerViewHolder, Payer>(ct
     }
 
     private fun updatePayerChecks(update: List<Product>) {
+        Log.d("PayerAdapter", "updated products")
         list.forEach { it.updatePayerChecks(update) }
         notifyDataSetChanged()
     }

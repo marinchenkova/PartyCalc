@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.adapter.base.SimpleAdapter
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.util.viewHolder.PayerCheckViewHolder
 import name.marinchenko.partycalc.core.item.PayerCheck
@@ -13,7 +14,7 @@ class PayerCheckAdapter(
         private val ctx: Context,
         var parentPosition: Int,
         private val listener: SimpleEventListener<Pair<PayerCheck, Int>>? = null
-): RecyclerView.Adapter<PayerCheckViewHolder>(), SimpleItemAdapter<PayerCheck> {
+): RecyclerView.Adapter<PayerCheckViewHolder>(), SimpleAdapter<PayerCheck> {
 
     private val list = mutableListOf<PayerCheck>()
 

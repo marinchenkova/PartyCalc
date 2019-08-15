@@ -1,8 +1,8 @@
-package name.marinchenko.partycalc.android.adapter
+package name.marinchenko.partycalc.android.adapter.base
 
 import name.marinchenko.partycalc.core.item.IItem
 
-interface ItemRecyclerAdapter<I: IItem>: SimpleItemAdapter<I> {
+interface ItemAdapter<I: IItem>: SimpleAdapter<I> {
 
     override fun addItem(item: I)
 
