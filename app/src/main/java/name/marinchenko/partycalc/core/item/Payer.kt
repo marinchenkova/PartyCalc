@@ -4,7 +4,8 @@ class Payer(
         id: Long,
         hintTitle: String,
         hintSum: String,
-        num: Int
+        num: Int,
+        var isExpanded: Boolean = false
 ): Item(
         id,
         hintTitle,
@@ -17,4 +18,5 @@ class Payer(
             PayerCheck(1, "Stub1", true)
     )
 
+    override fun toString() = "Payer(id=$id, hintTitle=$hintTitle, hintSum=$hintSum, num=$num, checks=$payerChecks)"
 }

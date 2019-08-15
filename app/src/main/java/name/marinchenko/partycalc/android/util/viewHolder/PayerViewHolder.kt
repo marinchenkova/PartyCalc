@@ -2,9 +2,6 @@ package name.marinchenko.partycalc.android.util.viewHolder
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
-import android.transition.ChangeBounds
-import android.transition.Transition
-import android.transition.TransitionManager
 import android.view.View
 import kotlinx.android.synthetic.main.payer_item.view.*
 import name.marinchenko.partycalc.android.adapter.PayerCheckAdapter
@@ -15,6 +12,7 @@ import name.marinchenko.partycalc.core.item.PayerCheck
 
 class PayerViewHolder(
         ctx: Context,
+        private var clickListener: OnItemClickListener<Pair<Boolean, Int>>?,
         checkListener: OnItemClickListener<Pair<PayerCheck, Int>>?,
         view: View):
         AbstractItemViewHolder<Payer>(ctx, view) {
@@ -29,7 +27,7 @@ class PayerViewHolder(
     override fun bind(item: Payer, position: Int) {
         adapter.parentPosition = position
 
-        itemView.setOnClickListener { expandView() }
+        itemView.setOnClickListener { clickListener?.onItemClick(Pair(expandView(), position)) }
 
         itemView?.item_title?.setText(item.title)
         itemView?.item_title?.hint = item.hintTitle
@@ -38,15 +36,19 @@ class PayerViewHolder(
         itemView?.item_sum?.hint = item.hintSum
 
         updatePayerChecks(item)
+        expandView(item.isExpanded)
     }
 
     private fun updatePayerChecks(payer: Payer) {
         adapter.updateList(payer.payerChecks)
     }
 
-    private fun expandView(expand: Boolean = !isExpanded()) {
+    private fun expandView(expanded: Boolean = !isExpanded()): Boolean {
+        // buggy animation
         //TransitionManager.beginDelayedTransition(itemView?.card_view, ChangeBounds())
-        itemView?.list_payer_checks?.visibility = if (expand) View.VISIBLE else View.GONE
+
+        itemView?.list_payer_checks?.visibility = if (expanded) View.VISIBLE else View.GONE
+        return expanded
     }
 
     private fun isExpanded() = itemView?.list_payer_checks?.visibility == View.VISIBLE

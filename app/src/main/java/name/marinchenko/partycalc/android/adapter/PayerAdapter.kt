@@ -14,6 +14,12 @@ import org.jetbrains.anko.layoutInflater
 
 class PayerAdapter(ctx: Context): AbstractItemAdapter<PayerViewHolder, Payer>(ctx) {
 
+    private val clickListener = object : OnItemClickListener<Pair<Boolean, Int>> {
+        override fun onItemClick(item: Pair<Boolean, Int>) {
+            list[item.second].isExpanded = item.first
+        }
+    }
+
     private val checkListener = object : OnItemClickListener<Pair<PayerCheck, Int>> {
         override fun onItemClick(item: Pair<PayerCheck, Int>) {
             onPayerCheckClick(item.first, item.second)
@@ -29,7 +35,7 @@ class PayerAdapter(ctx: Context): AbstractItemAdapter<PayerViewHolder, Payer>(ct
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PayerViewHolder {
-        return PayerViewHolder(ctx, checkListener, ctx.layoutInflater.inflate(
+        return PayerViewHolder(ctx, clickListener, checkListener, ctx.layoutInflater.inflate(
                 R.layout.payer_item,
                 parent,
                 false
