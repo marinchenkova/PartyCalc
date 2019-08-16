@@ -4,10 +4,7 @@ import android.graphics.Rect
 import android.support.annotation.IdRes
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.EditText
 import name.marinchenko.partycalc.R
 import org.jetbrains.anko.inputMethodManager
@@ -37,6 +34,17 @@ abstract class ToolbarActivity: AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         NavUtils.navigateUpFromSameTask(this)
         return true
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        if (event?.keyCode == KeyEvent.KEYCODE_ENTER
+                && event.action == KeyEvent.ACTION_UP) {
+            val v = currentFocus
+            inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
+            baseLayout.requestFocus()
+        }
+
+        return super.dispatchKeyEvent(event)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {

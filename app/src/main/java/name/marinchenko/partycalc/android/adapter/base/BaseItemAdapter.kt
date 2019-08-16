@@ -30,10 +30,10 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
         notifyDataSetChanged()
     }
 
-    override fun editItem(item: I, position: Int) {
+    override fun editItem(item: I, position: Int, notify: Boolean) {
         if (list.contains(item) && list.indexOf(item) == position) {
             list[position] = item
-            notifyItemChanged(position)
+            if (notify) notifyItemChanged(position)
         }
     }
 

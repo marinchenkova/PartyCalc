@@ -2,11 +2,16 @@ package name.marinchenko.partycalc.android.util
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.VibrationEffect
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
@@ -41,7 +46,6 @@ fun EditText.afterTextChanged(action: (text: String) -> Unit) {
     })
 }
 
-
 fun View.setBorder(color: Int, width: Int) {
     val border = GradientDrawable()
     border.setColor(Color.TRANSPARENT)
@@ -54,3 +58,20 @@ fun Context.dpToPixels(dp: Int) = TypedValue.applyDimension(
         dp.toFloat(),
         resources.displayMetrics
 )
+
+fun spanResult(start: String, middle: String, end: String, color: Int): SpannableStringBuilder {
+    val startBuilder = SpannableStringBuilder(start)
+            .span(StyleSpan(Typeface.BOLD))
+            .span(ForegroundColorSpan(color))
+
+    val endBuilder = SpannableStringBuilder(end)
+            .span(StyleSpan(Typeface.BOLD))
+            .span(ForegroundColorSpan(color))
+
+    return startBuilder.append(" ").append(middle).append(" ").append(endBuilder)
+}
+
+fun SpannableStringBuilder.span(what: Any): SpannableStringBuilder {
+    setSpan(what, 0, length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+    return this
+}

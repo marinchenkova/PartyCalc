@@ -2,7 +2,9 @@ package name.marinchenko.partycalc.android.util.itemFactory
 
 import android.content.Context
 import name.marinchenko.partycalc.android.util.*
+import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Product
+import name.marinchenko.partycalc.core.randomExcept
 
 class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
 
@@ -12,7 +14,7 @@ class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
         return Product(
                 nextId(usedIds),
                 ctx.getRandomProductTitle(num),
-                getRandomSumString(),
+                PartyCalc.getRandomHintSum(),
                 ctx.getRandomColorResId(num),
                 num
         )

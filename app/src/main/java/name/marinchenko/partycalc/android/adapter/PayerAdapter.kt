@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.android.util.itemFactory.PayerFactory
@@ -16,7 +17,10 @@ import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
 
-class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(ctx) {
+class PayerAdapter(
+        ctx: Context,
+        listListener: SimpleEventListener<List<Payer>>? = null
+): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx, listListener) {
 
     private val clickListener = object : SimpleEventListener<Pair<Boolean, Int>> {
         override fun onEvent(item: Pair<Boolean, Int>) {
@@ -26,7 +30,10 @@ class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(
 
     private val editTextListener = object : SimpleEventListener<Pair<Payer, Int>> {
         override fun onEvent(item: Pair<Payer, Int>) {
-            if (!onBind) editItem(item.first, item.second)
+            if (!onBind) {
+                editItem(item.first, item.second, false)
+                observer.onChanged()
+            }
         }
     }
 

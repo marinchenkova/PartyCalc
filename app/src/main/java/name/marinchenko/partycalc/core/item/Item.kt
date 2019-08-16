@@ -1,5 +1,7 @@
 package name.marinchenko.partycalc.core.item
 
+import name.marinchenko.partycalc.core.PartyCalc
+
 abstract class Item(
         override val id: Long,
         val hintTitle: String,
@@ -10,11 +12,11 @@ abstract class Item(
     var title = ""
     var sumString = ""
 
-    fun sum(): Int {
+    fun sum(): Double {
         return try {
-            sumString.toInt()
+            PartyCalc.parseSumString(sumString)
         } catch (e: Exception) {
-            0
+            0.toDouble()
         }
     }
 

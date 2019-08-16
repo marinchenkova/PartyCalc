@@ -41,7 +41,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:inputType="numberSigned"
+            android:inputType="phone"
             android:textSize="20sp"
             android:hint="@string/sum_default"
             android:maxLines="1"

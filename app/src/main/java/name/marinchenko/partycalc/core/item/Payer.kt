@@ -14,18 +14,30 @@ class Payer(
 ) {
 
     val payerChecks = mutableSetOf<PayerCheck>()
-
+    private var lastRemoved = mutableSetOf<PayerCheck>()
 
     fun updatePayerChecks(products: List<Product>) {
-        val newSet = products.mapNotNull { prod ->
-            val checkForUpdate = payerChecks.find { check ->
-                check.product.id == prod.id
+        val newSet = products.map { prod ->
+            val forUpdate = payerChecks.find { check -> check.product.id == prod.id }
+            if (forUpdate == null) {
+                val undo = lastRemoved.find { check -> check.product.id == prod.id }
+                if (undo == null) return@map PayerCheck(prod)
+                else return@map undo.update(prod)
             }
-            if (checkForUpdate == null) return@mapNotNull PayerCheck(prod)
-            else return@mapNotNull checkForUpdate.update(prod)
+            else return@map forUpdate.update(prod)
         }.toSet()
+
+        saveRemoved(newSet)
+
         payerChecks.clear()
         payerChecks.addAll(newSet)
+    }
+
+    private fun saveRemoved(newSet: Set<PayerCheck>) {
+        val oldSet = payerChecks
+        oldSet.removeAll(newSet)
+        lastRemoved.clear()
+        lastRemoved.addAll(oldSet)
     }
 
     override fun toString() = "Payer(id=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +

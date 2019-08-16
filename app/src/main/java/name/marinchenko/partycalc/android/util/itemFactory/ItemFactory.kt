@@ -1,9 +1,7 @@
 package name.marinchenko.partycalc.android.util.itemFactory
 
 import android.content.Context
-import name.marinchenko.partycalc.android.util.*
-import name.marinchenko.partycalc.core.item.Item
-import name.marinchenko.partycalc.core.item.Payer
+import name.marinchenko.partycalc.core.randomExcept
 
 
 abstract class ItemFactory<I: Any>(protected val ctx: Context) {

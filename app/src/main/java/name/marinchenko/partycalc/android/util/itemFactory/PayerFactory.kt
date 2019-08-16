@@ -2,7 +2,9 @@ package name.marinchenko.partycalc.android.util.itemFactory
 
 import android.content.Context
 import name.marinchenko.partycalc.android.util.*
+import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Payer
+import name.marinchenko.partycalc.core.randomExcept
 
 class PayerFactory(ctx: Context): ItemFactory<Payer>(ctx) {
 
@@ -12,7 +14,7 @@ class PayerFactory(ctx: Context): ItemFactory<Payer>(ctx) {
         return Payer(
                 nextId(usedIds),
                 ctx.getRandomPayerTitle(num),
-                getRandomSumString(),
+                PartyCalc.getRandomHintSum(),
                 num
         )
     }
