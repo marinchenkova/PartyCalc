@@ -14,9 +14,6 @@ class PartyCalc {
     companion object {
 
         @JvmStatic
-        private val seps = arrayOf("+", "-", "*", "/")
-
-        @JvmStatic
         fun parseSumString(sumString: String): Double {
             return DoubleEvaluator().evaluate(sumString)
         }
@@ -24,16 +21,28 @@ class PartyCalc {
         @JvmStatic
         fun getRandomHintSum(): String {
             val list = mutableListOf<String>()
-            for (i in 1..randomInt(1, 3)) {
-                list.add("${randomInt(1, 9) * 100}")
+            var sum = 0
+            for (i in 1..randomInt(1, 2)) {
+                val random = randomInt(1, 9) * 100
+                sum += random
+                list.add("$random")
             }
-            return list.joinToString("+") {
-                it
+
+            val sumString = list.joinToString("+") { it }
+            val braces = if (list.size > 1) "($sumString)" else sumString
+
+            return when (randomInt(0, 9)) {
+                in 0..4 -> sumString
+                in 5..7 -> "$braces-${randomInt(1, (sum / 100) - 1) * 100}"
+                else -> "$braces${if (eagle()) "*" else "/"}${randomInt(2, 9)}"
             }
+
         }
 
     }
 }
+
+fun eagle() = randomInt(0, 1) == 0
 
 fun randomInt(from: Int, to: Int) = (from..to).random()
 
