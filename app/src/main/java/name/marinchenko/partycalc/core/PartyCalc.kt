@@ -9,9 +9,8 @@ class PartyCalc {
     companion object {
 
         @JvmStatic
-        fun itemListSum(items: List<Item>): String {
-            val sum = items.sumByDouble { it.sum() }
-            return String.format("%.2f", sum)
+        fun itemListSum(items: List<Item>): Double {
+            return items.sumByDouble { it.sum() }
         }
 
         @JvmStatic

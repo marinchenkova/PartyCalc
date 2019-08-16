@@ -13,6 +13,8 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
+import name.marinchenko.partycalc.android.util.getStringByNum
+import name.marinchenko.partycalc.android.util.isSingular
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.util.spanResult
@@ -48,23 +50,29 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun productSummary(products: List<Product>) {
-        val size = products.size.toString()
         val sum = PartyCalc.itemListSum(products)
         result_products?.text = spanResult(
-                size,
-                getString(R.string.result_products),
-                sum,
+                products.size.toString(),
+                getStringByNum(
+                        products.size,
+                        getString(R.string.result_1_product),
+                        getString(R.string.result_products)
+                ),
+                String.format("%.2f", sum),
                 R.color.colorPrimaryDark
         )
     }
 
     private fun payerSummary(payers: List<Payer>) {
-        val size = payers.size.toString()
         val sum = PartyCalc.itemListSum(payers)
         result_payers?.text = spanResult(
-                size,
-                getString(R.string.result_payers),
-                sum,
+                payers.size.toString(),
+                getStringByNum(
+                        payers.size,
+                        getString(R.string.result_1_payer),
+                        getString(R.string.result_payers)
+                ),
+                String.format("%.2f", sum),
                 R.color.colorPrimaryDark
         )
     }

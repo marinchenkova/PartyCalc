@@ -75,3 +75,9 @@ fun SpannableStringBuilder.span(what: Any): SpannableStringBuilder {
     setSpan(what, 0, length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     return this
 }
+
+fun isSingular(num: Int) = num == 1
+
+fun getStringByNum(num: Int, singular: String, plural: String): String {
+    return if (isSingular(num)) singular else plural
+}
