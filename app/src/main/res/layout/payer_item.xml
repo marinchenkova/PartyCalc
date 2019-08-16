@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toStartOf="@id/item_sum"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="48dp"
             android:inputType="textCapWords|textPersonName"
@@ -43,13 +43,24 @@
             app:layout_constraintStart_toEndOf="@id/item_title"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:inputType="phone"
             android:textSize="20sp"
             android:hint="@string/sum_default"
             android:maxLines="1"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_payer_checks_compact"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_title"
             />
 
         <android.support.v7.widget.RecyclerView
@@ -61,7 +72,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/item_title"/>
+            app:layout_constraintTop_toBottomOf="@id/list_payer_checks_compact"/>
 
     </android.support.constraint.ConstraintLayout>
 

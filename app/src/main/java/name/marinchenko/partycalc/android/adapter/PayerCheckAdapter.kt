@@ -13,8 +13,8 @@ import org.jetbrains.anko.layoutInflater
 class PayerCheckAdapter(
         private val ctx: Context,
         var parentPosition: Int,
-        private val listener: SimpleEventListener<Pair<PayerCheck, Int>>? = null
-): RecyclerView.Adapter<PayerCheckViewHolder>(), SimpleAdapter<PayerCheck> {
+        private val listener: SimpleEventListener<Triple<PayerCheck, Int, Int>>? = null
+): RecyclerView.Adapter<PayerCheckViewHolder>() {
 
     private val list = mutableListOf<PayerCheck>()
 
@@ -22,17 +22,6 @@ class PayerCheckAdapter(
     fun updateList(new: Set<PayerCheck>) {
         list.clear()
         list.addAll(new)
-        notifyDataSetChanged()
-    }
-
-    override fun addItem(item: PayerCheck) {
-        list.add(item)
-        notifyDataSetChanged()
-    }
-
-    override fun removeItem(position: Int?) {
-        position ?: return
-        list.removeAt(position)
         notifyDataSetChanged()
     }
 
@@ -47,7 +36,7 @@ class PayerCheckAdapter(
     }
 
     override fun onBindViewHolder(holder: PayerCheckViewHolder, position: Int) {
-        holder.bind(list[position], parentPosition)
+        holder.bind(list[position], position, parentPosition)
     }
 
 

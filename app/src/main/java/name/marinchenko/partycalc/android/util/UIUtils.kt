@@ -1,15 +1,16 @@
 package name.marinchenko.partycalc.android.util
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.VibrationEffect
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
-import kotlinx.android.synthetic.main.product_item.view.*
+import name.marinchenko.partycalc.android.adapter.PARENT_MARGIN
+import org.jetbrains.anko.displayMetrics
 import org.jetbrains.anko.vibrator
-import java.util.*
 
 fun Context.makeVibration(ms: Long, amplitude: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -26,3 +27,16 @@ fun View.setVisibility(visible: Boolean) {
 fun EditText.afterInput(action: (text: String) -> Unit) {
     setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) action(this.text.toString()) }
 }
+
+fun View.setBorderOfColor(color: Int, width: Int) {
+    val border = GradientDrawable()
+    border.setColor(Color.TRANSPARENT)
+    border.setStroke(width, color)
+    background = border
+}
+
+fun Context.dpToPixels(dp: Int) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp.toFloat(),
+        resources.displayMetrics
+)
