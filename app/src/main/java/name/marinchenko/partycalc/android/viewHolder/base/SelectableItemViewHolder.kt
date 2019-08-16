@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.viewHolder
+package name.marinchenko.partycalc.android.viewHolder.base
 
 interface SelectableItemViewHolder {
 

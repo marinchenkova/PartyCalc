@@ -1,6 +1,7 @@
 package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
@@ -8,7 +9,7 @@ import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.android.util.itemFactory.PayerFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
-import name.marinchenko.partycalc.android.util.viewHolder.PayerViewHolder
+import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
 import name.marinchenko.partycalc.core.item.Product
@@ -19,7 +20,13 @@ class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(
 
     private val clickListener = object : SimpleEventListener<Pair<Boolean, Int>> {
         override fun onEvent(item: Pair<Boolean, Int>) {
-            list[item.second].isExpanded = item.first
+            setExpanded(item.first, item.second)
+        }
+    }
+
+    private val editTextListener = object : SimpleEventListener<Pair<Payer, Int>> {
+        override fun onEvent(item: Pair<Payer, Int>) {
+            if (!onBind) editItem(item.first, item.second)
         }
     }
 
@@ -40,6 +47,10 @@ class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(
         updatePayerChecks(products)
     }
 
+    private fun setExpanded(expanded: Boolean, position: Int) {
+        list[position].isExpanded = expanded
+    }
+
     fun productsWereUpdated(update: List<Product>) {
         products.clear()
         products.addAll(update)
@@ -58,14 +69,22 @@ class PayerAdapter(ctx: Context): UndoRemoveItemAdapter<PayerViewHolder, Payer>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PayerViewHolder {
-        return PayerViewHolder(ctx, clickListener, checkListener, ctx.layoutInflater.inflate(
-                R.layout.payer_item,
-                parent,
-                false
-        ))
+        return PayerViewHolder(
+                ctx,
+                clickListener,
+                checkListener,
+                editTextListener,
+                ctx.layoutInflater.inflate(
+                        R.layout.payer_item,
+                        parent,
+                        false
+                )
+        )
     }
 
     override fun onBindViewHolder(holder: PayerViewHolder, position: Int) {
+        onBindStart()
         holder.bind(list[position], position)
+        onBindFinish()
     }
 }

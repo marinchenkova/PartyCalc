@@ -2,17 +2,14 @@ package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.util.PAYER_ITEM_MARGINS
 import name.marinchenko.partycalc.android.util.dpToPixels
-import name.marinchenko.partycalc.android.util.viewHolder.PayerCheckCompactViewHolder
+import name.marinchenko.partycalc.android.viewHolder.PayerCheckCompactViewHolder
 import name.marinchenko.partycalc.core.item.PayerCheck
 import org.jetbrains.anko.displayMetrics
 import org.jetbrains.anko.layoutInflater
-
-
-const val PARENT_MARGIN = 32
 
 
 class PayerCheckCompactAdapter(private val ctx: Context):
@@ -33,7 +30,7 @@ class PayerCheckCompactAdapter(private val ctx: Context):
     }
 
     private fun calculateItemWidth(): Float {
-        val viewWidth = ctx.displayMetrics.widthPixels - ctx.dpToPixels(PARENT_MARGIN)
+        val viewWidth = ctx.displayMetrics.widthPixels - ctx.dpToPixels(PAYER_ITEM_MARGINS)
         return viewWidth / itemCount
     }
 

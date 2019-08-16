@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.viewHolder
+package name.marinchenko.partycalc.android.viewHolder.base
 
 import android.content.Context
 import android.graphics.drawable.Drawable

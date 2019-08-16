@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.viewHolder.ResultViewHolder
+import name.marinchenko.partycalc.android.viewHolder.ResultViewHolder
 import name.marinchenko.partycalc.core.item.Result
 
 class ResultAdapter(private val inflater: LayoutInflater)

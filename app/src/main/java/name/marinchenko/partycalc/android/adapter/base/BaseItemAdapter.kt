@@ -5,10 +5,15 @@ import android.support.v7.widget.RecyclerView
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.core.item.IItem
 import name.marinchenko.partycalc.core.item.Product
+import java.lang.ref.WeakReference
 import java.util.*
 
 abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected val ctx: Context):
-        RecyclerView.Adapter<VH>(), ItemAdapter<I> {
+        RecyclerView.Adapter<VH>(), ItemAdapter<I>, BinderAdapter {
+
+    protected var onBind = false
+        private set
+
 
     protected val list = mutableListOf<I>()
     protected abstract val factory: ItemFactory<I>
@@ -58,4 +63,11 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
 
     override fun getItemCount() = list.size
 
+    override fun onBindStart() {
+        onBind = true
+    }
+
+    override fun onBindFinish() {
+        onBind = false
+    }
 }

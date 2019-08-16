@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.viewHolder
+package name.marinchenko.partycalc.android.viewHolder
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -6,9 +6,11 @@ import android.view.View
 import kotlinx.android.synthetic.main.payer_item.view.*
 import name.marinchenko.partycalc.android.adapter.PayerCheckAdapter
 import name.marinchenko.partycalc.android.adapter.PayerCheckCompactAdapter
+import name.marinchenko.partycalc.android.util.afterInput
 import name.marinchenko.partycalc.android.util.isVisible
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.util.setVisibility
+import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
 
@@ -17,6 +19,7 @@ class PayerViewHolder(
         ctx: Context,
         private var clickListener: SimpleEventListener<Pair<Boolean, Int>>?,
         checkListener: SimpleEventListener<Pair<PayerCheck, Int>>?,
+        private var editTextListener: SimpleEventListener<Pair<Payer, Int>>?,
         view: View
 ): AbstractItemViewHolder<Payer>(ctx, view) {
 
@@ -51,9 +54,17 @@ class PayerViewHolder(
 
         itemView?.item_title?.setText(item.title)
         itemView?.item_title?.hint = item.hintTitle
+        itemView?.item_title?.afterInput { text -> editTextListener?.onEvent(Pair(
+                item.also { it.title = text },
+                position
+        ))}
 
         itemView?.item_sum?.setText(item.sumString)
         itemView?.item_sum?.hint = item.hintSum
+        itemView?.item_sum?.afterInput { text -> editTextListener?.onEvent(Pair(
+                item.also { it.sumString = text },
+                position
+        ))}
 
         updatePayerChecks(item)
         expandView(item.isExpanded)

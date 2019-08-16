@@ -2,7 +2,7 @@ package name.marinchenko.partycalc.android.util.listener
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import name.marinchenko.partycalc.android.util.viewHolder.SelectableItemViewHolder
+import name.marinchenko.partycalc.android.viewHolder.base.SelectableItemViewHolder
 
 class ItemTouchListener(
         private val onMoveAction: (view: RecyclerView?,

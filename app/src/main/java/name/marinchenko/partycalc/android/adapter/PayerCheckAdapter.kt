@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.SimpleAdapter
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
-import name.marinchenko.partycalc.android.util.viewHolder.PayerCheckViewHolder
+import name.marinchenko.partycalc.android.viewHolder.PayerCheckViewHolder
 import name.marinchenko.partycalc.core.item.PayerCheck
 import org.jetbrains.anko.layoutInflater
 

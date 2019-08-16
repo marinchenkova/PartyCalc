@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.viewHolder
+package name.marinchenko.partycalc.android.viewHolder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
