@@ -6,12 +6,13 @@ import kotlin.random.Random
 
 class PartyCalc {
 
-    fun itemListSum(items: List<Item>): String {
-        val sum = items.sumByDouble { it.sum() }
-        return String.format("%.2f", sum)
-    }
-
     companion object {
+
+        @JvmStatic
+        fun itemListSum(items: List<Item>): String {
+            val sum = items.sumByDouble { it.sum() }
+            return String.format("%.2f", sum)
+        }
 
         @JvmStatic
         fun parseSumString(sumString: String): Double {

@@ -2,7 +2,7 @@ package name.marinchenko.partycalc.android.util.observer
 
 import android.support.v7.widget.RecyclerView
 
-class ProductDataObserver(private val action: () -> Unit): RecyclerView.AdapterDataObserver() {
+class DataObserver(private val action: () -> Unit): RecyclerView.AdapterDataObserver() {
 
     override fun onChanged() {
         action()

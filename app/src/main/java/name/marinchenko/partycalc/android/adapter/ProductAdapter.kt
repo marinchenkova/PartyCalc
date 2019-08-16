@@ -1,20 +1,15 @@
 package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
-import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
 import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
 import name.marinchenko.partycalc.android.util.itemFactory.ProductFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
-import name.marinchenko.partycalc.android.util.observer.ProductDataObserver
 import name.marinchenko.partycalc.android.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.toast
 
 class ProductAdapter(
         ctx: Context,

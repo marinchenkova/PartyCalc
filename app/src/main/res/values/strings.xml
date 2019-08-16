@@ -77,14 +77,18 @@
 
     <!-- Results -->
     <string name="results_title">Results</string>
+
     <string name="result_products">categories for</string>
     <string name="result_1_product">category for</string>
+
     <string name="result_payers">payers for</string>
     <string name="result_1_payer">payer for</string>
+
 
 
     <!-- Misc -->
     <string name="sum_default">100+200</string>
     <string name="undo">Undo</string>
+    <string name="arrow_description">to</string>
 
 </resources>

@@ -26,7 +26,6 @@ class MainActivity : ToolbarActivity() {
 
     override val baseLayout: View get() = base_layout
 
-    private val partyCalc = PartyCalc()
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
@@ -50,7 +49,7 @@ class MainActivity : ToolbarActivity() {
 
     private fun productSummary(products: List<Product>) {
         val size = products.size.toString()
-        val sum = partyCalc.itemListSum(products)
+        val sum = PartyCalc.itemListSum(products)
         result_products?.text = spanResult(
                 size,
                 getString(R.string.result_products),
@@ -61,7 +60,7 @@ class MainActivity : ToolbarActivity() {
 
     private fun payerSummary(payers: List<Payer>) {
         val size = payers.size.toString()
-        val sum = partyCalc.itemListSum(payers)
+        val sum = PartyCalc.itemListSum(payers)
         result_payers?.text = spanResult(
                 size,
                 getString(R.string.result_payers),
@@ -73,6 +72,18 @@ class MainActivity : ToolbarActivity() {
     private fun initResults() {
         productSummary(emptyList())
         payerSummary(emptyList())
+        resultAdapter.updateList(setOf(
+                Result(
+                        Payer(0, "Samuel L. Jackson", "000", 0),
+                        Payer(1, "Quentin Tarantino", "111", 1),
+                        "666"
+                ),
+                Result(
+                        Payer(2, "fred", "222", 2),
+                        Payer(3, "bob", "333", 3),
+                        "777"
+                )
+        ))
     }
 
     private fun initAdapters() {
@@ -89,7 +100,7 @@ class MainActivity : ToolbarActivity() {
                 payerSummary(item)
             }
         })
-        resultAdapter = ResultAdapter(layoutInflater)
+        resultAdapter = ResultAdapter(this)
 
         list_products.adapter = productAdapter
         list_payers.adapter = payerAdapter

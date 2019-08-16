@@ -1,15 +1,11 @@
 package name.marinchenko.partycalc.core.item
 
 data class Result(
-        private val who: Payer,
-        private val toWhom: Payer,
-        val sum: Int
+        val who: Payer,
+        val toWhom: Payer,
+        val sumString: String
 ) {
-    private var done = false
 
-    fun done() { done = true }
-    fun isDone() = done
+    var done = false
 
-    fun whoName() = who.title
-    fun toWhomName() = toWhom.title
 }

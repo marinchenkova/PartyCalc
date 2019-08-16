@@ -1,44 +1,42 @@
 package name.marinchenko.partycalc.android.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.viewHolder.ResultViewHolder
 import name.marinchenko.partycalc.core.item.Result
+import org.jetbrains.anko.layoutInflater
 
-class ResultAdapter(private val inflater: LayoutInflater)
-    : RecyclerView.Adapter<ResultViewHolder>() {
+class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewHolder>() {
+
+    private val list = mutableListOf<Result>()
+
+    private val checkListener = object : SimpleEventListener<Pair<Boolean, Int>> {
+        override fun onEvent(item: Pair<Boolean, Int>) {
+            list[item.second].done = item.first
+        }
+    }
+
+    fun updateList(new: Set<Result>) {
+        list.clear()
+        list.addAll(new)
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount() = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
-        return ResultViewHolder(inflater.inflate(
+        return ResultViewHolder(ctx, checkListener, ctx.layoutInflater.inflate(
                 R.layout.result_item,
                 parent,
                 false
         ))
     }
 
-    private val list = mutableListOf<Result>()
-
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position)
     }
 
-    fun addResult(result: Result) {
-        list.add(result)
-        notifyDataSetChanged()
-    }
-
-    fun removeResult(result: Result) {
-        list.remove(result)
-        notifyDataSetChanged()
-    }
-
-    fun removeResult(position: Int?) {
-        position ?: return
-        list.removeAt(position)
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount() = list.size
 }
