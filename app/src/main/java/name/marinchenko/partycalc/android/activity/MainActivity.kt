@@ -14,11 +14,12 @@ import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
 import name.marinchenko.partycalc.android.util.getStringByNum
-import name.marinchenko.partycalc.android.util.isSingular
+import name.marinchenko.partycalc.android.util.initResultSummary
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
-import name.marinchenko.partycalc.android.util.spanResult
+import name.marinchenko.partycalc.android.util.spanSummary
 import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.core.item.Item
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
@@ -50,30 +51,20 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun productSummary(products: List<Product>) {
-        val sum = PartyCalc.itemListSum(products)
-        result_products?.text = spanResult(
-                products.size.toString(),
-                getStringByNum(
-                        products.size,
-                        getString(R.string.result_1_product),
-                        getString(R.string.result_products)
-                ),
-                String.format("%.2f", sum),
-                R.color.colorPrimaryDark
+        result_products?.initResultSummary(
+                products,
+                getString(R.string.result_1_product),
+                getString(R.string.result_products),
+                getColor(R.color.colorPrimary)
         )
     }
 
     private fun payerSummary(payers: List<Payer>) {
-        val sum = PartyCalc.itemListSum(payers)
-        result_payers?.text = spanResult(
-                payers.size.toString(),
-                getStringByNum(
-                        payers.size,
-                        getString(R.string.result_1_payer),
-                        getString(R.string.result_payers)
-                ),
-                String.format("%.2f", sum),
-                R.color.colorPrimaryDark
+        result_payers?.initResultSummary(
+                payers,
+                getString(R.string.result_1_payer),
+                getString(R.string.result_payers),
+                getColor(R.color.colorPrimary)
         )
     }
 

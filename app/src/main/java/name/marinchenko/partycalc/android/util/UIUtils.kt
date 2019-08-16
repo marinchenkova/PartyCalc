@@ -15,6 +15,11 @@ import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
+import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.core.item.Item
 import org.jetbrains.anko.vibrator
 
 
@@ -59,7 +64,7 @@ fun Context.dpToPixels(dp: Int) = TypedValue.applyDimension(
         resources.displayMetrics
 )
 
-fun spanResult(start: String, middle: String, end: String, color: Int): SpannableStringBuilder {
+fun spanSummary(start: String, middle: String, end: String, color: Int): SpannableStringBuilder {
     val startBuilder = SpannableStringBuilder(start)
             .span(StyleSpan(Typeface.BOLD))
             .span(ForegroundColorSpan(color))
@@ -80,4 +85,18 @@ fun isSingular(num: Int) = num == 1
 
 fun getStringByNum(num: Int, singular: String, plural: String): String {
     return if (isSingular(num)) singular else plural
+}
+
+fun TextView.initResultSummary(list: List<Item>, singular: String, plural: String, color: Int) {
+    val sum = PartyCalc.itemListSum(list)
+    text = spanSummary(
+            list.size.toString(),
+            getStringByNum(
+                    list.size,
+                    singular,
+                    plural
+            ),
+            String.format("%.2f", sum),
+            color
+    )
 }
