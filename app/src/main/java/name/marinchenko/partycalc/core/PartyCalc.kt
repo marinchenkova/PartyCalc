@@ -34,7 +34,11 @@ class PartyCalc {
 
             return when (randomInt(0, 9)) {
                 in 0..4 -> sumString
-                in 5..7 -> "$braces-${randomInt(1, (sum / 100) - 1) * 100}"
+                in 5..7 -> {
+                    val minus = randomInt(0, (sum / 100) - 1) * 100
+                    if (minus != 0) "$braces-${randomInt(0, (sum / 100) - 1) * 100}"
+                    else sumString
+                }
                 else -> "$braces${if (eagle()) "*" else "/"}${randomInt(2, 9)}"
             }
 
