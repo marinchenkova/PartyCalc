@@ -32,7 +32,7 @@
             android:textSize="18sp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="stdasdadasdrt"
+            android:text="start"
             android:maxWidth="144dp"
             />
 
@@ -61,11 +61,11 @@
         <TextView
             android:id="@+id/result_to_whom"
             android:layout_width="wrap_content"
-            android:layout_height="26dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="enasdasdasdaasdasdaasdasdd"
+            android:text="end"
             android:textSize="18sp" />
 
     </LinearLayout>
