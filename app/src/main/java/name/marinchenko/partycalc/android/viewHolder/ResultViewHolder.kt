@@ -1,7 +1,6 @@
 package name.marinchenko.partycalc.android.viewHolder
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -36,7 +35,7 @@ class ResultViewHolder(
 
             if (checked) {
                 background = itemView.background
-                itemView.backgroundColor = ctx.getColor(R.color.colorDone)
+                itemView.backgroundColor = ctx.getColor(R.color.colorGreen)
             }
             else itemView?.background = background
 
