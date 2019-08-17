@@ -87,16 +87,3 @@ fun getStringByNum(num: Int, singular: String, plural: String): String {
     return if (isSingular(num)) singular else plural
 }
 
-fun TextView.initResultSummary(list: List<Item>, singular: String, plural: String, color: Int) {
-    val sum = PartyCalc.itemListSum(list)
-    text = spanSummary(
-            list.size.toString(),
-            getStringByNum(
-                    list.size,
-                    singular,
-                    plural
-            ),
-            String.format("%.2f", sum),
-            color
-    )
-}

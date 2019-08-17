@@ -2,10 +2,8 @@ package name.marinchenko.partycalc.android.adapter.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
+import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.core.item.IItem
-import name.marinchenko.partycalc.core.item.Product
-import java.lang.ref.WeakReference
 import java.util.*
 
 abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected val ctx: Context):

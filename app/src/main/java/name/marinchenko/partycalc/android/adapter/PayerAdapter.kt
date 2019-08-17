@@ -1,14 +1,11 @@
 package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
-import name.marinchenko.partycalc.android.adapter.base.UndoRemoveItemAdapter
-import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
-import name.marinchenko.partycalc.android.util.itemFactory.PayerFactory
+import name.marinchenko.partycalc.android.util.item.ItemFactory
+import name.marinchenko.partycalc.android.util.item.PayerFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.core.item.Payer

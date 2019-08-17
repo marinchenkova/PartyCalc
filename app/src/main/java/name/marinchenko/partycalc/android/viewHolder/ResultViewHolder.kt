@@ -35,7 +35,7 @@ class ResultViewHolder(
 
             if (checked) {
                 background = itemView.background
-                itemView.backgroundColor = ctx.getColor(R.color.colorGreen)
+                itemView.backgroundColor = ctx.getColor(R.color.colorGreen_done)
             }
             else itemView?.background = background
 

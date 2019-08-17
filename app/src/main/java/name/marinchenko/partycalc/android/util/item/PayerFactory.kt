@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.util.itemFactory
+package name.marinchenko.partycalc.android.util.item
 
 import android.content.Context
 import name.marinchenko.partycalc.android.util.*

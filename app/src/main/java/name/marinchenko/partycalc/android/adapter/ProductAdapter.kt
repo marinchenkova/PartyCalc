@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
-import name.marinchenko.partycalc.android.util.itemFactory.ItemFactory
-import name.marinchenko.partycalc.android.util.itemFactory.ProductFactory
+import name.marinchenko.partycalc.android.util.item.ItemFactory
+import name.marinchenko.partycalc.android.util.item.ProductFactory
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
 import name.marinchenko.partycalc.android.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product

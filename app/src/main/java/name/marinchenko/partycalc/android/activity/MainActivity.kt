@@ -13,13 +13,9 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
-import name.marinchenko.partycalc.android.util.getStringByNum
-import name.marinchenko.partycalc.android.util.initResultSummary
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
-import name.marinchenko.partycalc.android.util.spanSummary
-import name.marinchenko.partycalc.core.PartyCalc
-import name.marinchenko.partycalc.core.item.Item
+import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
@@ -29,6 +25,7 @@ class MainActivity : ToolbarActivity() {
 
     override val baseLayout: View get() = base_layout
 
+    private lateinit var summaryHolder: SummaryViewHolder
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
@@ -50,31 +47,12 @@ class MainActivity : ToolbarActivity() {
         initButtons()
     }
 
-    private fun productSummary(products: List<Product>) {
-        result_products?.initResultSummary(
-                products,
-                getString(R.string.result_1_product),
-                getString(R.string.result_products),
-                getColor(R.color.colorPrimary)
-        )
-    }
-
-    private fun payerSummary(payers: List<Payer>) {
-        result_payers?.initResultSummary(
-                payers,
-                getString(R.string.result_1_payer),
-                getString(R.string.result_payers),
-                getColor(R.color.colorPrimary)
-        )
-    }
-
     private fun initResults() {
-        productSummary(emptyList())
-        payerSummary(emptyList())
+        summaryHolder = SummaryViewHolder(this)
         resultAdapter.updateList(setOf(
                 Result(
-                        Payer(0, "Samuel L. Jackson", "000", 0),
-                        Payer(1, "Quentin Tarantino", "111", 1),
+                        Payer(0, "Samuel L. Jacksonnnnn", "000", 0),
+                        Payer(1, "Quentin Tarantinoooo", "111", 1),
                         "666"
                 ),
                 Result(
@@ -90,13 +68,13 @@ class MainActivity : ToolbarActivity() {
                 object : SimpleEventListener<List<Product>>{
                     override fun onEvent(item: List<Product>) {
                         payerAdapter.productsWereUpdated(item)
-                        productSummary(item)
+                        summaryHolder.productsUpdated(item)
                     }
                 }
         )
         payerAdapter = PayerAdapter(this, object : SimpleEventListener<List<Payer>>{
             override fun onEvent(item: List<Payer>) {
-                payerSummary(item)
+                summaryHolder.payersUpdated(item)
             }
         })
         resultAdapter = ResultAdapter(this)
