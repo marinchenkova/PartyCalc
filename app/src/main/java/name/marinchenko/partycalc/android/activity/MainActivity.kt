@@ -36,15 +36,80 @@ class MainActivity : ToolbarActivity() {
         setContentView(R.layout.activity_main)
 
         initToolbar("Session")
-        initLists()
+        initRecyclerViews()
         initResults()
     }
 
-    private fun initLists() {
+    private fun initRecyclerViews() {
         initLayoutManagers()
         initAdapters()
         initItemTouchHelpers()
         initButtons()
+    }
+
+    private fun initLayoutManagers() {
+        list_products.layoutManager = LinearLayoutManager(this)
+        list_payers.layoutManager = LinearLayoutManager(this)
+        list_results.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun initAdapters() {
+        productAdapter = ProductAdapter(this, null,
+                object : SimpleEventListener<List<Product>>{
+                    override fun onEvent(item: List<Product>) {
+                        payerAdapter.productsWereUpdated(item)
+                        summaryHolder.productsUpdated(item)
+                    }
+                }
+        )
+        payerAdapter = PayerAdapter(this,
+                object : SimpleEventListener<List<Payer>>{
+                    override fun onEvent(item: List<Payer>) {
+                        summaryHolder.payersUpdated(item)
+                    }
+                }
+        )
+        resultAdapter = ResultAdapter(this)
+
+        list_products.adapter = productAdapter
+        list_payers.adapter = payerAdapter
+        list_results.adapter = resultAdapter
+    }
+
+    private fun initItemTouchHelpers() {
+        val productTouchHelper = ItemTouchHelper(ItemTouchListener()
+                .onMoveAction { _, holder, target ->
+                    productAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
+                }
+                .onSwipeAction { holder, _ ->
+                    productAdapter.removeItem(holder?.adapterPosition)
+                    showUndoSnackBar(productAdapter, R.string.product_removed)
+                }
+        )
+
+        val payerTouchHelper = ItemTouchHelper(ItemTouchListener()
+                .onMoveAction { _, holder, target ->
+                    payerAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
+                }
+                .onSwipeAction { holder, _ ->
+                    payerAdapter.removeItem(holder?.adapterPosition)
+                    showUndoSnackBar(payerAdapter, R.string.payer_removed)
+                }
+        )
+
+        productTouchHelper.attachToRecyclerView(list_products)
+        payerTouchHelper.attachToRecyclerView(list_payers)
+    }
+
+    private fun initButtons() {
+        add_product_button.setOnClickListener { productAdapter.newItem() }
+        add_payer_button.setOnClickListener { payerAdapter.newItem() }
+    }
+
+    private fun showUndoSnackBar(adapter: UndoRemoveAdapter, @StringRes what: Int) {
+        Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
+                .setAction(R.string.undo) { adapter.undoRemoveItem() }
+                .show()
     }
 
     private fun initResults() {
@@ -61,70 +126,5 @@ class MainActivity : ToolbarActivity() {
                         "777"
                 )
         ))
-    }
-
-    private fun initAdapters() {
-        productAdapter = ProductAdapter(this, null,
-                object : SimpleEventListener<List<Product>>{
-                    override fun onEvent(item: List<Product>) {
-                        payerAdapter.productsWereUpdated(item)
-                        summaryHolder.productsUpdated(item)
-                    }
-                }
-        )
-        payerAdapter = PayerAdapter(this, object : SimpleEventListener<List<Payer>>{
-            override fun onEvent(item: List<Payer>) {
-                summaryHolder.payersUpdated(item)
-            }
-        })
-        resultAdapter = ResultAdapter(this)
-
-        list_products.adapter = productAdapter
-        list_payers.adapter = payerAdapter
-        list_results.adapter = resultAdapter
-    }
-
-    private fun initLayoutManagers() {
-        list_products.layoutManager = LinearLayoutManager(this)
-        list_payers.layoutManager = LinearLayoutManager(this)
-        list_results.layoutManager = LinearLayoutManager(this)
-    }
-
-    private fun initItemTouchHelpers() {
-        val productTouchHelper = ItemTouchHelper(ItemTouchListener(
-                { _, holder, target ->
-                    productAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
-                },
-                { holder, _ ->
-                    val pos = holder?.adapterPosition
-                    productAdapter.removeItem(pos)
-                    showUndoSnackBar(productAdapter, R.string.product_removed)
-                }
-        ))
-
-        val payerTouchHelper = ItemTouchHelper(ItemTouchListener(
-                { _, holder, target ->
-                    payerAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
-                },
-                { holder, _ ->
-                    val pos = holder?.adapterPosition
-                    payerAdapter.removeItem(pos)
-                    showUndoSnackBar(payerAdapter, R.string.payer_removed)
-                }
-        ))
-
-        productTouchHelper.attachToRecyclerView(list_products)
-        payerTouchHelper.attachToRecyclerView(list_payers)
-    }
-
-    private fun showUndoSnackBar(adapter: UndoRemoveAdapter, @StringRes what: Int) {
-        Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.undo) { adapter.undoRemoveItem() }
-                .show()
-    }
-
-    private fun initButtons() {
-        add_product_button.setOnClickListener { productAdapter.newItem() }
-        add_payer_button.setOnClickListener { payerAdapter.newItem() }
     }
 }

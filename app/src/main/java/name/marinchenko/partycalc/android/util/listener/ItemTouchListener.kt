@@ -4,15 +4,36 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import name.marinchenko.partycalc.android.viewHolder.base.SelectableItemViewHolder
 
-class ItemTouchListener(
-        private val onMoveAction: (view: RecyclerView?,
-                                   holder: RecyclerView.ViewHolder?,
-                                   target: RecyclerView.ViewHolder?) -> Boolean,
-        private val onSwipeAction: (holder: RecyclerView.ViewHolder?, direction: Int) -> Unit
-): ItemTouchHelper.SimpleCallback(
+class ItemTouchListener : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         ItemTouchHelper.START or ItemTouchHelper.END
 ) {
+
+    private lateinit var moveAction: (
+            view: RecyclerView?,
+            holder: RecyclerView.ViewHolder?,
+            target: RecyclerView.ViewHolder?
+    ) -> Boolean
+
+    private lateinit var swipeAction: (holder: RecyclerView.ViewHolder?, direction: Int) -> Unit
+
+
+    fun onMoveAction(action: (
+            view: RecyclerView?,
+            holder: RecyclerView.ViewHolder?,
+            target: RecyclerView.ViewHolder?
+    ) -> Boolean): ItemTouchListener {
+        moveAction = action
+        return this
+    }
+
+    fun onSwipeAction(action: (
+            holder: RecyclerView.ViewHolder?,
+            direction: Int
+    ) -> Unit): ItemTouchListener {
+        swipeAction = action
+        return this
+    }
 
     override fun isLongPressDragEnabled() = true
     override fun isItemViewSwipeEnabled() = true
@@ -20,10 +41,10 @@ class ItemTouchListener(
     override fun onMove(view: RecyclerView?,
                         holder: RecyclerView.ViewHolder?,
                         target: RecyclerView.ViewHolder?) =
-            onMoveAction(view, holder, target)
+            moveAction(view, holder, target)
 
     override fun onSwiped(holder: RecyclerView.ViewHolder?, direction: Int) =
-            onSwipeAction(holder, direction)
+            swipeAction(holder, direction)
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {

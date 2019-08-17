@@ -59,7 +59,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun sumEquality() {
-        val equal = productSum.toInt() == payerSum.toInt()
+        val equal = String.format("%.2f", productSum) == String.format("%.2f", payerSum)
         activity.result_payers_alert?.setVisibility(!equal)
         if (!equal)
             activity.result_payers_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
