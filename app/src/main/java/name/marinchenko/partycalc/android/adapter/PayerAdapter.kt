@@ -6,7 +6,7 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.PayerFactory
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
@@ -16,16 +16,16 @@ import org.jetbrains.anko.layoutInflater
 
 class PayerAdapter(
         ctx: Context,
-        listListener: SimpleEventListener<List<Payer>>? = null
+        listListener: ItemEventListener<List<Payer>>? = null
 ): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx, listListener) {
 
-    private val clickListener = object : SimpleEventListener<Pair<Boolean, Int>> {
+    private val clickListener = object : ItemEventListener<Pair<Boolean, Int>> {
         override fun onEvent(item: Pair<Boolean, Int>) {
             setExpanded(item.first, item.second)
         }
     }
 
-    private val editTextListener = object : SimpleEventListener<Pair<Payer, Int>> {
+    private val editTextListener = object : ItemEventListener<Pair<Payer, Int>> {
         override fun onEvent(item: Pair<Payer, Int>) {
             if (!onBind) {
                 editItem(item.first, item.second, false)
@@ -34,9 +34,10 @@ class PayerAdapter(
         }
     }
 
-    private val checkListener = object : SimpleEventListener<Pair<PayerCheck, Int>> {
+    private val checkListener = object : ItemEventListener<Pair<PayerCheck, Int>> {
         override fun onEvent(item: Pair<PayerCheck, Int>) {
             onPayerCheckClick(item.first, item.second)
+            observer.onChanged()
         }
     }
 

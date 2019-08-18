@@ -14,63 +14,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/text_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="4dp"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/result_done"
-        >
-
-        <TextView
-            android:id="@+id/result_who"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="start"
-            android:maxWidth="144dp"
-            />
-
-
-        <TextView
-            android:id="@+id/result_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:id="@+id/text_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:text="6666.66"
-            />
+            android:layout_marginEnd="4dp"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/result_done"
+            >
 
-        <ImageView
-            android:id="@+id/arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:contentDescription="@string/arrow_description"
-            android:src="@drawable/ic_arrow_forward_black_24dp"
-            />
-
-
-        <TextView
-            android:id="@+id/result_to_whom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="end"
-            android:textSize="18sp" />
-
-    </LinearLayout>
+            <TextView
+                android:id="@+id/result_who"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="start"
+                android:maxWidth="144dp"
+                />
 
 
+            <TextView
+                android:id="@+id/result_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="6666.66"
+                />
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:contentDescription="@string/arrow_description"
+                android:src="@drawable/ic_arrow_forward_black_24dp"
+                />
+
+
+            <TextView
+                android:id="@+id/result_to_whom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="end"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
 
         <CheckBox
@@ -84,5 +82,6 @@
             />
 
     </android.support.constraint.ConstraintLayout>
+
 
 </android.support.v7.widget.CardView>

@@ -2,11 +2,113 @@ package name.marinchenko.partycalc.core
 
 import com.fathzer.soft.javaluator.DoubleEvaluator
 import name.marinchenko.partycalc.core.item.Item
+import name.marinchenko.partycalc.core.item.Payer
+import name.marinchenko.partycalc.core.item.Product
+import name.marinchenko.partycalc.core.item.Result
 import kotlin.random.Random
 
-class PartyCalc {
+class PartyCalc(
+        private val products: List<Product>,
+        private val payers: List<Payer>
+) {
+
+    fun calculate(): List<Result> {
+        val prodSubs = productSubscribers()
+        val prodAverages = productAverages(prodSubs)
+        val payerDebts = payerDebt(prodAverages)
+
+        val givers = mutableMapOf<Payer, Double>()
+        val receivers = mutableMapOf<Payer, Double>()
+
+        payerDebts.forEach {
+            if (it.key.sum() < it.value) givers[it.key] = it.value - it.key.sum()
+            else if (it.key.sum() > it.value) receivers[it.key] = it.key.sum() - it.value
+        }
+
+        val sides = makeSides(givers, receivers)
+
+        val results = mutableListOf<Result>()
+        for ((giver, receiversOf) in sides) {
+            results.addAll(receiversOf.map { receiver ->
+                Result(giver, receiver.key, receiver.value)
+            })
+        }
+
+        return results
+    }
+
+    private fun productSubscribers(): Map<Product, Int> {
+        val res = mutableMapOf<Product, Int>()
+        products.forEach { res[it] = 0 }
+
+        payers.forEach { payer ->
+            payer.payerChecks.forEach { check ->
+                if (check.isChecked) {
+                    res[check.product] = res.getValue(check.product) + 1
+                }
+            }
+        }
+
+        return res
+    }
+
+    private fun productAverages(productSubs: Map<Product, Int>): Map<Product, Double> {
+        val res = mutableMapOf<Product, Double>()
+        productSubs.forEach { res[it.key] = it.key.sum() / it.value }
+
+        return res
+    }
+
+    private fun payerDebt(productAverages: Map<Product, Double>): Map<Payer, Double> {
+        val res = mutableMapOf<Payer, Double>()
+
+        payers.forEach { res[it] = 0.0 }
+        payers.forEach { payer ->
+            payer.payerChecks.forEach { check ->
+                if (check.isChecked)
+                    res[payer] = res.getValue(payer) + productAverages.getValue(check.product)
+            }
+        }
+
+        return res
+    }
+
+    private fun makeSides(
+            givers: MutableMap<Payer, Double>,
+            receivers: MutableMap<Payer, Double>
+    ): Map<Payer, Map<Payer, Double>> {
+        val sides = mutableMapOf<Payer, Map<Payer, Double>>()
+
+        givers.forEach { giver ->
+            var sumToGive = giver.value
+            val receiverSums = mutableMapOf<Payer, Double>()
+            val receiversToRemove = mutableListOf<Payer>()
+
+            for ((receiver, sumToReceive) in receivers) {
+                if (sumToGive >= sumToReceive) {
+                    receiverSums[receiver] = sumToReceive
+                    sumToGive -= sumToReceive
+                    receiversToRemove.add(receiver)
+                }
+                else {
+                    receiverSums[receiver] = sumToGive
+                    receivers[receiver] = sumToReceive - sumToGive
+                    break
+                }
+            }
+
+            receiversToRemove.forEach { receivers.remove(it) }
+            sides[giver.key] = receiverSums
+        }
+
+        return sides
+    }
 
     companion object {
+
+        @JvmStatic
+        fun calculateParty(products: List<Product>, payers: List<Payer>) =
+                PartyCalc(products, payers).calculate()
 
         @JvmStatic
         fun itemListSum(items: List<Item>): Double {

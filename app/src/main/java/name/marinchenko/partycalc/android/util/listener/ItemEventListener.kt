@@ -1,6 +1,6 @@
 package name.marinchenko.partycalc.android.util.listener
 
-interface SimpleEventListener<T> {
+interface ItemEventListener<T> {
 
     fun onEvent(item: T)
 

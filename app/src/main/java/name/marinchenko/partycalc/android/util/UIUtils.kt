@@ -87,3 +87,4 @@ fun getStringByNum(num: Int, singular: String, plural: String): String {
     return if (isSingular(num)) singular else plural
 }
 
+fun formatDouble(num: Double) = String.format("%.2f", num)

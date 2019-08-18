@@ -8,7 +8,7 @@ import name.marinchenko.partycalc.android.adapter.PayerCheckAdapter
 import name.marinchenko.partycalc.android.adapter.PayerCheckCompactAdapter
 import name.marinchenko.partycalc.android.util.afterInput
 import name.marinchenko.partycalc.android.util.isVisible
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.core.item.Payer
@@ -17,9 +17,9 @@ import name.marinchenko.partycalc.core.item.PayerCheck
 
 class PayerViewHolder(
         ctx: Context,
-        private var clickListener: SimpleEventListener<Pair<Boolean, Int>>?,
-        checkListener: SimpleEventListener<Pair<PayerCheck, Int>>?,
-        private var editTextListener: SimpleEventListener<Pair<Payer, Int>>?,
+        private var clickListener: ItemEventListener<Pair<Boolean, Int>>?,
+        checkListener: ItemEventListener<Pair<PayerCheck, Int>>?,
+        private var editTextListener: ItemEventListener<Pair<Payer, Int>>?,
         view: View
 ): AbstractItemViewHolder<Payer>(ctx, view) {
 
@@ -28,7 +28,7 @@ class PayerViewHolder(
 
     init {
         adapter = PayerCheckAdapter(ctx, 0,
-                object : SimpleEventListener<Triple<PayerCheck, Int, Int>> {
+                object : ItemEventListener<Triple<PayerCheck, Int, Int>> {
                     override fun onEvent(item: Triple<PayerCheck, Int, Int>) {
                         checkListener?.onEvent(Pair(item.first, item.third))
                         adapterCompact.editItem(item.first, item.second)

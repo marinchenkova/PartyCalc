@@ -3,12 +3,12 @@ package name.marinchenko.partycalc.android.viewHolder
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.payer_check_item.view.*
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.core.item.PayerCheck
 import org.jetbrains.anko.backgroundColor
 
 class PayerCheckViewHolder(
-        private val listener: SimpleEventListener<Triple<PayerCheck, Int, Int>>?,
+        private val listener: ItemEventListener<Triple<PayerCheck, Int, Int>>?,
         view: View?
 ): RecyclerView.ViewHolder(view) {
 

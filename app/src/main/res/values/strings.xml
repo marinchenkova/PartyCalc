@@ -77,6 +77,7 @@
 
     <!-- Results -->
     <string name="results_title">Results</string>
+    <string name="no_results">No results</string>
     <string name="results_payers_alert">Payers sum must match categories sum</string>
 
     <string name="result_products">categories for</string>
@@ -84,7 +85,6 @@
 
     <string name="result_payers">payers for</string>
     <string name="result_1_payer">payer for</string>
-
 
 
     <!-- Misc -->

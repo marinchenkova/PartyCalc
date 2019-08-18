@@ -13,8 +13,9 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
@@ -55,7 +56,7 @@ class MainActivity : ToolbarActivity() {
 
     private fun initAdapters() {
         productAdapter = ProductAdapter(this, null,
-                object : SimpleEventListener<List<Product>>{
+                object : ItemEventListener<List<Product>>{
                     override fun onEvent(item: List<Product>) {
                         payerAdapter.productsWereUpdated(item)
                         summaryHolder.productsUpdated(item)
@@ -63,7 +64,7 @@ class MainActivity : ToolbarActivity() {
                 }
         )
         payerAdapter = PayerAdapter(this,
-                object : SimpleEventListener<List<Payer>>{
+                object : ItemEventListener<List<Payer>>{
                     override fun onEvent(item: List<Payer>) {
                         summaryHolder.payersUpdated(item)
                     }
@@ -113,18 +114,17 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initResults() {
-        summaryHolder = SummaryViewHolder(this)
-        resultAdapter.updateList(setOf(
-                Result(
-                        Payer(0, "Samuel L. Jacksonnnnn", "000", 0),
-                        Payer(1, "Quentin Tarantinoooo", "111", 1),
-                        "666"
-                ),
-                Result(
-                        Payer(2, "fred", "222", 2),
-                        Payer(3, "bob", "333", 3),
-                        "777"
-                )
-        ))
+        summaryHolder = SummaryViewHolder(this,
+                object : ItemEventListener<List<Result>> {
+                    override fun onEvent(item: List<Result>) {
+                        resultAdapter.updateList(item)
+                        showNoResults(item.isEmpty())
+                    }
+                }
+        )
+    }
+
+    private fun showNoResults(show: Boolean) {
+        no_results.setVisibility(show)
     }
 }

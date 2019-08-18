@@ -6,19 +6,19 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.ProductFactory
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
 class ProductAdapter(
         ctx: Context,
-        private val clickListener: SimpleEventListener<Product>? = null,
-        listListener: SimpleEventListener<List<Product>>? = null
+        private val clickListener: ItemEventListener<Product>? = null,
+        listListener: ItemEventListener<List<Product>>? = null
 ): DataChangeObserverAdapter<ProductViewHolder, Product>(ctx, listListener) {
 
 
-    private val editTextOnFocusListener = object : SimpleEventListener<Pair<Product, Int>> {
+    private val editTextOnFocusListener = object : ItemEventListener<Pair<Product, Int>> {
         override fun onEvent(item: Pair<Product, Int>) {
             if (!onBind) {
                 editItem(item.first, item.second, false)

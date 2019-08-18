@@ -4,15 +4,14 @@ import android.content.Context
 import android.view.View
 import kotlinx.android.synthetic.main.product_item.view.*
 import name.marinchenko.partycalc.android.util.afterInput
-import name.marinchenko.partycalc.android.util.afterTextChanged
-import name.marinchenko.partycalc.android.util.listener.SimpleEventListener
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.core.item.Product
 
 class ProductViewHolder(
         ctx: Context,
-        private val listener: SimpleEventListener<Product>?,
-        private val editTextOnFocusListener: SimpleEventListener<Pair<Product, Int>>?,
+        private val listener: ItemEventListener<Product>?,
+        private val editTextOnFocusListener: ItemEventListener<Pair<Product, Int>>?,
         view: View?
 ): AbstractItemViewHolder<Product>(ctx, view) {
 

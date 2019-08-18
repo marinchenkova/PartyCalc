@@ -4,19 +4,28 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
+import name.marinchenko.partycalc.android.util.formatDouble
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.item.Summary
+import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.android.util.spanSummary
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
+import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
 
-class SummaryViewHolder(private val activity: MainActivity) {
+class SummaryViewHolder(
+        private val activity: MainActivity,
+        private val sumEqualityListener: ItemEventListener<List<Result>>? = null
+) {
 
+    private val products = mutableListOf<Product>()
+    private var payers = mutableListOf<Payer>()
     private var productSum = 0.0
     private var payerSum = 0.0
+
     private var background: Drawable? = null
 
 
@@ -27,16 +36,18 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     fun productsUpdated(new: List<Product>) {
-        productSum = PartyCalc.itemListSum(new)
-        val summary = Summary(new.size, productSum)
-        bindProductSummary(summary)
+        products.clear()
+        products.addAll(new)
+        productSum = PartyCalc.itemListSum(products)
+        bindProductSummary(Summary(products.size, productSum))
         sumEquality()
     }
 
     fun payersUpdated(new: List<Payer>) {
-        payerSum = PartyCalc.itemListSum(new)
-        val summary = Summary(new.size, payerSum)
-        bindPayerSummary(summary)
+        payers.clear()
+        payers.addAll(new)
+        payerSum = PartyCalc.itemListSum(payers)
+        bindPayerSummary(Summary(payers.size, payerSum))
         sumEquality()
     }
 
@@ -59,11 +70,16 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun sumEquality() {
-        val equal = String.format("%.2f", productSum) == String.format("%.2f", payerSum)
+        val equal = formatDouble(productSum) == formatDouble(payerSum)
         activity.result_payers_alert?.setVisibility(!equal)
-        if (!equal)
+        if (!equal) {
             activity.result_payers_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
-        else activity.result_payers_layout?.background = background
+            sumEqualityListener?.onEvent(emptyList())
+        }
+        else {
+            activity.result_payers_layout?.background = background
+            sumEqualityListener?.onEvent(PartyCalc.calculateParty(products, payers))
+        }
     }
 
     private fun initSummary(
@@ -78,7 +94,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
                     singular,
                     plural
             ),
-            String.format("%.2f", summary.sum),
+            formatDouble(summary.sum),
             color
     )
 
