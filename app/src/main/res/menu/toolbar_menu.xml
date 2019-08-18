@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/toolbar_clipboard_copy"
+        android:title="@string/toolbar_copy_to_clipboard"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_content_copy_white_24dp"
+        />
+
     <group android:id="@+id/toolbar_popup"
            android:title="@string/toolbar_popup"
            app:showAsAction="never">

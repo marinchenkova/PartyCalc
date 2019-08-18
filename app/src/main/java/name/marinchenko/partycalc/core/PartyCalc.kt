@@ -1,10 +1,7 @@
 package name.marinchenko.partycalc.core
 
 import com.fathzer.soft.javaluator.DoubleEvaluator
-import name.marinchenko.partycalc.core.item.Item
-import name.marinchenko.partycalc.core.item.Payer
-import name.marinchenko.partycalc.core.item.Product
-import name.marinchenko.partycalc.core.item.Result
+import name.marinchenko.partycalc.core.item.*
 import kotlin.random.Random
 
 class PartyCalc(
@@ -142,9 +139,13 @@ class PartyCalc(
                 }
                 else -> "$braces${if (eagle()) "*" else "/"}${randomInt(2, 9)}"
             }
-
         }
 
+        @JvmStatic
+        fun itemsText(items: List<Textable>): String {
+            return if (items.isEmpty()) "empty"
+            else items.joinToString("\n") { it.toText() }
+        }
     }
 }
 
@@ -161,4 +162,23 @@ fun randomExcept(used: Set<Long>): Long {
 fun randomExcept(from: Int, to: Int, used: Set<Int>): Int {
     val list = (from..to).toList().minus(used)
     return if (list.isEmpty()) -1 else list[randomInt(0, list.size - 1)]
+}
+
+fun formatDouble(num: Double) = String.format("%.2f", num)
+
+fun String.textProducts(products: List<Product>): String {
+    return this +
+            "\n${products.size} categories for ${formatDouble(PartyCalc.itemListSum(products))}:\n"+
+            PartyCalc.itemsText(products) + "\n"
+}
+
+fun String.textPayers(payers: List<Payer>): String {
+    return this +
+            "\n${payers.size} payers for ${formatDouble(PartyCalc.itemListSum(payers))}:\n" +
+            PartyCalc.itemsText(payers) + "\n"
+}
+
+fun String.textResults(results: List<Result>): String {
+    return this +
+            "\nResults:\n" + PartyCalc.itemsText(results) + "\n"
 }

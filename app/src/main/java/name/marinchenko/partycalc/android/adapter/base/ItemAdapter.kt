@@ -8,7 +8,7 @@ interface ItemAdapter<I: IItem>: SimpleAdapter<I> {
 
     override fun removeItem(position: Int?)
 
-    fun newItem()
+    fun newItem(sum: String = "")
 
     fun moveItem(from: Int?, to: Int?): Boolean
 

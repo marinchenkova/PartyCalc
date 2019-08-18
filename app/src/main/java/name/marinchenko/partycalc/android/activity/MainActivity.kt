@@ -1,11 +1,13 @@
 package name.marinchenko.partycalc.android.activity
 
 
+import android.content.ClipData
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
@@ -13,13 +15,14 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
-import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
-import name.marinchenko.partycalc.core.item.Payer
-import name.marinchenko.partycalc.core.item.Product
-import name.marinchenko.partycalc.core.item.Result
+import name.marinchenko.partycalc.core.textPayers
+import name.marinchenko.partycalc.core.textProducts
+import name.marinchenko.partycalc.core.textResults
+import org.jetbrains.anko.clipboardManager
+import org.jetbrains.anko.toast
 
 
 class MainActivity : ToolbarActivity() {
@@ -55,21 +58,15 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductAdapter(this, null,
-                object : ItemEventListener<List<Product>>{
-                    override fun onEvent(item: List<Product>) {
-                        payerAdapter.productsWereUpdated(item)
-                        summaryHolder.productsUpdated(item)
-                    }
-                }
-        )
-        payerAdapter = PayerAdapter(this,
-                object : ItemEventListener<List<Payer>>{
-                    override fun onEvent(item: List<Payer>) {
-                        summaryHolder.payersUpdated(item)
-                    }
-                }
-        )
+        productAdapter = ProductAdapter(this).onListChanged {list ->
+            payerAdapter.productsWereUpdated(list)
+            summaryHolder.productsUpdated(list)
+        } as ProductAdapter
+
+        payerAdapter = PayerAdapter(this).onListChanged { list ->
+            summaryHolder.payersUpdated(list)
+        } as PayerAdapter
+
         resultAdapter = ResultAdapter(this)
 
         list_products.adapter = productAdapter
@@ -98,6 +95,9 @@ class MainActivity : ToolbarActivity() {
                 }
         )
 
+        productAdapter.onItemDrag { holder -> productTouchHelper.startDrag(holder) }
+        payerAdapter.onItemDrag { holder -> payerTouchHelper.startDrag(holder) }
+
         productTouchHelper.attachToRecyclerView(list_products)
         payerTouchHelper.attachToRecyclerView(list_payers)
     }
@@ -114,17 +114,37 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initResults() {
-        summaryHolder = SummaryViewHolder(this,
-                object : ItemEventListener<List<Result>> {
-                    override fun onEvent(item: List<Result>) {
-                        resultAdapter.updateList(item)
-                        showNoResults(item.isEmpty())
-                    }
+        showNoResults(true)
+        summaryHolder = SummaryViewHolder(this)
+                .onSumEqualityAction { results ->
+                    resultAdapter.updateList(results)
+                    showNoResults(results.isEmpty())
                 }
-        )
+                //.onAddDiffPayer { sum -> payerAdapter.newItem(sum) }
     }
 
     private fun showNoResults(show: Boolean) {
         no_results.setVisibility(show)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.toolbar_clipboard_copy -> {
+            copyToClipBoard()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun copyToClipBoard() {
+        val clip = ClipData.newPlainText(
+                "partyCalcSession",
+                "PartyCalc"
+                        .textProducts(productAdapter.getItems())
+                        .textPayers(payerAdapter.getItems())
+                        .textResults(resultAdapter.getItems())
+        )
+        clipboardManager.primaryClip = clip
+        toast(R.string.toolbar_copied)
+    }
+
 }

@@ -6,20 +6,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import kotlinx.android.synthetic.main.result_item.view.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.util.formatDouble
-import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.base.BinderViewHolder
-import name.marinchenko.partycalc.core.item.*
+import name.marinchenko.partycalc.core.formatDouble
+import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
 
-class ResultViewHolder(
-        private val ctx: Context,
-        private val checkListener: ItemEventListener<Pair<Boolean, Int>>? = null,
-        view: View?
-): RecyclerView.ViewHolder(view), BinderViewHolder<Result> {
+class ResultViewHolder(private val ctx: Context, view: View?):
+        RecyclerView.ViewHolder(view), BinderViewHolder<Result> {
 
     private var background: Drawable? = null
-
+    private var onDone: ((isDone: Boolean, position: Int) -> Unit)? = null
 
     override fun bind(item: Result, position: Int) {
         itemView?.result_who?.text = item.who.title
@@ -40,8 +36,13 @@ class ResultViewHolder(
             }
             else itemView?.background = background
 
-            checkListener?.onEvent(Pair(checked, position))
+            onDone?.invoke(checked, position)
         }
+    }
+
+    fun onDoneAction(action: (isDone: Boolean, position: Int) -> Unit): ResultViewHolder {
+        onDone = action
+        return this
     }
 
 }

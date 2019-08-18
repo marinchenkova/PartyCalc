@@ -15,11 +15,6 @@ import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.*
-import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.core.PartyCalc
-import name.marinchenko.partycalc.core.item.Item
 import org.jetbrains.anko.vibrator
 
 
@@ -37,6 +32,10 @@ fun View.isVisible() = visibility == View.VISIBLE
 
 fun View.setVisibility(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+fun View.highlight(selected: Boolean) {
+    //alpha = if (selected) 0.5f else 1f
 }
 
 fun EditText.afterInput(action: (text: String) -> Unit) {
@@ -76,6 +75,14 @@ fun spanSummary(start: String, middle: String, end: String, color: Int): Spannab
     return startBuilder.append(" ").append(middle).append(" ").append(endBuilder)
 }
 
+fun spanDiff(start: String, end: String, color: Int): SpannableStringBuilder {
+    val endBuilder = SpannableStringBuilder(end)
+            .span(StyleSpan(Typeface.BOLD))
+            .span(ForegroundColorSpan(color))
+
+    return SpannableStringBuilder(start).append(": ").append(endBuilder)
+}
+
 fun SpannableStringBuilder.span(what: Any): SpannableStringBuilder {
     setSpan(what, 0, length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     return this
@@ -86,5 +93,3 @@ fun isSingular(num: Int) = num == 1
 fun getStringByNum(num: Int, singular: String, plural: String): String {
     return if (isSingular(num)) singular else plural
 }
-
-fun formatDouble(num: Double) = String.format("%.2f", num)

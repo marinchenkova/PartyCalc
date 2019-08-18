@@ -6,42 +6,31 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.ProductFactory
-import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
-class ProductAdapter(
-        ctx: Context,
-        private val clickListener: ItemEventListener<Product>? = null,
-        listListener: ItemEventListener<List<Product>>? = null
-): DataChangeObserverAdapter<ProductViewHolder, Product>(ctx, listListener) {
-
-
-    private val editTextOnFocusListener = object : ItemEventListener<Pair<Product, Int>> {
-        override fun onEvent(item: Pair<Product, Int>) {
-            if (!onBind) {
-                editItem(item.first, item.second, false)
-                observer.onChanged()
-            }
-        }
-    }
+class ProductAdapter(ctx: Context): DataChangeObserverAdapter<ProductViewHolder, Product>(ctx) {
 
     override val factory: ItemFactory<Product>
         get() = ProductFactory(ctx)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        return ProductViewHolder(
-                ctx,
-                clickListener,
-                editTextOnFocusListener,
-                ctx.layoutInflater.inflate(
-                        R.layout.product_item,
-                        parent,
-                        false
-                )
-        )
+        val holder = ProductViewHolder(ctx, ctx.layoutInflater.inflate(
+                R.layout.product_item,
+                parent,
+                false
+        ))
+        return holder
+                .onClickAction { item, position -> onItemClick?.invoke(item, position) }
+                .onDragAction { onItemDrag?.invoke(it) }
+                .onEditTextAction { item, position ->
+                    if (!onBind) {
+                        editItem(item, position, false)
+                        observer.onChanged()
+                    }
+                }
+                as ProductViewHolder
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {

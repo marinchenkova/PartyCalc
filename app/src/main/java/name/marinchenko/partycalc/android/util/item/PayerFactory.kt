@@ -8,7 +8,7 @@ import name.marinchenko.partycalc.core.randomExcept
 
 class PayerFactory(ctx: Context): ItemFactory<Payer>(ctx) {
 
-    override fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>): Payer {
+    override fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>, sum: String): Payer {
         val num = randomExcept(0, RANDOM_PAYERS_NUM - 1, usedNums)
 
         return Payer(
@@ -16,7 +16,7 @@ class PayerFactory(ctx: Context): ItemFactory<Payer>(ctx) {
                 ctx.getRandomPayerTitle(num),
                 PartyCalc.getRandomHintSum(),
                 num
-        )
+        ).also { it.sumString = sum }
     }
 
 }

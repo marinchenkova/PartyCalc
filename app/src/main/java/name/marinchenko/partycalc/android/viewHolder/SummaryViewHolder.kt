@@ -4,22 +4,19 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
-import name.marinchenko.partycalc.android.util.formatDouble
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.item.Summary
-import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.util.setVisibility
+import name.marinchenko.partycalc.android.util.spanDiff
 import name.marinchenko.partycalc.android.util.spanSummary
 import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.core.formatDouble
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
 
-class SummaryViewHolder(
-        private val activity: MainActivity,
-        private val sumEqualityListener: ItemEventListener<List<Result>>? = null
-) {
+class SummaryViewHolder(private val activity: MainActivity) {
 
     private val products = mutableListOf<Product>()
     private var payers = mutableListOf<Payer>()
@@ -27,12 +24,27 @@ class SummaryViewHolder(
     private var payerSum = 0.0
 
     private var background: Drawable? = null
+    private var onSumEquality: ((results: List<Result>) -> Unit)? = null
+    private var onAddDiffPayer: ((sum: String) -> Unit)? = null
 
 
     init {
         background = activity.result_payers_layout?.background
+        activity.result_payers_layout?.setOnClickListener {
+            onAddDiffPayer?.invoke(formatDouble(productSum - payerSum))
+        }
         productsUpdated(emptyList())
         payersUpdated(emptyList())
+    }
+
+    fun onSumEqualityAction(action: (results: List<Result>) -> Unit): SummaryViewHolder {
+        onSumEquality = action
+        return this
+    }
+
+    fun onAddDiffPayer(action: (sum: String) -> Unit): SummaryViewHolder {
+        onAddDiffPayer = action
+        return this
     }
 
     fun productsUpdated(new: List<Product>) {
@@ -69,16 +81,29 @@ class SummaryViewHolder(
         )
     }
 
+    private fun sumDiff(): String {
+        val diff = productSum - payerSum
+        val sign = if (diff > 0) "+" else ""
+        return "$sign${formatDouble(diff)}"
+    }
+
     private fun sumEquality() {
         val equal = formatDouble(productSum) == formatDouble(payerSum)
+        activity.result_payers_alert?.text = spanDiff(
+                activity.getString(R.string.results_payers_alert),
+                sumDiff(),
+                activity.getColor(R.color.colorPrimary)
+        )
+
         activity.result_payers_alert?.setVisibility(!equal)
+
         if (!equal) {
             activity.result_payers_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
-            sumEqualityListener?.onEvent(emptyList())
+            onSumEquality?.invoke(emptyList())
         }
         else {
             activity.result_payers_layout?.background = background
-            sumEqualityListener?.onEvent(PartyCalc.calculateParty(products, payers))
+            onSumEquality?.invoke(PartyCalc.calculateParty(products, payers))
         }
     }
 

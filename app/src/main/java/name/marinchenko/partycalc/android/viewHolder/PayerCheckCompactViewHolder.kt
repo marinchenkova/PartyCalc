@@ -11,10 +11,8 @@ import name.marinchenko.partycalc.core.item.PayerCheck
 import org.jetbrains.anko.backgroundColor
 
 
-class PayerCheckCompactViewHolder(
-        private val ctx: Context,
-        view: View?
-): RecyclerView.ViewHolder(view) {
+class PayerCheckCompactViewHolder(private val ctx: Context, view: View?):
+        RecyclerView.ViewHolder(view) {
 
     fun bind(item: PayerCheck, itemWidth: Float) {
         itemView.layoutParams.width = itemWidth.toInt()

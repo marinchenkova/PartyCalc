@@ -8,7 +8,7 @@ import name.marinchenko.partycalc.core.randomExcept
 
 class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
 
-    override fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>): Product {
+    override fun nextItem(usedNums: Set<Int>, usedIds: Set<Long>, sum: String): Product {
         val num = randomExcept(0, RANDOM_PRODUCTS_NUM - 1, usedNums)
 
         return Product(
@@ -17,7 +17,7 @@ class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
                 PartyCalc.getRandomHintSum(),
                 ctx.getRandomColorResId(num),
                 num
-        )
+        ).also { it.sumString = sum }
     }
 
 }

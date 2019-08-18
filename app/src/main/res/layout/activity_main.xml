@@ -124,7 +124,7 @@
                 android:id="@+id/result_products"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="@string/result_products"
                 android:gravity="center"
                 />
@@ -147,9 +147,9 @@
 
                 <TextView
                     android:id="@+id/result_payers"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="58dp"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:text="@string/result_payers"
                     android:gravity="center"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +168,6 @@
                     android:gravity="center"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/result_payers"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
@@ -197,7 +196,7 @@
                 android:id="@+id/no_results"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="@string/no_results"
                 android:gravity="center"
                 android:visibility="gone"

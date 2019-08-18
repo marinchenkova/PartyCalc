@@ -7,10 +7,13 @@ abstract class Item(
         val hintTitle: String,
         val hintSum: String,
         override val num: Int
-): IItem {
+): IItem, Textable {
 
     var title = ""
     var sumString = ""
+
+
+    fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
 
     fun sum(): Double {
         return try {

@@ -2,11 +2,12 @@ package name.marinchenko.partycalc.android.util.listener
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.support.v7.widget.helper.ItemTouchHelper.*
 import name.marinchenko.partycalc.android.viewHolder.base.SelectableItemViewHolder
 
 class ItemTouchListener : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-        ItemTouchHelper.START or ItemTouchHelper.END
+        UP or DOWN or START or END,
+        START or END
 ) {
 
     private lateinit var moveAction: (
@@ -35,7 +36,7 @@ class ItemTouchListener : ItemTouchHelper.SimpleCallback(
         return this
     }
 
-    override fun isLongPressDragEnabled() = true
+    override fun isLongPressDragEnabled() = false
     override fun isItemViewSwipeEnabled() = true
 
     override fun onMove(view: RecyclerView?,
@@ -47,7 +48,7 @@ class ItemTouchListener : ItemTouchHelper.SimpleCallback(
             swipeAction(holder, direction)
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             if (viewHolder is SelectableItemViewHolder) {
                 viewHolder.onItemSelected()
             }

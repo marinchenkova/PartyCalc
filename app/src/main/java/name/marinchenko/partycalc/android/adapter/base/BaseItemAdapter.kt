@@ -16,10 +16,13 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
     protected val list = mutableListOf<I>()
     protected abstract val factory: ItemFactory<I>
 
-    override fun newItem() {
+    fun getItems() = list
+
+    override fun newItem(sum: String) {
         addItem(factory.nextItem(
                 list.map { it.num }.toHashSet(),
-                list.map { it.id }.toHashSet()
+                list.map { it.id }.toHashSet(),
+                sum
         ))
     }
 

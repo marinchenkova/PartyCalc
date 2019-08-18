@@ -1,5 +1,7 @@
 package name.marinchenko.partycalc.core.item
 
+import name.marinchenko.partycalc.core.formatDouble
+
 class Payer(
         id: Long,
         hintTitle: String,
@@ -15,6 +17,10 @@ class Payer(
 
     val payerChecks = mutableSetOf<PayerCheck>()
     private var lastRemoved = mutableSetOf<PayerCheck>()
+
+
+    override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +
+            payerChecks.filter { it.isChecked }.joinToString("\n") { it.toText() }
 
     fun updatePayerChecks(products: List<Product>) {
         val newSet = products.map { prod ->

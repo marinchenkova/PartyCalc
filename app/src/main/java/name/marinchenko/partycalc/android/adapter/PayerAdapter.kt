@@ -6,7 +6,6 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.PayerFactory
-import name.marinchenko.partycalc.android.util.listener.ItemEventListener
 import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
@@ -14,32 +13,7 @@ import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
 
-class PayerAdapter(
-        ctx: Context,
-        listListener: ItemEventListener<List<Payer>>? = null
-): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx, listListener) {
-
-    private val clickListener = object : ItemEventListener<Pair<Boolean, Int>> {
-        override fun onEvent(item: Pair<Boolean, Int>) {
-            setExpanded(item.first, item.second)
-        }
-    }
-
-    private val editTextListener = object : ItemEventListener<Pair<Payer, Int>> {
-        override fun onEvent(item: Pair<Payer, Int>) {
-            if (!onBind) {
-                editItem(item.first, item.second, false)
-                observer.onChanged()
-            }
-        }
-    }
-
-    private val checkListener = object : ItemEventListener<Pair<PayerCheck, Int>> {
-        override fun onEvent(item: Pair<PayerCheck, Int>) {
-            onPayerCheckClick(item.first, item.second)
-            observer.onChanged()
-        }
-    }
+class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx) {
 
     override val factory: ItemFactory<Payer>
         get() = PayerFactory(ctx)
@@ -47,8 +21,8 @@ class PayerAdapter(
     private var products = mutableListOf<Product>()
 
 
-    override fun newItem() {
-        super.newItem()
+    override fun newItem(sum: String) {
+        super.newItem(sum)
         updatePayerChecks(products)
     }
 
@@ -74,17 +48,25 @@ class PayerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PayerViewHolder {
-        return PayerViewHolder(
-                ctx,
-                clickListener,
-                checkListener,
-                editTextListener,
-                ctx.layoutInflater.inflate(
-                        R.layout.payer_item,
-                        parent,
-                        false
-                )
-        )
+        val holder = PayerViewHolder(ctx, ctx.layoutInflater.inflate(
+                R.layout.payer_item,
+                parent,
+                false
+        ))
+        return holder
+                .onCheckAction { check, payerPosition ->
+                    onPayerCheckClick(check, payerPosition)
+                    observer.onChanged()
+                }
+                .onExpandAction { isExpanded, position -> setExpanded(isExpanded, position) }
+                .onEditTextAction { item, position ->
+                    if (!onBind) {
+                        editItem(item, position, false)
+                        observer.onChanged()
+                    }
+                }
+                .onDragAction { onItemDrag?.invoke(it) }
+                as PayerViewHolder
     }
 
     override fun onBindViewHolder(holder: PayerViewHolder, position: Int) {
