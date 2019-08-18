@@ -18,12 +18,8 @@ class ResultViewHolder(private val ctx: Context, view: View?):
     private var onDone: ((isDone: Boolean, position: Int) -> Unit)? = null
 
     override fun bind(item: Result, position: Int) {
-        itemView?.result_who?.text = item.who.title
-        itemView?.result_who?.hint = item.who.hintTitle
-
-        itemView?.result_to_whom?.text = item.toWhom.title
-        itemView?.result_to_whom?.hint= item.toWhom.hintTitle
-
+        itemView?.result_who?.text = item.who.getAvailableTitle()
+        itemView?.result_to_whom?.text = item.toWhom.getAvailableTitle()
         itemView?.result_amount?.text = formatDouble(item.sum)
 
         itemView.result_done?.isChecked = item.done
