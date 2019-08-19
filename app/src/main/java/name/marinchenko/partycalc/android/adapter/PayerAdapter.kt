@@ -12,6 +12,7 @@ import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.runOnUiThread
 
 
 class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx) {
@@ -31,10 +32,10 @@ class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Pay
         list[position].isExpanded = expanded
     }
 
-    fun productsWereUpdated(update: List<Product>) {
+    @Synchronized fun productsWereUpdated(update: List<Product>) {
         products.clear()
         products.addAll(update)
-        updatePayerChecks(update)
+        ctx.runOnUiThread { updatePayerChecks(update) }
     }
 
     private fun updatePayerChecks(update: List<Product>) {

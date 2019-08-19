@@ -16,6 +16,8 @@ import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class SummaryViewHolder(private val activity: MainActivity) {
 
@@ -28,7 +30,6 @@ class SummaryViewHolder(private val activity: MainActivity) {
     private var onSumEquality: ((results: List<Result>) -> Unit)? = null
     private var onAddDiffPayer: ((sum: String) -> Unit)? = null
 
-    private var canCalculate = true
 
     init {
         background = activity.result_payers_layout?.background
@@ -42,15 +43,12 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return this
     }
 
-    fun onAddDiffPayer(action: (sum: String) -> Unit): SummaryViewHolder {
-        onAddDiffPayer = action
-        return this
-    }
-
-    fun update(new: List<Payer>) {
-        payersUpdated(new)
-        productsUpdated(if (payers.size > 0) payers[0].getProducts() else emptyList())
-        sumEquality()
+    @Synchronized fun update(new: List<Payer>) {
+        activity.runOnUiThread {
+            payersUpdated(new)
+            productsUpdated(if (payers.size > 0) payers[0].getProducts() else emptyList())
+            sumEquality()
+        }
     }
 
     private fun productsUpdated(new: List<Product>) {
@@ -92,7 +90,6 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun sumEquality() {
-        canCalculate = !canCalculate
         val equal = Math.abs(productSum - payerSum) <= activity.getIgnoreCentsTo()
         activity.result_payers_alert?.text = spanDiff(
                 activity.getString(R.string.results_payers_alert),
@@ -107,13 +104,19 @@ class SummaryViewHolder(private val activity: MainActivity) {
             onSumEquality?.invoke(emptyList())
             activity.no_results?.setVisible(true)
         }
-        else {
+        else calculate()
+    }
+
+    private fun calculate() {
+        doAsync {
             val results = PartyCalc.calculateParty(products, payers)
                     .filter { it.sum > activity.getIgnoreCentsTo() }
 
-            onSumEquality?.invoke(results)
-            activity.result_payers_layout?.background = background
-            activity.no_results?.setVisible(results.isEmpty())
+            uiThread {
+                onSumEquality?.invoke(results)
+                activity.result_payers_layout?.background = background
+                activity.no_results?.setVisible(results.isEmpty())
+            }
         }
     }
 

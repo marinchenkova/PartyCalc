@@ -25,6 +25,7 @@ import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.PartyCalc
 import org.jetbrains.anko.clipboardManager
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 
 
@@ -68,11 +69,11 @@ class MainActivity : ToolbarActivity() {
 
     private fun initAdapters() {
         productAdapter = ProductAdapter(this).onListChanged { list ->
-            payerAdapter.productsWereUpdated(list)
+            doAsync { payerAdapter.productsWereUpdated(list) }
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { list ->
-            summaryHolder.update(list)
+            doAsync { summaryHolder.update(list) }
         } as PayerAdapter
 
         resultAdapter = ResultAdapter(this)
@@ -122,11 +123,9 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initSummary() {
-        summaryHolder = SummaryViewHolder(this)
-                .onSumEqualityAction { results ->
-                    resultAdapter.updateList(results)
-                }
-                //.onAddDiffPayer { sum -> payerAdapter.newItem(sum) }
+        summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
+            resultAdapter.updateList(results)
+        }
     }
 
     private fun initData() {
