@@ -18,6 +18,7 @@ import name.marinchenko.partycalc.android.storage.*
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.doAsync
 
 
@@ -31,7 +32,7 @@ class MainActivity : WorkActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
-
+    private var loaded = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,22 +65,23 @@ class MainActivity : WorkActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductAdapter(this).onListChanged { list ->
-            doAsync { payerAdapter.productsWereUpdated(list) }
+        productAdapter = ProductAdapter(this).onListChanged { products ->
+            doAsync {
+                payerAdapter.productsWereUpdated(products)
+                sessionRepo.saveSession(session.also { it.products = products })
+            }
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { payers ->
             doAsync {
-                val products = PartyCalc.productsFromPayers(payers)
-                summaryHolder.update(payers, products)
-                sessionRepo.saveSession(session.also {
-                    it.payers = payers
-                    it.products = products
-                })
+                summaryHolder.update(payers, productAdapter.getItems())
+                sessionRepo.saveSession(session.also { it.payers = payers })
             }
         } as PayerAdapter
 
-        resultAdapter = ResultAdapter(this)
+        resultAdapter = ResultAdapter(this).onDoneAction { results ->
+            sessionRepo.saveSession(session.also { it.results = results })
+        }
 
         list_products.adapter = productAdapter
         list_payers.adapter = payerAdapter
@@ -121,7 +123,9 @@ class MainActivity : WorkActivity() {
 
     private fun initSummaryHolder() {
         summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
-            resultAdapter.updateList(results)
+            resultAdapter.update(getActualResults(results))
+            sessionRepo.saveSession(session.also { it.results = getActualResults(results) })
+            loaded++
         }
     }
 
@@ -159,5 +163,9 @@ class MainActivity : WorkActivity() {
             .payers(payerAdapter.getItems(), getShareIncludePayers())
             .results(resultAdapter.getItems(), getShareIncludeResults())
             .build()
+
+    private fun getActualResults(results: List<Result>) =
+            if (loaded <= 2) session.results
+            else results
 
 }

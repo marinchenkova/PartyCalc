@@ -8,8 +8,8 @@ data class Result(
         val sum: Double
 ): Textable {
 
-    var done = false
-
+    var isDone = false
+    var id: Long = 0
 
     override fun toText() = "${who.getAvailableTitle()}: ${formatDouble(sum)} -> ${toWhom.getAvailableTitle()}"
 

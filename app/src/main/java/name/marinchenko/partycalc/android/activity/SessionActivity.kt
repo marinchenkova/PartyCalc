@@ -62,7 +62,7 @@ class SessionActivity : WorkActivity() {
                 }
                 .onSwipeAction { holder, _ ->
                     sessionAdapter.removeItem(holder?.adapterPosition)
-                    showUndoSnackBar(sessionAdapter, R.string.product_removed)
+                    showUndoSnackBar(sessionAdapter, R.string.session_removed)
                 }
         )
 

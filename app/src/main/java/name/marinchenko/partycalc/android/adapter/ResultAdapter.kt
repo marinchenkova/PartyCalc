@@ -2,20 +2,28 @@ package name.marinchenko.partycalc.android.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.viewHolder.ResultViewHolder
+import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.layoutInflater
 
 class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewHolder>() {
 
     private val list = mutableListOf<Result>()
+    private lateinit var onDone: (results: List<Result>) -> Unit
 
+
+    fun onDoneAction(action: (results: List<Result>) -> Unit): ResultAdapter {
+        onDone = action
+        return this
+    }
 
     fun getItems() = list
 
-    fun updateList(new: List<Result>) {
+    fun update(new: List<Result>) {
         list.clear()
         list.addAll(new)
         notifyDataSetChanged()
@@ -28,7 +36,11 @@ class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewH
                 R.layout.result_item,
                 parent,
                 false
-        )).onDoneAction { isDone, position -> list[position].done = isDone }
+        )).onDoneAction { isDone, position ->
+            list[position].isDone = isDone
+            Log.d("results adapter", "${list[position].isDone}")
+            onDone(list)
+        }
     }
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {

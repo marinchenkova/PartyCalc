@@ -22,6 +22,7 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
                 "${defaultSessionTitle()} ${now.formatDayMonthYear()}",
                 now,
                 emptyList(),
+                emptyList(),
                 emptyList()
         )
     }
@@ -70,8 +71,9 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
         ctx.writeFile(FILE_SESSION_IDS, json)
     }
 
-    override fun getAllSessions(): List<Session> =
-            getAllSessionIds().mapNotNull { getSession(it) }.sortedBy { it.date }
+    override fun getAllSessions(): List<Session> = getAllSessionIds()
+            .mapNotNull { getSession(it) }
+            .sortedByDescending { it.date }
 
     override fun saveAllSessions(list: List<Session>) {
         list.forEach { saveSession(it) }

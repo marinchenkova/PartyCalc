@@ -4,6 +4,7 @@ import name.marinchenko.partycalc.android.util.formatFull
 import name.marinchenko.partycalc.core.item.IdItem
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
+import name.marinchenko.partycalc.core.item.Result
 import java.util.*
 
 
@@ -16,7 +17,8 @@ data class Session(
         val hintTitle: String,
         val date: Date,
         var products: List<Product>,
-        var payers: List<Payer>
+        var payers: List<Payer>,
+        var results: List<Result>
 ) : IdItem {
 
     fun getDateString() = date.formatFull()
