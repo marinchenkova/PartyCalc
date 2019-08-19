@@ -2,11 +2,13 @@ package name.marinchenko.partycalc.android.activity
 
 
 import android.content.ClipData
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,9 +17,9 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
-import name.marinchenko.partycalc.android.prefs.getCopyIncludePayers
-import name.marinchenko.partycalc.android.prefs.getCopyIncludeProducts
-import name.marinchenko.partycalc.android.prefs.getCopyIncludeResults
+import name.marinchenko.partycalc.android.prefs.getShareIncludePayers
+import name.marinchenko.partycalc.android.prefs.getShareIncludeProducts
+import name.marinchenko.partycalc.android.prefs.getShareIncludeResults
 import name.marinchenko.partycalc.android.session.Session
 import name.marinchenko.partycalc.android.session.SessionId
 import name.marinchenko.partycalc.android.session.SessionRepo
@@ -133,24 +135,34 @@ class MainActivity : ToolbarActivity() {
         payerAdapter.update(session.payers)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.toolbar_menu_main, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.toolbar_clipboard_copy -> {
-            copyToClipBoard()
+        R.id.toolbar_share -> {
+            share()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun copyToClipBoard() {
-        val text = PartyCalc.TextBuilder()
-                .title(session.title)
-                .products(productAdapter.getItems(), getCopyIncludeProducts())
-                .payers(payerAdapter.getItems(), getCopyIncludePayers())
-                .results(resultAdapter.getItems(), getCopyIncludeResults())
-                .build()
-
-        clipboardManager.primaryClip = ClipData.newPlainText(session.label, text)
-        toast(R.string.toolbar_copied)
+    private fun share() {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, getPartyText())
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.toolbar_share)))
     }
+
+    private fun getPartyText() = PartyCalc.TextBuilder()
+            .title(session.title)
+            .products(productAdapter.getItems(), getShareIncludeProducts())
+            .payers(payerAdapter.getItems(), getShareIncludePayers())
+            .results(resultAdapter.getItems(), getShareIncludeResults())
+            .build()
 
 }

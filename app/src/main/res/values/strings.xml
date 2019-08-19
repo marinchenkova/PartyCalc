@@ -4,8 +4,9 @@
     <!-- Toolbar -->
     <string name="toolbar_popup">Popup menu</string>
     <string name="toolbar_popup_settings">Settings</string>
+    <string name="toolbar_share">Share party</string>
     <string name="toolbar_copy_to_clipboard">Copy to clipboard</string>
-    <string name="toolbar_copied">Session copied to clipboard</string>
+    <string name="toolbar_copied">Party copied to clipboard</string>
 
 
     <!-- Products -->
