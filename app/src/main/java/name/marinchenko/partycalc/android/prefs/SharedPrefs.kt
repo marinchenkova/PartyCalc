@@ -3,7 +3,7 @@ package name.marinchenko.partycalc.android.prefs
 import android.content.Context
 
 
-private const val IGNORE_CENTS_TO_DEFAULT = 0.99f
+private const val IGNORE_CENTS_TO_DEFAULT = 0.00f
 
 
 private fun Context.prefs() = getSharedPreferences(Path.PREFS_FILENAME, 0)
@@ -32,8 +32,8 @@ fun Context.setCopyIncludeResults(value: Boolean) = prefs().edit().putBoolean(Pa
 fun Context.getPayerCheckDefaultState() = prefs().getBoolean(Path.PREFS_PAYER_CHECK_DEFAULT_STATE, true)
 fun Context.setPayerCheckDefaultState(value: Boolean) = prefs().edit().putBoolean(Path.PREFS_PAYER_CHECK_DEFAULT_STATE, value)
 
-fun Context.getIgnoreCentsTo() = prefs().getFloat(Path.PREFS_IGNORE_CENTS_TO, IGNORE_CENTS_TO_DEFAULT)
-fun Context.setIgnoreCentsTo(value: Float) = prefs().edit().putFloat(Path.PREFS_IGNORE_CENTS_TO, value)
+fun Context.getIgnoreCentsTo() = prefs().getFloat(Path.PREFS_IGNORE_CENTS_TO, IGNORE_CENTS_TO_DEFAULT).toDouble()
+fun Context.setIgnoreCentsTo(value: Double) = prefs().edit().putFloat(Path.PREFS_IGNORE_CENTS_TO, value.toFloat())
 
 
 fun Context.getShowTitleHints() = prefs().getBoolean(Path.PREFS_SHOW_TITLE_HINTS, true)

@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
+import name.marinchenko.partycalc.android.prefs.getIgnoreCentsTo
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.item.Summary
 import name.marinchenko.partycalc.android.util.setVisible
@@ -27,6 +28,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
     private var onSumEquality: ((results: List<Result>) -> Unit)? = null
     private var onAddDiffPayer: ((sum: String) -> Unit)? = null
 
+    private var canCalculate = true
 
     init {
         background = activity.result_payers_layout?.background
@@ -45,20 +47,24 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return this
     }
 
-    fun productsUpdated(new: List<Product>) {
+    fun update(new: List<Payer>) {
+        payersUpdated(new)
+        productsUpdated(if (payers.size > 0) payers[0].getProducts() else emptyList())
+        sumEquality()
+    }
+
+    private fun productsUpdated(new: List<Product>) {
         products.clear()
         products.addAll(new)
         productSum = PartyCalc.itemListSum(products)
         bindProductSummary(Summary(products.size, productSum))
-        sumEquality()
     }
 
-    fun payersUpdated(new: List<Payer>) {
+    private fun payersUpdated(new: List<Payer>) {
         payers.clear()
         payers.addAll(new)
         payerSum = PartyCalc.itemListSum(payers)
         bindPayerSummary(Summary(payers.size, payerSum))
-        sumEquality()
     }
 
     private fun bindProductSummary(summary: Summary) {
@@ -86,7 +92,8 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun sumEquality() {
-        val equal = formatDouble(productSum) == formatDouble(payerSum)
+        canCalculate = !canCalculate
+        val equal = Math.abs(productSum - payerSum) <= activity.getIgnoreCentsTo()
         activity.result_payers_alert?.text = spanDiff(
                 activity.getString(R.string.results_payers_alert),
                 sumDiff(),
@@ -101,9 +108,11 @@ class SummaryViewHolder(private val activity: MainActivity) {
             activity.no_results?.setVisible(true)
         }
         else {
-            activity.result_payers_layout?.background = background
             val results = PartyCalc.calculateParty(products, payers)
+                    .filter { it.sum > activity.getIgnoreCentsTo() }
+
             onSumEquality?.invoke(results)
+            activity.result_payers_layout?.background = background
             activity.no_results?.setVisible(results.isEmpty())
         }
     }

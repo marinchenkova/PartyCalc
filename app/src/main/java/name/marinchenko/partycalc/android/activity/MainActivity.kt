@@ -15,15 +15,15 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
+import name.marinchenko.partycalc.android.prefs.getCopyIncludePayers
+import name.marinchenko.partycalc.android.prefs.getCopyIncludeProducts
+import name.marinchenko.partycalc.android.prefs.getCopyIncludeResults
 import name.marinchenko.partycalc.android.session.Session
 import name.marinchenko.partycalc.android.session.SessionId
 import name.marinchenko.partycalc.android.session.SessionRepo
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.PartyCalc
-import name.marinchenko.partycalc.core.textPayers
-import name.marinchenko.partycalc.core.textProducts
-import name.marinchenko.partycalc.core.textResults
 import org.jetbrains.anko.clipboardManager
 import org.jetbrains.anko.toast
 
@@ -67,13 +67,12 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductAdapter(this).onListChanged {list ->
+        productAdapter = ProductAdapter(this).onListChanged { list ->
             payerAdapter.productsWereUpdated(list)
-            summaryHolder.productsUpdated(list)
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { list ->
-            summaryHolder.payersUpdated(list)
+            summaryHolder.update(list)
         } as PayerAdapter
 
         resultAdapter = ResultAdapter(this)
@@ -103,7 +102,6 @@ class MainActivity : ToolbarActivity() {
                     showUndoSnackBar(payerAdapter, R.string.payer_removed)
                 }
         )
-
 
         productAdapter.onItemDrag { holder -> productTouchHelper.startDrag(holder) }
         payerAdapter.onItemDrag { holder -> payerTouchHelper.startDrag(holder) }
@@ -147,9 +145,9 @@ class MainActivity : ToolbarActivity() {
     private fun copyToClipBoard() {
         val text = PartyCalc.TextBuilder()
                 .title(session.title)
-                .products(productAdapter.getItems())
-                .payers(payerAdapter.getItems())
-                .results(resultAdapter.getItems())
+                .products(productAdapter.getItems(), getCopyIncludeProducts())
+                .payers(payerAdapter.getItems(), getCopyIncludePayers())
+                .results(resultAdapter.getItems(), getCopyIncludeResults())
                 .build()
 
         clipboardManager.primaryClip = ClipData.newPlainText(session.label, text)

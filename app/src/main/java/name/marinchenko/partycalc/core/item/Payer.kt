@@ -22,12 +22,14 @@ class Payer(
     override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +
             payerChecks.filter { it.isChecked }.joinToString("\n") { it.toText() }
 
-    fun updatePayerChecks(products: List<Product>) {
+    fun getProducts() = payerChecks.map { it.product }
+
+    fun updatePayerChecks(products: List<Product>, isChecked: Boolean) {
         val newSet = products.map { prod ->
             val forUpdate = payerChecks.find { check -> check.product.id == prod.id }
             if (forUpdate == null) {
                 val undo = lastRemoved.find { check -> check.product.id == prod.id }
-                if (undo == null) return@map PayerCheck(prod)
+                if (undo == null) return@map PayerCheck(prod, isChecked)
                 else return@map undo.update(prod)
             }
             else return@map forUpdate.update(prod)

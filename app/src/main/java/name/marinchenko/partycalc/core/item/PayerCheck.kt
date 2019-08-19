@@ -2,7 +2,7 @@ package name.marinchenko.partycalc.core.item
 
 data class PayerCheck(
         val product: Product,
-        var isChecked: Boolean = false
+        var isChecked: Boolean
 ) : Textable {
 
     override fun toText() = "${signText()} ${product.getAvailableTitle()}"

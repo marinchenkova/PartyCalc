@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
+import name.marinchenko.partycalc.android.prefs.getPayerCheckDefaultState
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.PayerFactory
 import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder
@@ -37,7 +38,7 @@ class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Pay
     }
 
     private fun updatePayerChecks(update: List<Product>) {
-        list.forEach { it.updatePayerChecks(update) }
+        list.forEach { it.updatePayerChecks(update, ctx.getPayerCheckDefaultState()) }
         notifyDataSetChanged()
     }
 
