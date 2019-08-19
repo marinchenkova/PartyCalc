@@ -1,14 +1,12 @@
 package name.marinchenko.partycalc.android.adapter.base
 
-import name.marinchenko.partycalc.core.item.IItem
+import name.marinchenko.partycalc.core.item.IdItem
 
-interface ItemAdapter<I: IItem>: SimpleAdapter<I> {
+interface ItemAdapter<I: IdItem>: SimpleAdapter<I> {
 
     override fun addItem(item: I)
 
     override fun removeItem(position: Int?)
-
-    fun newItem(sum: String = "")
 
     fun moveItem(from: Int?, to: Int?): Boolean
 

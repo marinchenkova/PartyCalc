@@ -43,10 +43,10 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return this
     }
 
-    @Synchronized fun update(new: List<Payer>) {
+    @Synchronized fun update(payers: List<Payer>, products: List<Product>) {
         activity.runOnUiThread {
-            payersUpdated(new)
-            productsUpdated(if (payers.size > 0) payers[0].getProducts() else emptyList())
+            payersUpdated(payers)
+            productsUpdated(products)
             sumEquality()
         }
     }

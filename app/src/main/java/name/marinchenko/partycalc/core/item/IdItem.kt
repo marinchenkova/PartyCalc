@@ -1,8 +1,7 @@
 package name.marinchenko.partycalc.core.item
 
-interface IItem {
+interface IdItem {
 
     val id: Long
-    val num: Int
 
 }

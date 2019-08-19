@@ -3,8 +3,6 @@ package name.marinchenko.partycalc.android.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
@@ -12,10 +10,10 @@ import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.activity.base.WorkActivity
 import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
-import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
 import name.marinchenko.partycalc.android.storage.*
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
@@ -23,11 +21,10 @@ import name.marinchenko.partycalc.core.PartyCalc
 import org.jetbrains.anko.doAsync
 
 
-class MainActivity : ToolbarActivity() {
+class MainActivity : WorkActivity() {
 
     override val baseLayout: View get() = base_layout
-
-    private val sessionRepo = SessionRepo(this)
+    override val sessionRepo: SessionRepo get() = SessionRepo(this)
     private lateinit var session: Session
 
     private lateinit var summaryHolder: SummaryViewHolder
@@ -42,7 +39,7 @@ class MainActivity : ToolbarActivity() {
 
         loadSession()
 
-        initToolbar(session.title)
+        initToolbar(getString(R.string.session_default_name))
         initRecyclerViews()
         initSummaryHolder()
         initData()
@@ -71,10 +68,14 @@ class MainActivity : ToolbarActivity() {
             doAsync { payerAdapter.productsWereUpdated(list) }
         } as ProductAdapter
 
-        payerAdapter = PayerAdapter(this).onListChanged { list ->
+        payerAdapter = PayerAdapter(this).onListChanged { payers ->
             doAsync {
-                summaryHolder.update(list)
-
+                val products = PartyCalc.productsFromPayers(payers)
+                summaryHolder.update(payers, products)
+                sessionRepo.saveSession(session.also {
+                    it.payers = payers
+                    it.products = products
+                })
             }
         } as PayerAdapter
 
@@ -116,12 +117,6 @@ class MainActivity : ToolbarActivity() {
     private fun initButtons() {
         add_product_button.setOnClickListener { productAdapter.newItem() }
         add_payer_button.setOnClickListener { payerAdapter.newItem() }
-    }
-
-    private fun showUndoSnackBar(adapter: UndoRemoveAdapter, @StringRes what: Int) {
-        Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.undo) { adapter.undoRemoveItem() }
-                .show()
     }
 
     private fun initSummaryHolder() {

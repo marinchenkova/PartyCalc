@@ -3,7 +3,8 @@ package name.marinchenko.partycalc.android.adapter
 import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
+import name.marinchenko.partycalc.android.adapter.base.DataObserverAdapter
+import name.marinchenko.partycalc.android.adapter.base.NewItemAdapter
 import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.PayerFactory
@@ -15,7 +16,7 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.runOnUiThread
 
 
-class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Payer>(ctx) {
+class PayerAdapter(ctx: Context): NewItemAdapter<PayerViewHolder, Payer>(ctx) {
 
     override val factory: ItemFactory<Payer>
         get() = PayerFactory(ctx)
@@ -23,8 +24,8 @@ class PayerAdapter(ctx: Context): DataChangeObserverAdapter<PayerViewHolder, Pay
     private var products = mutableListOf<Product>()
 
 
-    override fun newItem(sum: String) {
-        super.newItem(sum)
+    override fun newItem() {
+        super.newItem()
         updatePayerChecks(products)
     }
 

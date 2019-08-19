@@ -3,21 +3,19 @@ package name.marinchenko.partycalc.android.storage
 
 interface ISessionRepo {
 
-    fun defaultSessionTitle(): String
-
     fun createEmptySession(title: String = ""): Session
 
     fun getSession(id: Long): Session?
 
     fun saveSession(session: Session)
 
-    fun deleteSession(id: Long)
+    fun removeSession(id: Long)
 
-    fun saveSessionId(id: Long)
+    fun getAllSessions(): List<Session>
 
-    fun getAllSessionIds(): List<Long>
+    fun saveAllSessions(list: List<Session>)
 
-    fun saveAllSessionIds(list: List<Long>)
+    fun deleteAllSessions()
 
     fun sessionCount(): Int
 }

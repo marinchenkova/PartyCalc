@@ -9,7 +9,9 @@
     <string name="toolbar_copied">Party copied to clipboard</string>
 
     <!-- Session -->
+    <string name="session_title">Parties</string>
     <string name="session_default_name">Party</string>
+    <string name="add_session">Add party</string>
 
 
     <!-- Products -->

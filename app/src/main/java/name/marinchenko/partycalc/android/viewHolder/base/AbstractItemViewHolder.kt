@@ -1,17 +1,12 @@
 package name.marinchenko.partycalc.android.viewHolder.base
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.highlight
-import name.marinchenko.partycalc.android.util.makeVibration
-import name.marinchenko.partycalc.core.item.IItem
-import name.marinchenko.partycalc.core.item.Product
-import org.jetbrains.anko.backgroundColor
+import name.marinchenko.partycalc.core.item.IdItem
 
-abstract class AbstractItemViewHolder<I: IItem>(protected val ctx: Context, view: View?):
+abstract class AbstractItemViewHolder<I: IdItem>(protected val ctx: Context, view: View?):
         RecyclerView.ViewHolder(view), SelectableItemViewHolder, BinderViewHolder<I> {
 
     protected var onClick: ((item: I, position: Int) -> Unit)? = null

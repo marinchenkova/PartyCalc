@@ -12,7 +12,7 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
 
     private fun usedIds() = getAllSessionIds().toSet()
 
-    override fun defaultSessionTitle(): String = ctx.getString(R.string.session_default_name)
+    private fun defaultSessionTitle(): String = ctx.getString(R.string.session_default_name)
 
     override fun createEmptySession(title: String): Session {
         val now = now()
@@ -31,33 +31,54 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
         return Gson().fromJson<Session>(json, object : TypeToken<Session>(){}.type)
     }
 
+    @Synchronized
     override fun saveSession(session: Session) {
         val json = Gson().toJson(session)
         ctx.writeSession(session.id, json)
+        saveSessionId(session.id)
     }
 
-    override fun deleteSession(id: Long) {
+    override fun removeSession(id: Long) {
         ctx.removeSession(id)
+        removeSessionId(id)
     }
 
-    override fun saveSessionId(id: Long) {
-        val list = mutableListOf<Long>()
-        list.addAll(getAllSessionIds())
-        list.add(id)
-        saveAllSessionIds(list)
+    private fun saveSessionId(id: Long) {
+        val set = mutableSetOf<Long>()
+        set.addAll(getAllSessionIds())
+        set.add(id)
+        saveAllSessionIds(set)
     }
 
-    override fun getAllSessionIds(): List<Long> {
+    private fun removeSessionId(id: Long) {
+        val set = mutableSetOf<Long>()
+        set.addAll(getAllSessionIds())
+        set.remove(id)
+        saveAllSessionIds(set)
+    }
+
+    private fun getAllSessionIds(): Set<Long> {
         val json = ctx.readFile(FILE_SESSION_IDS)
-        return Gson().fromJson<List<Long>>(
+        return Gson().fromJson<Set<Long>>(
                 json,
-                object : TypeToken<List<Long>>(){}.type
-        ) ?: emptyList()
+                object : TypeToken<Set<Long>>(){}.type
+        ) ?: emptySet()
     }
 
-    override fun saveAllSessionIds(list: List<Long>) {
-        val json = Gson().toJson(list)
+    private fun saveAllSessionIds(set: Set<Long>) {
+        val json = Gson().toJson(set)
         ctx.writeFile(FILE_SESSION_IDS, json)
+    }
+
+    override fun getAllSessions(): List<Session> =
+            getAllSessionIds().mapNotNull { getSession(it) }.sortedBy { it.date }
+
+    override fun saveAllSessions(list: List<Session>) {
+        list.forEach { saveSession(it) }
+    }
+
+    override fun deleteAllSessions() {
+        getAllSessionIds().forEach { removeSession(it) }
     }
 
     override fun sessionCount() = getAllSessionIds().size

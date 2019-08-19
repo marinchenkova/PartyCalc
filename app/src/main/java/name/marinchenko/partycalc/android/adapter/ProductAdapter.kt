@@ -3,14 +3,15 @@ package name.marinchenko.partycalc.android.adapter
 import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
+import name.marinchenko.partycalc.android.adapter.base.DataObserverAdapter
+import name.marinchenko.partycalc.android.adapter.base.NewItemAdapter
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.ProductFactory
 import name.marinchenko.partycalc.android.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
-class ProductAdapter(ctx: Context): DataChangeObserverAdapter<ProductViewHolder, Product>(ctx) {
+class ProductAdapter(ctx: Context): NewItemAdapter<ProductViewHolder, Product>(ctx) {
 
     override val factory: ItemFactory<Product>
         get() = ProductFactory(ctx)

@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/delete_all_sessions"
+        android:title="Delete all" />
 
     <group android:id="@+id/toolbar_popup"
            android:title="@string/toolbar_popup"

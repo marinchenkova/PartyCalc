@@ -186,6 +186,10 @@ class PartyCalc(
             return if (items.isEmpty()) "empty"
             else items.joinToString("\n") { it.toText() }
         }
+
+        @JvmStatic
+        fun productsFromPayers(payers: List<Payer>) = if (payers.isEmpty()) emptyList()
+        else payers[0].getProducts()
     }
 }
 

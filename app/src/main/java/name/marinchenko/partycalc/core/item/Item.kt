@@ -7,7 +7,7 @@ abstract class Item(
         val hintTitle: String,
         val hintSum: String,
         override val num: Int
-): IItem, Textable {
+): NumItem, Textable {
 
     var title = ""
     var sumString = ""

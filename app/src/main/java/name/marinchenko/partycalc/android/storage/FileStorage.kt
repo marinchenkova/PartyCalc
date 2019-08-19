@@ -9,8 +9,10 @@ const val FILE_SESSION_IDS = "session_ids"
 
 private fun Context.getFile(name: String, create: Boolean): File? {
     val file = File(filesDir, name)
-    if (create) file.createNewFile()
-    if (!file.exists()) return null
+    if (!file.exists()) {
+        if (create) file.createNewFile()
+        else return null
+    }
     return file
 }
 

@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-private const val PATTERN_FULL = "dd.MM.yyyy HH:mm"
+private const val PATTERN_FULL = "dd.MM.yyyy HH:mm:ss"
 private const val PATTERN_DMY = "dd.MM.yyyy"
 
 

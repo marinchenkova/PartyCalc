@@ -2,18 +2,16 @@ package name.marinchenko.partycalc.android.adapter.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import name.marinchenko.partycalc.android.util.item.ItemFactory
-import name.marinchenko.partycalc.core.item.IItem
+import name.marinchenko.partycalc.core.item.IdItem
 import java.util.*
 
-abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected val ctx: Context):
+abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protected val ctx: Context):
         RecyclerView.Adapter<VH>(), ItemAdapter<I>, BinderAdapter {
 
     protected var onBind = false
         private set
 
     protected val list = mutableListOf<I>()
-    protected abstract val factory: ItemFactory<I>
 
 
     fun getItems() = list
@@ -22,14 +20,6 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
         list.clear()
         list.addAll(new)
         notifyDataSetChanged()
-    }
-
-    override fun newItem(sum: String) {
-        addItem(factory.nextItem(
-                list.map { it.num }.toHashSet(),
-                list.map { it.id }.toHashSet(),
-                sum
-        ))
     }
 
     override fun addItem(item: I) {

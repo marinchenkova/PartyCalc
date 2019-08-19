@@ -2,9 +2,9 @@ package name.marinchenko.partycalc.android.adapter.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import name.marinchenko.partycalc.core.item.IItem
+import name.marinchenko.partycalc.core.item.IdItem
 
-abstract class ItemActionAdapter<VH: RecyclerView.ViewHolder, I: IItem>(ctx: Context):
+abstract class ItemActionAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(ctx: Context):
         UndoRemoveItemAdapter<VH, I>(ctx) {
 
     protected var onItemClick: ((item: I, position: Int) -> Unit)? = null
