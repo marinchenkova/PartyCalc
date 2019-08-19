@@ -2,6 +2,7 @@ package name.marinchenko.partycalc.core
 
 import com.fathzer.soft.javaluator.DoubleEvaluator
 import name.marinchenko.partycalc.core.item.*
+import org.w3c.dom.Text
 import kotlin.random.Random
 
 class PartyCalc(
@@ -101,6 +102,40 @@ class PartyCalc(
         return sides
     }
 
+    class TextBuilder {
+
+        private var stringBuilder = StringBuilder()
+
+        fun build() = stringBuilder.toString()
+
+        fun title(title: String, include: Boolean = true) = appendText(title, include)
+
+        fun products(products: List<Product>, include: Boolean = true): TextBuilder {
+            val text = "${products.size} categories for " +
+                        PartyCalc.itemListSumString(products) + ":\n" +
+                        PartyCalc.itemsText(products) + "\n"
+            return appendText(text, include)
+        }
+
+        fun payers(payers: List<Payer>, include: Boolean = true): TextBuilder {
+            val text = "${payers.size} payers for " +
+                    PartyCalc.itemListSumString(payers) + ":\n" +
+                    PartyCalc.itemsText(payers) + "\n"
+            return appendText(text, include)
+        }
+
+        fun results(results: List<Result>, include: Boolean = true): TextBuilder {
+            val text = "Results:\n" + PartyCalc.itemsText(results) + "\n"
+            return appendText(text, include)
+        }
+
+        private fun appendText(text: String, include: Boolean = true): TextBuilder {
+            if (include) stringBuilder.append(text)
+            return this
+        }
+
+    }
+
     companion object {
 
         @JvmStatic
@@ -110,6 +145,11 @@ class PartyCalc(
         @JvmStatic
         fun itemListSum(items: List<Item>): Double {
             return items.sumByDouble { it.sum() }
+        }
+
+        @JvmStatic
+        fun itemListSumString(items: List<Item>): String {
+            return formatDouble(itemListSum(items))
         }
 
         @JvmStatic
@@ -165,20 +205,3 @@ fun randomExcept(from: Int, to: Int, used: Set<Int>): Int {
 }
 
 fun formatDouble(num: Double) = String.format("%.2f", num)
-
-fun String.textProducts(products: List<Product>): String {
-    return this +
-            "\n${products.size} categories for ${formatDouble(PartyCalc.itemListSum(products))}:\n"+
-            PartyCalc.itemsText(products) + "\n"
-}
-
-fun String.textPayers(payers: List<Payer>): String {
-    return this +
-            "\n${payers.size} payers for ${formatDouble(PartyCalc.itemListSum(payers))}:\n" +
-            PartyCalc.itemsText(payers) + "\n"
-}
-
-fun String.textResults(results: List<Result>): String {
-    return this +
-            "\nResults:\n" + PartyCalc.itemsText(results) + "\n"
-}

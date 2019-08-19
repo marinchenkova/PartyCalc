@@ -15,9 +15,12 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
+import name.marinchenko.partycalc.android.session.Session
+import name.marinchenko.partycalc.android.session.SessionId
+import name.marinchenko.partycalc.android.session.SessionRepo
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
-import name.marinchenko.partycalc.android.util.setVisibility
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
+import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.textPayers
 import name.marinchenko.partycalc.core.textProducts
 import name.marinchenko.partycalc.core.textResults
@@ -29,6 +32,9 @@ class MainActivity : ToolbarActivity() {
 
     override val baseLayout: View get() = base_layout
 
+    private val sessionRepo = SessionRepo()
+    private lateinit var session: Session
+
     private lateinit var summaryHolder: SummaryViewHolder
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
@@ -39,9 +45,12 @@ class MainActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initToolbar("Session")
+        session = sessionRepo.getSession(SessionId())
+
+        initToolbar(session.title)
         initRecyclerViews()
-        initResults()
+        initSummary()
+        initData()
     }
 
     private fun initRecyclerViews() {
@@ -95,6 +104,7 @@ class MainActivity : ToolbarActivity() {
                 }
         )
 
+
         productAdapter.onItemDrag { holder -> productTouchHelper.startDrag(holder) }
         payerAdapter.onItemDrag { holder -> payerTouchHelper.startDrag(holder) }
 
@@ -113,18 +123,17 @@ class MainActivity : ToolbarActivity() {
                 .show()
     }
 
-    private fun initResults() {
-        showNoResults(true)
+    private fun initSummary() {
         summaryHolder = SummaryViewHolder(this)
                 .onSumEqualityAction { results ->
                     resultAdapter.updateList(results)
-                    showNoResults(results.isEmpty())
                 }
                 //.onAddDiffPayer { sum -> payerAdapter.newItem(sum) }
     }
 
-    private fun showNoResults(show: Boolean) {
-        no_results.setVisibility(show)
+    private fun initData() {
+        productAdapter.update(session.products)
+        payerAdapter.update(session.payers)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -136,14 +145,14 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun copyToClipBoard() {
-        val clip = ClipData.newPlainText(
-                "partyCalcSession",
-                "PartyCalc"
-                        .textProducts(productAdapter.getItems())
-                        .textPayers(payerAdapter.getItems())
-                        .textResults(resultAdapter.getItems())
-        )
-        clipboardManager.primaryClip = clip
+        val text = PartyCalc.TextBuilder()
+                .title(session.title)
+                .products(productAdapter.getItems())
+                .payers(payerAdapter.getItems())
+                .results(resultAdapter.getItems())
+                .build()
+
+        clipboardManager.primaryClip = ClipData.newPlainText(session.label, text)
         toast(R.string.toolbar_copied)
     }
 

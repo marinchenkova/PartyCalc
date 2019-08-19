@@ -6,7 +6,7 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.item.Summary
-import name.marinchenko.partycalc.android.util.setVisibility
+import name.marinchenko.partycalc.android.util.setVisible
 import name.marinchenko.partycalc.android.util.spanDiff
 import name.marinchenko.partycalc.android.util.spanSummary
 import name.marinchenko.partycalc.core.PartyCalc
@@ -33,8 +33,6 @@ class SummaryViewHolder(private val activity: MainActivity) {
         activity.result_payers_layout?.setOnClickListener {
             onAddDiffPayer?.invoke(formatDouble(productSum - payerSum))
         }
-        productsUpdated(emptyList())
-        payersUpdated(emptyList())
     }
 
     fun onSumEqualityAction(action: (results: List<Result>) -> Unit): SummaryViewHolder {
@@ -95,15 +93,18 @@ class SummaryViewHolder(private val activity: MainActivity) {
                 activity.getColor(R.color.colorPrimary)
         )
 
-        activity.result_payers_alert?.setVisibility(!equal)
+        activity.result_payers_alert?.setVisible(!equal)
 
         if (!equal) {
             activity.result_payers_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
             onSumEquality?.invoke(emptyList())
+            activity.no_results?.setVisible(true)
         }
         else {
             activity.result_payers_layout?.background = background
-            onSumEquality?.invoke(PartyCalc.calculateParty(products, payers))
+            val results = PartyCalc.calculateParty(products, payers)
+            onSumEquality?.invoke(results)
+            activity.no_results?.setVisible(results.isEmpty())
         }
     }
 

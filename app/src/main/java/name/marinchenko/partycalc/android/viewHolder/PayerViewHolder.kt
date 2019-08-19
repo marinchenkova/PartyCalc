@@ -9,7 +9,7 @@ import name.marinchenko.partycalc.android.adapter.PayerCheckAdapter
 import name.marinchenko.partycalc.android.adapter.PayerCheckCompactAdapter
 import name.marinchenko.partycalc.android.util.afterInput
 import name.marinchenko.partycalc.android.util.isVisible
-import name.marinchenko.partycalc.android.util.setVisibility
+import name.marinchenko.partycalc.android.util.setVisible
 import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
@@ -83,7 +83,7 @@ class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(c
     }
 
     private fun expandView(expanded: Boolean = !isExpanded()): Boolean {
-        if (adapter.itemCount > 0) itemView?.list_payer_checks?.setVisibility(expanded)
+        if (adapter.itemCount > 0) itemView?.list_payer_checks?.setVisible(expanded)
         return itemView?.list_payer_checks?.isVisible() ?: false
     }
 

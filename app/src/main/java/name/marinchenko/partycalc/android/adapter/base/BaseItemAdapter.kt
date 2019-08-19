@@ -12,11 +12,17 @@ abstract class BaseItemAdapter<VH: RecyclerView.ViewHolder, I: IItem>(protected 
     protected var onBind = false
         private set
 
-
     protected val list = mutableListOf<I>()
     protected abstract val factory: ItemFactory<I>
 
+
     fun getItems() = list
+
+    override fun update(new: List<I>) {
+        list.clear()
+        list.addAll(new)
+        notifyDataSetChanged()
+    }
 
     override fun newItem(sum: String) {
         addItem(factory.nextItem(

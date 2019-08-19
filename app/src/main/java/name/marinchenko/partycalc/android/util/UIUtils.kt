@@ -22,6 +22,8 @@ const val PAYER_ITEM_MARGINS = 32
 const val BORDER_WIDTH_DP = 2
 
 
+
+
 fun Context.makeVibration(ms: Long, amplitude: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         vibrator.vibrate(VibrationEffect.createOneShot(ms, amplitude))
@@ -30,7 +32,7 @@ fun Context.makeVibration(ms: Long, amplitude: Int) {
 
 fun View.isVisible() = visibility == View.VISIBLE
 
-fun View.setVisibility(visible: Boolean) {
+fun View.setVisible(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
 }
 

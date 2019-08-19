@@ -14,4 +14,6 @@ interface ItemAdapter<I: IItem>: SimpleAdapter<I> {
 
     fun editItem(item: I, position: Int, notify: Boolean = true)
 
+    fun update(new: List<I>)
+
 }
