@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.adapter.base.DataChangeObserverAdapter
-import name.marinchenko.partycalc.android.prefs.getPayerCheckDefaultState
+import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
 import name.marinchenko.partycalc.android.util.item.ItemFactory
 import name.marinchenko.partycalc.android.util.item.PayerFactory
 import name.marinchenko.partycalc.android.viewHolder.PayerViewHolder

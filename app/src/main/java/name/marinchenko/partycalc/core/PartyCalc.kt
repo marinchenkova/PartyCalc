@@ -108,7 +108,7 @@ class PartyCalc(
 
         fun build() = stringBuilder.toString()
 
-        fun title(title: String, include: Boolean = true) = appendText(title, include)
+        fun title(title: String, include: Boolean = true) = appendText("$title\n", include)
 
         fun products(products: List<Product>, include: Boolean = true): TextBuilder {
             val text = "${products.size} categories for " +

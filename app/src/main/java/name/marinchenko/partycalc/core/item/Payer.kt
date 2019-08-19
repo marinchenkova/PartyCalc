@@ -48,7 +48,7 @@ class Payer(
         lastRemoved.addAll(oldSet)
     }
 
-    override fun toString() = "Payer(id=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +
+    override fun toString() = "Payer(str=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +
             "num=$num, checks=$payerChecks)"
 
 }

@@ -8,10 +8,9 @@ data class Result(
         val sum: Double
 ): Textable {
 
-    override fun toText() = "${who.getAvailableTitle()}: ${formatDouble(sum)} -> ${toWhom.getAvailableTitle()}, ${isDoneText()}"
-
-    private fun isDoneText() = if (done) "done" else "not done"
-
     var done = false
+
+
+    override fun toText() = "${who.getAvailableTitle()}: ${formatDouble(sum)} -> ${toWhom.getAvailableTitle()}"
 
 }

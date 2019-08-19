@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
-import name.marinchenko.partycalc.android.prefs.getIgnoreCentsTo
+import name.marinchenko.partycalc.android.storage.getIgnoreCentsTo
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.item.Summary
 import name.marinchenko.partycalc.android.util.setVisible

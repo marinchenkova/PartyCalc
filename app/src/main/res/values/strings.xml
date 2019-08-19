@@ -8,6 +8,9 @@
     <string name="toolbar_copy_to_clipboard">Copy to clipboard</string>
     <string name="toolbar_copied">Party copied to clipboard</string>
 
+    <!-- Session -->
+    <string name="session_default_name">Party</string>
+
 
     <!-- Products -->
     <string name="products_title">Categories</string>

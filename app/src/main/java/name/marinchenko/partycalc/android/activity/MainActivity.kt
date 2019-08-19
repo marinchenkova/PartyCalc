@@ -1,7 +1,6 @@
 package name.marinchenko.partycalc.android.activity
 
 
-import android.content.ClipData
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -17,25 +16,18 @@ import name.marinchenko.partycalc.android.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
-import name.marinchenko.partycalc.android.prefs.getShareIncludePayers
-import name.marinchenko.partycalc.android.prefs.getShareIncludeProducts
-import name.marinchenko.partycalc.android.prefs.getShareIncludeResults
-import name.marinchenko.partycalc.android.session.Session
-import name.marinchenko.partycalc.android.session.SessionId
-import name.marinchenko.partycalc.android.session.SessionRepo
+import name.marinchenko.partycalc.android.storage.*
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
 import name.marinchenko.partycalc.core.PartyCalc
-import org.jetbrains.anko.clipboardManager
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 
 
 class MainActivity : ToolbarActivity() {
 
     override val baseLayout: View get() = base_layout
 
-    private val sessionRepo = SessionRepo()
+    private val sessionRepo = SessionRepo(this)
     private lateinit var session: Session
 
     private lateinit var summaryHolder: SummaryViewHolder
@@ -48,12 +40,17 @@ class MainActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        session = sessionRepo.getSession(SessionId())
+        loadSession()
 
         initToolbar(session.title)
         initRecyclerViews()
-        initSummary()
+        initSummaryHolder()
         initData()
+    }
+
+    private fun loadSession() {
+        val id = intent.getLongExtra(SESSION_ID, 0)
+        session = sessionRepo.getSession(id) ?: sessionRepo.createEmptySession()
     }
 
     private fun initRecyclerViews() {
@@ -75,7 +72,10 @@ class MainActivity : ToolbarActivity() {
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { list ->
-            doAsync { summaryHolder.update(list) }
+            doAsync {
+                summaryHolder.update(list)
+
+            }
         } as PayerAdapter
 
         resultAdapter = ResultAdapter(this)
@@ -124,7 +124,7 @@ class MainActivity : ToolbarActivity() {
                 .show()
     }
 
-    private fun initSummary() {
+    private fun initSummaryHolder() {
         summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
             resultAdapter.updateList(results)
         }

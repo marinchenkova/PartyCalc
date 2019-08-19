@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "com.fathzer:javaluator:3.0.3"
+    implementation "com.google.code.gson:gson:2.8.5"
 }
 repositories {
     mavenCentral()

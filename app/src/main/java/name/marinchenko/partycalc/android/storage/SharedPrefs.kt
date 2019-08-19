@@ -1,4 +1,4 @@
-package name.marinchenko.partycalc.android.prefs
+package name.marinchenko.partycalc.android.storage
 
 import android.content.Context
 
