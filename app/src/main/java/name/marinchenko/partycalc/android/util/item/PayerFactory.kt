@@ -1,10 +1,9 @@
 package name.marinchenko.partycalc.android.util.item
 
 import android.content.Context
-import name.marinchenko.partycalc.android.storage.getShowSumHints
 import name.marinchenko.partycalc.android.storage.getShowTitleHints
-import name.marinchenko.partycalc.android.util.*
-import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.android.util.RANDOM_PAYERS_NUM
+import name.marinchenko.partycalc.android.util.getRandomPayerTitle
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.randomExcept
 
@@ -16,7 +15,7 @@ class PayerFactory(ctx: Context): ItemFactory<Payer>(ctx) {
         return Payer(
                 nextId(usedIds),
                 if (ctx.getShowTitleHints()) ctx.getRandomPayerTitle(num) else "",
-                if (ctx.getShowSumHints()) PartyCalc.getRandomHintSum() else "0",
+                "0",
                 num
         ).also { it.sumString = sum }
     }

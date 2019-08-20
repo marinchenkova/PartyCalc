@@ -28,6 +28,10 @@ class SessionActivity : WorkActivity() {
 
         initToolbar(getString(R.string.app_name), false)
         initRecyclerViews()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initData()
     }
 
@@ -57,16 +61,11 @@ class SessionActivity : WorkActivity() {
 
     private fun initItemTouchHelpers() {
         val sessionTouchHelper = ItemTouchHelper(ItemTouchListener()
-                .onMoveAction { _, holder, target ->
-                    sessionAdapter.moveItem(holder?.adapterPosition, target?.adapterPosition)
-                }
                 .onSwipeAction { holder, _ ->
                     sessionAdapter.removeItem(holder?.adapterPosition)
                     showUndoSnackBar(sessionAdapter, R.string.session_removed)
                 }
         )
-
-        sessionAdapter.onItemDrag { holder -> sessionTouchHelper.startDrag(holder) }
         sessionTouchHelper.attachToRecyclerView(list_sessions)
     }
 
@@ -77,7 +76,7 @@ class SessionActivity : WorkActivity() {
     }
 
     private fun initData() {
-        sessionAdapter.update(sessionRepo.getAllSessions().toList())
+        sessionAdapter.update(sessionRepo.getAllSessions())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

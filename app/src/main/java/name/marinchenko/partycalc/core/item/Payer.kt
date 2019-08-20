@@ -22,8 +22,6 @@ class Payer(
     override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +
             payerChecks.filter { it.isChecked }.joinToString("\n") { it.toText() }
 
-    fun getProducts() = payerChecks.map { it.product }
-
     fun updatePayerChecks(products: List<Product>, isChecked: Boolean) {
         val newSet = products.map { prod ->
             val forUpdate = payerChecks.find { check -> check.product.id == prod.id }

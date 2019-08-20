@@ -89,29 +89,32 @@ class SummaryViewHolder(private val activity: MainActivity) {
 
     private fun sumEquality() {
         val equal = Math.abs(productSum - payerSum) <= activity.getIgnoreCentsTo()
+
         activity.result_payers_alert?.text = spanDiff(
                 activity.getString(R.string.results_payers_alert),
                 sumDiff(),
                 activity.getColor(R.color.colorPrimary)
         )
-
         activity.result_payers_alert?.setVisible(!equal)
 
-        if (!equal) {
+        val results = if (!equal) {
             activity.result_payers_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
-            onSumEquality?.invoke(emptyList())
             activity.no_results?.setVisible(true)
+            emptyList()
         }
         else calculate()
+
+        onSumEquality?.invoke(results)
     }
 
-    private fun calculate() {
+    private fun calculate(): List<Result> {
         val results = PartyCalc.calculateParty(products, payers)
                 .filter { it.sum > activity.getIgnoreCentsTo() }
 
-        onSumEquality?.invoke(results)
         activity.result_payers_layout?.background = background
         activity.no_results?.setVisible(results.isEmpty())
+
+        return results
     }
 
     private fun initSummary(

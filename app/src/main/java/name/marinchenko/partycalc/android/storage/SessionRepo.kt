@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.util.formatDayMonthYear
 import name.marinchenko.partycalc.android.util.now
+import name.marinchenko.partycalc.core.item.Result
 import name.marinchenko.partycalc.core.randomExcept
 
 class SessionRepo(private val ctx: Context): ISessionRepo {
@@ -72,7 +73,6 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
 
     override fun getAllSessions(): List<Session> = getAllSessionIds()
             .mapNotNull { getSession(it) }
-            .sortedByDescending { it.date }
 
     override fun saveAllSessions(list: List<Session>) {
         list.forEach { saveSession(it) }

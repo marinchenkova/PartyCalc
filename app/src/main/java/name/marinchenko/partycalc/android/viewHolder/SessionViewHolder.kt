@@ -1,21 +1,19 @@
 package name.marinchenko.partycalc.android.viewHolder
 
 import android.content.Context
-import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.session_item.view.*
+import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.storage.Session
 import name.marinchenko.partycalc.android.util.afterInput
+import name.marinchenko.partycalc.android.util.spanSessionSummary
 import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
+import name.marinchenko.partycalc.core.PartyCalc
 
 class SessionViewHolder(ctx: Context, view: View?): AbstractItemViewHolder<Session>(ctx, view) {
 
     override fun bind(item: Session, position: Int) {
         itemView?.setOnClickListener { onClick?.invoke(item, position) }
-        itemView?.handle?.setOnTouchListener { _, event ->
-            if (event?.action == MotionEvent.ACTION_DOWN) onDrag?.invoke(this)
-            true
-        }
 
         itemView?.item_title?.setText(item.title)
         itemView?.item_title?.hint = item.hintTitle
@@ -24,7 +22,22 @@ class SessionViewHolder(ctx: Context, view: View?): AbstractItemViewHolder<Sessi
                 position
         )}
 
-        itemView?.date?.text = item.getDateString()
+        val dateString = "${ctx.getString(R.string.added_on)} ${item.getDateString()}"
+        itemView?.date?.text = dateString
+
+        val sumString = spanSessionSummary(
+                ctx.getString(R.string.summary_sum),
+                PartyCalc.itemListSumString(item.products),
+                ctx.getColor(R.color.colorPrimary)
+        )
+        itemView?.summary_sum?.text = sumString
+
+        val doneString = spanSessionSummary(
+                ctx.getString(R.string.summary_done),
+                PartyCalc.resultsDone(item.results),
+                ctx.getColor(R.color.colorPrimary)
+        )
+        itemView?.summary_done?.text = doneString
     }
 
 }

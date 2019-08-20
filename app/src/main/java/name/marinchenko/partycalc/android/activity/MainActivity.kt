@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -32,7 +33,7 @@ class MainActivity : WorkActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
-    private var loaded = 0
+    private var loadCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class MainActivity : WorkActivity() {
 
         loadSession()
 
-        initToolbar(getString(R.string.session_default_name))
+        initToolbar(session.getAvailableTitle())
         initRecyclerViews()
         initSummaryHolder()
         initData()
@@ -67,12 +68,10 @@ class MainActivity : WorkActivity() {
     private fun initAdapters() {
         productAdapter = ProductAdapter(this).onListChanged { products ->
             payerAdapter.productsWereUpdated(products)
-            sessionRepo.saveSession(session.also { it.products = products })
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { payers ->
             summaryHolder.update(payers, productAdapter.getItems())
-            sessionRepo.saveSession(session.also { it.payers = payers })
         } as PayerAdapter
 
         resultAdapter = ResultAdapter(this).onDoneAction { results ->
@@ -118,10 +117,17 @@ class MainActivity : WorkActivity() {
     }
 
     private fun initSummaryHolder() {
-        summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
-            resultAdapter.update(getActualResults(results))
-            sessionRepo.saveSession(session.also { it.results = getActualResults(results) })
-            loaded++
+        summaryHolder = SummaryViewHolder(this).onSumEqualityAction { produced ->
+            val results = if (!canSaveSession()) session.results else produced
+            resultAdapter.update(results)
+
+            if (canSaveSession()) sessionRepo.saveSession(session.also {
+                it.products = productAdapter.getItems()
+                it.payers = payerAdapter.getItems()
+                it.results = results
+            })
+
+            loadCount++
         }
     }
 
@@ -160,8 +166,7 @@ class MainActivity : WorkActivity() {
             .results(resultAdapter.getItems(), getShareIncludeResults())
             .build()
 
-    private fun getActualResults(results: List<Result>) =
-            if (loaded < 2) session.results
-            else results
+    private fun canSaveSession() = loadCount >= 2
+
 
 }

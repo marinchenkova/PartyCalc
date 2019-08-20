@@ -13,6 +13,9 @@
     <string name="session_default_name">Party</string>
     <string name="add_session">Add party</string>
     <string name="session_removed">Party removed</string>
+    <string name="added_on">Added on</string>
+    <string name="summary_sum">Sum:</string>
+    <string name="summary_done">Done:</string>
 
 
     <!-- Products -->

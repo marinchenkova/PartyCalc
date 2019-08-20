@@ -23,4 +23,6 @@ data class Session(
 
     fun getDateString() = date.formatFull()
 
+    fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
+
 }

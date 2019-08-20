@@ -36,7 +36,7 @@ class PayerAdapter(ctx: Context): NewItemAdapter<PayerViewHolder, Payer>(ctx) {
     fun productsWereUpdated(update: List<Product>) {
         products.clear()
         products.addAll(update)
-        ctx.runOnUiThread { updatePayerChecks(update) }
+        updatePayerChecks(update)
     }
 
     private fun updatePayerChecks(update: List<Product>) {

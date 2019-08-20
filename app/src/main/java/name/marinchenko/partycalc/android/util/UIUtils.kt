@@ -69,6 +69,14 @@ fun spanSummary(start: String, middle: String, end: String, color: Int): Spannab
     return startBuilder.append(" ").append(middle).append(" ").append(endBuilder)
 }
 
+fun spanSessionSummary(start: String, end: String, color: Int): SpannableStringBuilder {
+    val endBuilder = SpannableStringBuilder(end)
+            .span(StyleSpan(Typeface.BOLD))
+            .span(ForegroundColorSpan(color))
+
+    return SpannableStringBuilder(start).append(" ").append(endBuilder)
+}
+
 fun spanDiff(start: String, end: String, color: Int): SpannableStringBuilder {
     val endBuilder = SpannableStringBuilder(end)
             .span(StyleSpan(Typeface.BOLD))

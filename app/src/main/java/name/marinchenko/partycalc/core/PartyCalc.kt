@@ -187,6 +187,10 @@ class PartyCalc(
             else items.joinToString("\n") { it.toText() }
         }
 
+        @JvmStatic
+        fun resultsDone(results: List<Result>): String {
+            return "${results.filter { it.isDone }.size}/${results.size}"
+        }
     }
 }
 

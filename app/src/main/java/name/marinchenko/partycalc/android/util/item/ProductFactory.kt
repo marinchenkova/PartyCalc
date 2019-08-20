@@ -1,10 +1,10 @@
 package name.marinchenko.partycalc.android.util.item
 
 import android.content.Context
-import name.marinchenko.partycalc.android.storage.getShowSumHints
 import name.marinchenko.partycalc.android.storage.getShowTitleHints
-import name.marinchenko.partycalc.android.util.*
-import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.android.util.RANDOM_PRODUCTS_NUM
+import name.marinchenko.partycalc.android.util.getRandomColorResId
+import name.marinchenko.partycalc.android.util.getRandomProductTitle
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.randomExcept
 
@@ -16,7 +16,7 @@ class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
         return Product(
                 nextId(usedIds),
                 if (ctx.getShowTitleHints()) ctx.getRandomProductTitle(num) else "",
-                if (ctx.getShowSumHints()) PartyCalc.getRandomHintSum() else "0",
+                "0",
                 ctx.getRandomColorResId(num),
                 num
         ).also { it.sumString = sum }

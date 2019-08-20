@@ -2,6 +2,7 @@ package name.marinchenko.partycalc.android.adapter.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import name.marinchenko.partycalc.core.item.IdItem
 import java.util.*
 
