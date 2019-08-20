@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.session_item.view.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.storage.Session
 import name.marinchenko.partycalc.android.util.afterInput
-import name.marinchenko.partycalc.android.util.spanSessionSummary
+import name.marinchenko.partycalc.android.util.spanDiff
 import name.marinchenko.partycalc.android.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.core.PartyCalc
 
@@ -25,14 +25,14 @@ class SessionViewHolder(ctx: Context, view: View?): AbstractItemViewHolder<Sessi
         val dateString = "${ctx.getString(R.string.added_on)} ${item.getDateString()}"
         itemView?.date?.text = dateString
 
-        val sumString = spanSessionSummary(
+        val sumString = spanDiff(
                 ctx.getString(R.string.summary_sum),
                 PartyCalc.itemListSumString(item.products),
                 ctx.getColor(R.color.colorPrimary)
         )
         itemView?.summary_sum?.text = sumString
 
-        val doneString = spanSessionSummary(
+        val doneString = spanDiff(
                 ctx.getString(R.string.summary_done),
                 PartyCalc.resultsDone(item.results),
                 ctx.getColor(R.color.colorPrimary)
