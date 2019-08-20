@@ -73,6 +73,7 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
 
     override fun getAllSessions(): List<Session> = getAllSessionIds()
             .mapNotNull { getSession(it) }
+            .sortedByDescending { it.date }
 
     override fun saveAllSessions(list: List<Session>) {
         list.forEach { saveSession(it) }
