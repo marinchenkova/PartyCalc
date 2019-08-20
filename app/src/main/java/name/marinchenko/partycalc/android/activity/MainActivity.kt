@@ -90,7 +90,7 @@ class MainActivity : WorkActivity() {
                 }
                 .onSwipeAction { holder, _ ->
                     productAdapter.removeItem(holder?.adapterPosition)
-                    showUndoSnackBar(productAdapter, R.string.product_removed)
+                    showUndoSnackBar(R.string.product_removed) { productAdapter.undoRemoveItem() }
                 }
         )
 
@@ -100,7 +100,7 @@ class MainActivity : WorkActivity() {
                 }
                 .onSwipeAction { holder, _ ->
                     payerAdapter.removeItem(holder?.adapterPosition)
-                    showUndoSnackBar(payerAdapter, R.string.payer_removed)
+                    showUndoSnackBar(R.string.payer_removed) { payerAdapter.undoRemoveItem() }
                 }
         )
 

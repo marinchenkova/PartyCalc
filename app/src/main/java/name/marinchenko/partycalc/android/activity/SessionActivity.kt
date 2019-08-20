@@ -12,6 +12,7 @@ import name.marinchenko.partycalc.android.adapter.SessionAdapter
 import name.marinchenko.partycalc.android.storage.SESSION_ID
 import name.marinchenko.partycalc.android.storage.SessionRepo
 import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
+import name.marinchenko.partycalc.android.util.setVisible
 import org.jetbrains.anko.startActivity
 
 class SessionActivity : WorkActivity() {
@@ -51,6 +52,7 @@ class SessionActivity : WorkActivity() {
                 .onItemAdd { sessionRepo.saveSession(it) }
                 .onItemEdit { sessionRepo.saveSession(it) }
                 .onItemRemove { sessionRepo.removeSession(it.id) }
+                .onListChanged { showNoSessions(it.isEmpty()) }
                 .onItemClick { item, _ ->
                     startActivity<MainActivity>(SESSION_ID to item.id)
                 }
@@ -63,7 +65,7 @@ class SessionActivity : WorkActivity() {
         val sessionTouchHelper = ItemTouchHelper(ItemTouchListener()
                 .onSwipeAction { holder, _ ->
                     sessionAdapter.removeItem(holder?.adapterPosition)
-                    showUndoSnackBar(sessionAdapter, R.string.session_removed)
+                    showUndoSnackBar(R.string.session_removed) { sessionAdapter.undoRemoveItem() }
                 }
         )
         sessionTouchHelper.attachToRecyclerView(list_sessions)
@@ -79,12 +81,7 @@ class SessionActivity : WorkActivity() {
         sessionAdapter.update(sessionRepo.getAllSessions())
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.delete_all_sessions -> {
-            sessionRepo.deleteAllSessions()
-            initData()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+    private fun showNoSessions(show: Boolean) {
+        no_sessions?.setVisible(show)
     }
 }

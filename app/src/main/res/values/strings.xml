@@ -12,7 +12,9 @@
     <string name="session_title">Parties</string>
     <string name="session_default_name">Party</string>
     <string name="add_session">Add party</string>
+    <string name="no_sessions">(no parties)</string>
     <string name="session_removed">Party removed</string>
+    <string name="all_sessions_removed">Parties removed</string>
     <string name="added_on">Added on</string>
     <string name="summary_sum">Sum:</string>
     <string name="summary_done">Done:</string>

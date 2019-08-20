@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.adapter.base.UndoRemoveAdapter
 import name.marinchenko.partycalc.android.storage.SessionRepo
 import org.jetbrains.anko.inputMethodManager
 
@@ -19,9 +18,9 @@ abstract class WorkActivity: ToolbarActivity() {
     protected abstract val sessionRepo: SessionRepo
 
 
-    protected fun showUndoSnackBar(adapter: UndoRemoveAdapter, @StringRes what: Int) {
+    protected fun showUndoSnackBar(@StringRes what: Int, action: () -> Unit) {
         Snackbar.make(base_layout, what, Snackbar.LENGTH_SHORT)
-                .setAction(R.string.undo) { adapter.undoRemoveItem() }
+                .setAction(R.string.undo) { action() }
                 .show()
     }
 

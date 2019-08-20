@@ -2,6 +2,7 @@ package name.marinchenko.partycalc.android.adapter.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import name.marinchenko.partycalc.core.item.IdItem
 
 abstract class UndoRemoveItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(ctx: Context):
@@ -9,6 +10,7 @@ abstract class UndoRemoveItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(ctx
 
     protected lateinit var lastRemovedItem: I
     private var lastRemovedItemPos: Int? = null
+
 
     override fun removeItem(position: Int?) {
         position ?: return
