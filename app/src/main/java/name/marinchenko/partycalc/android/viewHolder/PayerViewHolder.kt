@@ -43,7 +43,7 @@ class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(c
     override fun bind(item: Payer, position: Int) {
         adapter.parentPosition = position
 
-        itemView.setOnClickListener { onExpand?.invoke(expandView(), position) }
+        itemView?.expander?.setOnClickListener { onExpand?.invoke(expandView(), position) }
         itemView?.handle?.setOnTouchListener { _, event ->
             if (event?.action == MotionEvent.ACTION_DOWN) onDrag?.invoke(this)
             true

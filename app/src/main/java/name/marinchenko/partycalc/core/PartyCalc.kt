@@ -162,7 +162,7 @@ class PartyCalc(
             val list = mutableListOf<String>()
             var sum = 0
             for (i in 1..randomInt(1, 2)) {
-                val random = randomInt(1, 9) * 100
+                val random = randomInt(1, 9) * 10
                 sum += random
                 list.add("$random")
             }
@@ -173,7 +173,7 @@ class PartyCalc(
             return when (randomInt(0, 9)) {
                 in 0..4 -> sumString
                 in 5..7 -> {
-                    val minus = randomInt(0, (sum / 100) - 1) * 100
+                    val minus = randomInt(0, (sum / 10) - 1) * 10
                     if (minus > 0) "$braces-$minus"
                     else sumString
                 }

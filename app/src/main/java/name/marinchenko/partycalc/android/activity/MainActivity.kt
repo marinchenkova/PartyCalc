@@ -165,7 +165,7 @@ class MainActivity : WorkActivity() {
             .build()
 
     private fun getActualResults(results: List<Result>) =
-            if (loaded <= 2) session.results
+            if (loaded < 2) session.results
             else results
 
 }

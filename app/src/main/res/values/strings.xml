@@ -101,5 +101,6 @@
     <string name="undo">Undo</string>
     <string name="arrow_description">to</string>
     <string name="reorder_description">reorder</string>
+    <string name="expand_description">expand</string>
 
 </resources>
