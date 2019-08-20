@@ -66,17 +66,13 @@ class MainActivity : WorkActivity() {
 
     private fun initAdapters() {
         productAdapter = ProductAdapter(this).onListChanged { products ->
-            doAsync {
-                payerAdapter.productsWereUpdated(products)
-                sessionRepo.saveSession(session.also { it.products = products })
-            }
+            payerAdapter.productsWereUpdated(products)
+            sessionRepo.saveSession(session.also { it.products = products })
         } as ProductAdapter
 
         payerAdapter = PayerAdapter(this).onListChanged { payers ->
-            doAsync {
-                summaryHolder.update(payers, productAdapter.getItems())
-                sessionRepo.saveSession(session.also { it.payers = payers })
-            }
+            summaryHolder.update(payers, productAdapter.getItems())
+            sessionRepo.saveSession(session.also { it.payers = payers })
         } as PayerAdapter
 
         resultAdapter = ResultAdapter(this).onDoneAction { results ->

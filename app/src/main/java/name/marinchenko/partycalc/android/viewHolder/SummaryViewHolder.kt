@@ -43,12 +43,10 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return this
     }
 
-    @Synchronized fun update(payers: List<Payer>, products: List<Product>) {
-        activity.runOnUiThread {
-            payersUpdated(payers)
-            productsUpdated(products)
-            sumEquality()
-        }
+    fun update(payers: List<Payer>, products: List<Product>) {
+        payersUpdated(payers)
+        productsUpdated(products)
+        sumEquality()
     }
 
     private fun productsUpdated(new: List<Product>) {
@@ -108,24 +106,19 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun calculate() {
-        doAsync {
-            val results = PartyCalc.calculateParty(products, payers)
-                    .filter { it.sum > activity.getIgnoreCentsTo() }
+        val results = PartyCalc.calculateParty(products, payers)
+                .filter { it.sum > activity.getIgnoreCentsTo() }
 
-            uiThread {
-                onSumEquality?.invoke(results)
-                activity.result_payers_layout?.background = background
-                activity.no_results?.setVisible(results.isEmpty())
-            }
-        }
+        onSumEquality?.invoke(results)
+        activity.result_payers_layout?.background = background
+        activity.no_results?.setVisible(results.isEmpty())
     }
 
     private fun initSummary(
             summary: Summary,
             singular: String,
             plural: String,
-            color: Int
-    ) = spanSummary(
+            color: Int) = spanSummary(
             summary.size.toString(),
             getStringByNum(
                     summary.size,

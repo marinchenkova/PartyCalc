@@ -33,7 +33,7 @@ class PayerAdapter(ctx: Context): NewItemAdapter<PayerViewHolder, Payer>(ctx) {
         list[position].isExpanded = expanded
     }
 
-    @Synchronized fun productsWereUpdated(update: List<Product>) {
+    fun productsWereUpdated(update: List<Product>) {
         products.clear()
         products.addAll(update)
         ctx.runOnUiThread { updatePayerChecks(update) }

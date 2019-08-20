@@ -32,7 +32,8 @@ class SessionAdapter(ctx: Context): DataObserverAdapter<SessionViewHolder, Sessi
     }
 
     override fun addItem(item: Session) {
-        super.addItem(item)
+        list.add(0, item)
+        notifyItemInserted(0)
         onItemAdd?.invoke(item)
     }
 

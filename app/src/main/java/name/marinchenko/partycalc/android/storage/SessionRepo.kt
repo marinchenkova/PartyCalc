@@ -32,7 +32,6 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
         return Gson().fromJson<Session>(json, object : TypeToken<Session>(){}.type)
     }
 
-    @Synchronized
     override fun saveSession(session: Session) {
         val json = Gson().toJson(session)
         ctx.writeSession(session.id, json)
