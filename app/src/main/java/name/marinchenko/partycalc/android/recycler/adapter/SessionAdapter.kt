@@ -10,6 +10,12 @@ import org.jetbrains.anko.layoutInflater
 
 class SessionAdapter(ctx: Context): TouchAdapter<SessionViewHolder, Session>(ctx) {
 
+    override fun addItem(item: Session) {
+        list.add(0, item)
+        notifyItemInserted(0)
+        callback?.onAddItem(item, 0)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SessionViewHolder {
         val holder = SessionViewHolder(ctx, ctx.layoutInflater.inflate(
                 R.layout.session_item,
