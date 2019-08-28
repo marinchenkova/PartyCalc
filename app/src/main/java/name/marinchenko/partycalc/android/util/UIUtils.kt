@@ -16,6 +16,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
 import org.jetbrains.anko.vibrator
+import java.util.*
 
 
 const val PAYER_ITEM_MARGINS = 32
@@ -86,4 +87,13 @@ fun isSingular(num: Int) = num == 1
 
 fun getStringByNum(num: Int, singular: String, plural: String): String {
     return if (isSingular(num)) singular else plural
+}
+
+fun List<Any>.swapItems(from: Int, to: Int) {
+    if (from < to) for (i in from until to) {
+        Collections.swap(this, i, i + 1)
+    }
+    else for (i in from downTo to + 1) {
+        Collections.swap(this, i, i - 1)
+    }
 }

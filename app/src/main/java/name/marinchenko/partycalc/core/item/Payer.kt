@@ -1,5 +1,6 @@
 package name.marinchenko.partycalc.core.item
 
+import name.marinchenko.partycalc.android.util.swapItems
 import name.marinchenko.partycalc.core.formatDouble
 
 class Payer(
@@ -15,36 +16,41 @@ class Payer(
         num
 ) {
 
-    val payerChecks = mutableSetOf<PayerCheck>()
-    private var lastRemoved = mutableSetOf<PayerCheck>()
+    val payerChecks = mutableListOf<PayerCheck>()
+    private var lastRemovedCheck = false
 
+
+    fun addPayerCheck(product: Product, position: Int, isChecked: Boolean, undoRemove: Boolean) {
+        if (undoRemove) payerChecks.add(position, PayerCheck(product, lastRemovedCheck))
+        else payerChecks.add(position, PayerCheck(product, isChecked))
+    }
+
+    fun removePayerCheck(product: Product) {
+        val toRemove = payerChecks.find { product == it.product }
+        if (toRemove != null) {
+            payerChecks.remove(toRemove)
+            lastRemovedCheck = toRemove.isChecked
+        }
+    }
+
+    fun editPayerCheck(product: Product) {
+        payerChecks.find { it.product.id == product.id }?.product.apply {
+            this?.title = product.title
+            this?.sumString = product.sumString
+        }
+    }
+
+    fun newPayerChecks(new: List<Product>, isChecked: Boolean) {
+        payerChecks.clear()
+        payerChecks.addAll(new.map { PayerCheck(it, isChecked) })
+    }
+
+    fun swapPayerChecks(from: Int, to: Int) {
+        payerChecks.swapItems(from, to)
+    }
 
     override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +
             payerChecks.filter { it.isChecked }.joinToString("\n") { it.toText() }
-
-    fun updatePayerChecks(products: List<Product>, isChecked: Boolean) {
-        val newSet = products.map { prod ->
-            val forUpdate = payerChecks.find { check -> check.product.id == prod.id }
-            if (forUpdate == null) {
-                val undo = lastRemoved.find { check -> check.product.id == prod.id }
-                if (undo == null) return@map PayerCheck(prod, isChecked)
-                else return@map undo.update(prod)
-            }
-            else return@map forUpdate.update(prod)
-        }.toSet()
-
-        saveRemoved(newSet)
-
-        payerChecks.clear()
-        payerChecks.addAll(newSet)
-    }
-
-    private fun saveRemoved(newSet: Set<PayerCheck>) {
-        val oldSet = payerChecks
-        oldSet.removeAll(newSet)
-        lastRemoved.clear()
-        lastRemoved.addAll(oldSet)
-    }
 
     override fun toString() = "Payer(str=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +
             "num=$num, checks=$payerChecks)"

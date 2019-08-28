@@ -1,17 +1,18 @@
 package name.marinchenko.partycalc.android.activity
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
-import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_session.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.base.WorkActivity
-import name.marinchenko.partycalc.android.adapter.SessionAdapter
-import name.marinchenko.partycalc.android.storage.SESSION_ID
-import name.marinchenko.partycalc.android.storage.SessionRepo
-import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
+import name.marinchenko.partycalc.android.recycler.adapter.SessionAdapter
+import name.marinchenko.partycalc.android.storage.session.SESSION_ID
+import name.marinchenko.partycalc.android.storage.session.SessionRepo
+import name.marinchenko.partycalc.android.recycler.ItemTouchListener
+import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
+import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.util.setVisible
 import org.jetbrains.anko.startActivity
 
@@ -49,14 +50,26 @@ class SessionActivity : WorkActivity() {
 
     private fun initAdapters() {
         sessionAdapter = SessionAdapter(this)
-                .onItemAdd { sessionRepo.saveSession(it) }
-                .onItemEdit { sessionRepo.saveSession(it) }
-                .onItemRemove { sessionRepo.removeSession(it.id) }
-                .onListChanged { showNoSessions(it.isEmpty()) }
                 .onItemClick { item, _ ->
                     startActivity<MainActivity>(SESSION_ID to item.id)
                 }
                 as SessionAdapter
+
+        sessionAdapter.callback = object : IdItemAdapter.Callback<Session> {
+            override fun onMoveItems(from: Int, to: Int) {}
+            override fun onAddItem(item: Session, position: Int, undoRemove: Boolean) {
+                sessionRepo.saveSession(item)
+            }
+            override fun onRemoveItem(item: Session, position: Int) {
+                sessionRepo.removeSession(item.id)
+            }
+            override fun onEditItem(item: Session, position: Int) {
+                sessionRepo.saveSession(item)
+            }
+            override fun onUpdateList(new: List<Session>) {
+                showNoSessions(new.isEmpty())
+            }
+        }
 
         list_sessions.adapter = sessionAdapter
     }
@@ -78,7 +91,7 @@ class SessionActivity : WorkActivity() {
     }
 
     private fun initData() {
-        sessionAdapter.update(sessionRepo.getAllSessions())
+        sessionAdapter.load(sessionRepo.getAllSessions())
     }
 
     private fun showNoSessions(show: Boolean) {

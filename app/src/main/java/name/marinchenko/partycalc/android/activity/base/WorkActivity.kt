@@ -1,15 +1,15 @@
 package name.marinchenko.partycalc.android.activity.base
 
 import android.graphics.Rect
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.storage.SessionRepo
+import name.marinchenko.partycalc.android.storage.session.SessionRepo
 import org.jetbrains.anko.inputMethodManager
 
 abstract class WorkActivity: ToolbarActivity() {

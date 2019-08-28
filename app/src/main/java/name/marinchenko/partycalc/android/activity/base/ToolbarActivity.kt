@@ -1,8 +1,8 @@
 package name.marinchenko.partycalc.android.activity.base
 
-import android.support.annotation.IdRes
-import android.support.v4.app.NavUtils
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.IdRes
+import androidx.core.app.NavUtils
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import name.marinchenko.partycalc.R

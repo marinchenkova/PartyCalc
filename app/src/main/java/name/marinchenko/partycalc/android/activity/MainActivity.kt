@@ -3,24 +3,28 @@ package name.marinchenko.partycalc.android.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.base.WorkActivity
-import name.marinchenko.partycalc.android.adapter.PayerAdapter
-import name.marinchenko.partycalc.android.adapter.ProductAdapter
-import name.marinchenko.partycalc.android.adapter.ResultAdapter
+import name.marinchenko.partycalc.android.recycler.adapter.PayerAdapter
+import name.marinchenko.partycalc.android.recycler.adapter.ProductAdapter
+import name.marinchenko.partycalc.android.recycler.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.storage.*
-import name.marinchenko.partycalc.android.util.listener.ItemTouchListener
-import name.marinchenko.partycalc.android.viewHolder.SummaryViewHolder
+import name.marinchenko.partycalc.android.recycler.ItemTouchListener
+import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
+import name.marinchenko.partycalc.android.recycler.viewHolder.SummaryViewHolder
+import name.marinchenko.partycalc.android.storage.session.SESSION_ID
+import name.marinchenko.partycalc.android.storage.session.Session
+import name.marinchenko.partycalc.android.storage.session.SessionRepo
 import name.marinchenko.partycalc.core.PartyCalc
-import name.marinchenko.partycalc.core.item.Result
-import org.jetbrains.anko.doAsync
+import name.marinchenko.partycalc.core.item.Payer
+import name.marinchenko.partycalc.core.item.Product
 
 
 class MainActivity : WorkActivity() {
@@ -33,7 +37,7 @@ class MainActivity : WorkActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
-    private var loadCount = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +70,52 @@ class MainActivity : WorkActivity() {
     }
 
     private fun initAdapters() {
-        productAdapter = ProductAdapter(this).onListChanged { products ->
-            payerAdapter.productsWereUpdated(products)
-        } as ProductAdapter
+        productAdapter = ProductAdapter(this)
+        payerAdapter = PayerAdapter(this)
 
-        payerAdapter = PayerAdapter(this).onListChanged { payers ->
-            summaryHolder.update(payers, productAdapter.getItems())
-        } as PayerAdapter
+        productAdapter.callback = object : IdItemAdapter.Callback<Product> {
+            override fun onAddItem(item: Product, position: Int, undoRemove: Boolean) {
+                payerAdapter.productCallback.onAddItem(item, position, undoRemove)
+            }
+            override fun onRemoveItem(item: Product, position: Int) {
+                payerAdapter.productCallback.onRemoveItem(item, position)
+            }
+            override fun onMoveItems(from: Int, to: Int) {
+                payerAdapter.productCallback.onMoveItems(from, to)
+                sessionRepo.saveSession(session.also {
+                    it.products = productAdapter.getItems()
+                    it.payers = payerAdapter.getItems()
+                })
+            }
+            override fun onEditItem(item: Product, position: Int) {
+                payerAdapter.productCallback.onEditItem(item, position)
+            }
+            override fun onUpdateList(new: List<Product>) {
+                payerAdapter.productCallback.onUpdateList(new)
+            }
+        }
+
+        payerAdapter.callback = object : IdItemAdapter.Callback<Payer> {
+            override fun onAddItem(item: Payer, position: Int, undoRemove: Boolean) {
+                summaryHolder.update(payerAdapter.getItems(), productAdapter.getItems())
+            }
+            override fun onRemoveItem(item: Payer, position: Int) {
+                summaryHolder.update(payerAdapter.getItems(), productAdapter.getItems())
+            }
+            override fun onMoveItems(from: Int, to: Int) {
+                sessionRepo.saveSession(session.also {
+                    it.payers = payerAdapter.getItems()
+                })
+            }
+            override fun onEditItem(item: Payer, position: Int) {
+                summaryHolder.update(payerAdapter.getItems(), productAdapter.getItems())
+            }
+            override fun onUpdateList(new: List<Payer>) {
+                summaryHolder.update(payerAdapter.getItems(), productAdapter.getItems())
+            }
+        }
+
+        payerAdapter.onLoadProducts { productAdapter.getItems() }
 
         resultAdapter = ResultAdapter(this).onDoneAction { results ->
             sessionRepo.saveSession(session.also { it.results = results })
@@ -117,23 +160,22 @@ class MainActivity : WorkActivity() {
     }
 
     private fun initSummaryHolder() {
-        summaryHolder = SummaryViewHolder(this).onSumEqualityAction { produced ->
-            val results = if (!canSaveSession()) session.results else produced
-            resultAdapter.update(results)
+        summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
+            resultAdapter.load(results)
 
-            if (canSaveSession()) sessionRepo.saveSession(session.also {
+            sessionRepo.saveSession(session.also {
                 it.products = productAdapter.getItems()
                 it.payers = payerAdapter.getItems()
                 it.results = results
             })
-
-            loadCount++
         }
     }
 
     private fun initData() {
-        productAdapter.update(session.products)
-        payerAdapter.update(session.payers)
+        productAdapter.load(session.products)
+        payerAdapter.load(session.payers)
+        summaryHolder.load(session.payers, session.products)
+        resultAdapter.load(session.results)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -165,8 +207,5 @@ class MainActivity : WorkActivity() {
             .payers(payerAdapter.getItems(), getShareIncludePayers())
             .results(resultAdapter.getItems(), getShareIncludeResults())
             .build()
-
-    private fun canSaveSession() = loadCount >= 2
-
 
 }
