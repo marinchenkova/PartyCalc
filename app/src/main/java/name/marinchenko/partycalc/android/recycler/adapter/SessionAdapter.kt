@@ -24,7 +24,6 @@ class SessionAdapter(ctx: Context): TouchAdapter<SessionViewHolder, Session>(ctx
         ))
         return holder
                 .onClickAction { item, position -> onItemClick?.invoke(item, position) }
-                .onDragAction { onItemDrag?.invoke(it) }
                 .onEditTextAction { item, position ->
                     if (!onBind) editItem(item, position, false)
                 }

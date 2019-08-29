@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     android:id="@+id/card_view"
-    android:layout_height="58dp"
+    android:layout_height="60dp"
     android:layout_width="match_parent"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_sum"
-            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintEnd_toStartOf="@id/sum_layout"
+            app:layout_constraintHorizontal_weight="3"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="4dp"
@@ -33,38 +33,47 @@
             android:maxLines="1"
             />
 
-        <EditText
-            android:id="@+id/item_sum"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sum_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/handle"
             app:layout_constraintStart_toEndOf="@id/item_title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_weight="4"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="4dp"
-            android:inputType="phone"
-            android:textSize="18sp"
-            android:hint="@string/sum_default"
-            android:maxLines="1"
-            />
-
-        <ImageView
-            android:id="@+id/handle"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@id/item_sum"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/reorder_description"
-            android:src="@drawable/ic_reorder_gray_24dp"
-            />
+            app:layout_constraintHorizontal_weight="2"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            >
+
+            <EditText
+                android:id="@+id/item_sum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:inputType="phone"
+                android:textSize="18sp"
+                android:hint="@string/sum_default"
+                android:maxLines="1"
+                />
+
+            <TextView
+                android:id="@+id/equals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/item_sum"
+                app:layout_constraintTop_toBottomOf="@id/item_sum"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="4dp"
+                android:hint="@string/equals_default"
+                android:textSize="12sp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -22,6 +22,7 @@
             android:id="@+id/item_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            app:layout_constraintHorizontal_weight="3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/payer_right"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +40,7 @@
             android:id="@+id/payer_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@id/item_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -63,34 +65,32 @@
                 android:maxLines="1"
                 />
 
+            <TextView
+                android:id="@+id/equals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/item_sum"
+                app:layout_constraintTop_toBottomOf="@id/item_sum"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="4dp"
+                android:hint="@string/equals_default"
+                android:textSize="12sp"
+                />
+
             <ImageView
                 android:id="@+id/expander"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintStart_toEndOf="@id/item_sum"
-                app:layout_constraintEnd_toStartOf="@id/handle"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/expand_description"
-                android:src="@drawable/ic_expand_more_black_24dp"
-                />
-
-            <ImageView
-                android:id="@+id/handle"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintStart_toEndOf="@id/expander"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/reorder_description"
-                android:src="@drawable/ic_reorder_gray_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:contentDescription="@string/expand_description"
+                android:src="@drawable/ic_expand_more_black_24dp"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -101,6 +101,7 @@
             android:layout_height="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_title"

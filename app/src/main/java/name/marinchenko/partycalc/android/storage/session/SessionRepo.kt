@@ -9,6 +9,7 @@ import name.marinchenko.partycalc.android.util.formatDayMonthYear
 import name.marinchenko.partycalc.android.util.now
 import name.marinchenko.partycalc.core.randomExcept
 
+
 class SessionRepo(private val ctx: Context): ISessionRepo {
 
     private fun usedIds() = getAllSessionIds().toSet()
@@ -82,6 +83,4 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
     override fun deleteAllSessions() {
         getAllSessionIds().forEach { removeSession(it) }
     }
-
-    override fun sessionCount() = getAllSessionIds().size
 }

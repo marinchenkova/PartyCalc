@@ -1,7 +1,6 @@
 package name.marinchenko.partycalc.android.recycler.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
@@ -33,11 +32,6 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
             list.forEach { it.removePayerCheck(item) }
             notifyDataSetChanged()
             callback?.onUpdateList(list)
-        }
-
-        override fun onMoveItems(from: Int, to: Int) {
-            list.forEach { it.swapPayerChecks(from, to) }
-            notifyDataSetChanged()
         }
 
         override fun onEditItem(item: Product, position: Int) {
@@ -91,7 +85,6 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
                 .onEditTextAction { item, position ->
                     if (!onBind) editItem(item, position, false)
                 }
-                .onDragAction { onItemDrag?.invoke(it) }
                 as PayerViewHolder
     }
 

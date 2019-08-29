@@ -30,7 +30,6 @@ class ProductAdapter(ctx: Context): TouchAdapter<ProductViewHolder, Product>(ctx
         ))
         return holder
                 .onClickAction { item, position -> onItemClick?.invoke(item, position) }
-                .onDragAction { onItemDrag?.invoke(it) }
                 .onEditTextAction { item, position ->
                     if (!onBind) editItem(item, position, false)
                 }

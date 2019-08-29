@@ -29,6 +29,9 @@ fun Context.setIgnoreCentsTo(value: Double) = prefs().edit().putFloat(Path.PREFS
 fun Context.getShowTitleHints() = prefs().getBoolean(Path.PREFS_SHOW_TITLE_HINTS, true)
 fun Context.setShowTitleHints(value: Boolean) = prefs().edit().putBoolean(Path.PREFS_SHOW_TITLE_HINTS, value)
 
+fun Context.getShowSumHints() = prefs().getBoolean(Path.PREFS_SHOW_SUM_HINTS, true)
+fun Context.setShowSumHints(value: Boolean) = prefs().edit().putBoolean(Path.PREFS_SHOW_SUM_HINTS, value)
+
 
 object Path {
     const val PREFS_FILENAME = "name.marinchenko.partycalc.prefs"

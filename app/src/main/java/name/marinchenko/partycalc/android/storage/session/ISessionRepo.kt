@@ -17,5 +17,4 @@ interface ISessionRepo {
 
     fun deleteAllSessions()
 
-    fun sessionCount(): Int
 }

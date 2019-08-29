@@ -105,6 +105,7 @@
 
     <!-- Misc -->
     <string name="sum_default">100+200</string>
+    <string name="equals_default">= 0</string>
     <string name="undo">Undo</string>
     <string name="arrow_description">to</string>
     <string name="reorder_description">reorder</string>

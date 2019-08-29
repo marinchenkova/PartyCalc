@@ -15,13 +15,7 @@ abstract class Item(
 
     fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
 
-    fun sum(): Double {
-        return try {
-            PartyCalc.parseSumString(sumString)
-        } catch (e: Exception) {
-            0.toDouble()
-        }
-    }
+    fun sum() = PartyCalc.parseSumString(sumString)
 
     override fun toString() = "${javaClass.simpleName}(str=$id, title=$title, sum=${sum()}, hintTitle=$hintTitle)"
 

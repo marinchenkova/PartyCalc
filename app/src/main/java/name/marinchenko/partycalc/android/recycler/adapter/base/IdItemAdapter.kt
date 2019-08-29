@@ -8,8 +8,6 @@ interface IdItemAdapter<I: IdItem> {
 
     fun removeItem(position: Int?)
 
-    fun moveItem(from: Int?, to: Int?): Boolean
-
     fun editItem(item: I, position: Int, notify: Boolean = true)
 
     fun load(new: List<I>)
@@ -20,8 +18,6 @@ interface IdItemAdapter<I: IdItem> {
         fun onAddItem(item: I, position: Int, undoRemove: Boolean = false)
 
         fun onRemoveItem(item: I, position: Int)
-
-        fun onMoveItems(from: Int, to: Int)
 
         fun onEditItem(item: I, position: Int)
 

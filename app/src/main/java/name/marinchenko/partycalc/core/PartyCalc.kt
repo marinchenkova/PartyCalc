@@ -3,6 +3,7 @@ package name.marinchenko.partycalc.core
 import com.fathzer.soft.javaluator.DoubleEvaluator
 import name.marinchenko.partycalc.core.item.*
 import org.w3c.dom.Text
+import java.lang.Exception
 import kotlin.random.Random
 
 class PartyCalc(
@@ -112,20 +113,20 @@ class PartyCalc(
 
         fun products(products: List<Product>, include: Boolean = true): TextBuilder {
             val text = "${products.size} categories for " +
-                        PartyCalc.itemListSumString(products) + ":\n" +
-                        PartyCalc.itemsText(products) + "\n"
+                        itemListSumString(products) + ":\n" +
+                        itemsText(products) + "\n"
             return appendText(text, include)
         }
 
         fun payers(payers: List<Payer>, include: Boolean = true): TextBuilder {
             val text = "${payers.size} payers for " +
-                    PartyCalc.itemListSumString(payers) + ":\n" +
-                    PartyCalc.itemsText(payers) + "\n"
+                    itemListSumString(payers) + ":\n" +
+                    itemsText(payers) + "\n"
             return appendText(text, include)
         }
 
         fun results(results: List<Result>, include: Boolean = true): TextBuilder {
-            val text = "Results:\n" + PartyCalc.itemsText(results) + "\n"
+            val text = "Results:\n" + itemsText(results) + "\n"
             return appendText(text, include)
         }
 
@@ -154,7 +155,11 @@ class PartyCalc(
 
         @JvmStatic
         fun parseSumString(sumString: String): Double {
-            return DoubleEvaluator().evaluate(sumString)
+            return try {
+                DoubleEvaluator().evaluate(sumString)
+            } catch (e: Exception) {
+                0.0
+            }
         }
 
         @JvmStatic

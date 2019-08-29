@@ -5,6 +5,7 @@ import name.marinchenko.partycalc.android.storage.getShowTitleHints
 import name.marinchenko.partycalc.android.util.RANDOM_PRODUCTS_NUM
 import name.marinchenko.partycalc.android.util.getRandomColorResId
 import name.marinchenko.partycalc.android.util.getRandomProductTitle
+import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.randomExcept
 
@@ -16,7 +17,7 @@ class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
         return Product(
                 nextId(usedIds),
                 if (ctx.getShowTitleHints()) ctx.getRandomProductTitle(num) else "",
-                "0",
+                PartyCalc.getRandomHintSum(),
                 ctx.getRandomColorResId(num),
                 num
         ).also { it.sumString = sum }

@@ -34,19 +34,12 @@ class Payer(
     }
 
     fun editPayerCheck(product: Product) {
-        payerChecks.find { it.product.id == product.id }?.product.apply {
-            this?.title = product.title
-            this?.sumString = product.sumString
-        }
+        payerChecks.find { it.product.id == product.id }?.update(product)
     }
 
     fun newPayerChecks(new: List<Product>, isChecked: Boolean) {
         payerChecks.clear()
         payerChecks.addAll(new.map { PayerCheck(it, isChecked) })
-    }
-
-    fun swapPayerChecks(from: Int, to: Int) {
-        payerChecks.swapItems(from, to)
     }
 
     override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +

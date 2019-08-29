@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import name.marinchenko.partycalc.android.recycler.BindListener
 import name.marinchenko.partycalc.android.util.swapItems
 import name.marinchenko.partycalc.core.item.IdItem
+import org.jetbrains.anko.doAsync
 import java.util.*
 
 abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protected val ctx: Context):
@@ -37,14 +38,6 @@ abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protect
             if (notify) notifyItemChanged(position)
             callback?.onEditItem(item, position)
         }
-    }
-
-    override fun moveItem(from: Int?, to: Int?): Boolean {
-        if (from == null || to == null) return false
-        list.swapItems(from, to)
-        notifyItemMoved(from, to)
-        callback?.onMoveItems(from, to)
-        return true
     }
 
     override fun removeItem(position: Int?) {

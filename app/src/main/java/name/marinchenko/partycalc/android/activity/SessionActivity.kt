@@ -14,7 +14,9 @@ import name.marinchenko.partycalc.android.recycler.ItemTouchListener
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
 import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.util.setVisible
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.uiThread
 
 class SessionActivity : WorkActivity() {
 
@@ -58,13 +60,13 @@ class SessionActivity : WorkActivity() {
         sessionAdapter.callback = object : IdItemAdapter.Callback<Session> {
             override fun onMoveItems(from: Int, to: Int) {}
             override fun onAddItem(item: Session, position: Int, undoRemove: Boolean) {
-                sessionRepo.saveSession(item)
+                doAsync { sessionRepo.saveSession(item) }
             }
             override fun onRemoveItem(item: Session, position: Int) {
-                sessionRepo.removeSession(item.id)
+                doAsync { sessionRepo.removeSession(item.id) }
             }
             override fun onEditItem(item: Session, position: Int) {
-                sessionRepo.saveSession(item)
+                doAsync { sessionRepo.saveSession(item) }
             }
             override fun onUpdateList(new: List<Session>) {
                 showNoSessions(new.isEmpty())
@@ -91,7 +93,12 @@ class SessionActivity : WorkActivity() {
     }
 
     private fun initData() {
-        sessionAdapter.load(sessionRepo.getAllSessions())
+        doAsync {
+            val sessions = sessionRepo.getAllSessions()
+            uiThread {
+                sessionAdapter.load(sessions)
+            }
+        }
     }
 
     private fun showNoSessions(show: Boolean) {
