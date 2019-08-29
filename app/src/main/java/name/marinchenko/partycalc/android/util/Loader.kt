@@ -6,7 +6,7 @@ class Loader(private val until: Int, private val onLoaded: () -> Unit) {
 
     fun loaded() {
         count++
-        if (count >= until) onLoaded()
+        if (count == until) onLoaded()
     }
 
 }

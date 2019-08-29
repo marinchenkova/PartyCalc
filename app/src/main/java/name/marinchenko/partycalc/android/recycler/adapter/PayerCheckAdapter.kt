@@ -4,11 +4,8 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
 import name.marinchenko.partycalc.android.recycler.viewHolder.PayerCheckViewHolder
-import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
 import name.marinchenko.partycalc.core.item.PayerCheck
-import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.layoutInflater
 
 class PayerCheckAdapter(private val ctx: Context, var parentPosition: Int = 0):

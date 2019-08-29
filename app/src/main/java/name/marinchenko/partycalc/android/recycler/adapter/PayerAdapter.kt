@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
-import name.marinchenko.partycalc.android.recycler.adapter.base.TouchAdapter
+import name.marinchenko.partycalc.android.recycler.adapter.base.ItemAdapter
 import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
 import name.marinchenko.partycalc.android.recycler.factory.PayerFactory
 import name.marinchenko.partycalc.android.recycler.viewHolder.PayerViewHolder
@@ -16,7 +16,7 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.uiThread
 
 
-class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
+class PayerAdapter(ctx: Context): ItemAdapter<PayerViewHolder, Payer>(ctx) {
 
     private val factory = PayerFactory(ctx)
     private var loadProducts: (() -> List<Product>)? = null
@@ -72,10 +72,7 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
 
     fun newItem() {
         ctx.doAsync {
-            val item = factory.nextItem(
-                    list.map { it.num }.toHashSet(),
-                    list.map { it.id }.toHashSet()
-            )
+            val item = factory.nextItem(list)
             uiThread {
                 val products = loadProducts?.invoke()
                 doAsync {

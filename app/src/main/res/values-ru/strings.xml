@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">PartyCalc</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_popup">Меню</string>
+    <string name="toolbar_popup_settings">Настройки</string>
+    <string name="toolbar_share">Поделиться вечеринкой</string>
+    <string name="toolbar_copy_to_clipboard">Скопировать в буфер обмена</string>
+    <string name="toolbar_copied">Вечеринка скопирована в буфер обмена</string>
+
+    <!-- Session -->
+    <string name="session_title">Вечеринки</string>
+    <string name="session_default_name">Вечеринка</string>
+    <string name="add_session">Добавить вечеринку</string>
+    <string name="no_sessions">(нет вечеринок)</string>
+    <string name="session_removed">Вечеринка удалена</string>
+    <string name="all_sessions_removed">Вечеринки удалены</string>
+    <string name="added_on">Добавлена</string>
+    <string name="summary_sum">Сумма</string>
+    <string name="summary_done">Готово</string>
+
+
+    <!-- Products -->
+    <string name="products_title">Категории</string>
+    <string name="product_default">Что-то</string>
+    <string name="add_product">Добавить категорию</string>
+    <string name="product_removed">Категория удалена</string>
+    <!-- Random titles -->
+    <string name="product_random_0">Acid Apple</string>
+    <string name="product_random_1">Big Banana</string>
+    <string name="product_random_2">Candy Carrot</string>
+    <string name="product_random_3">Double Donut</string>
+    <string name="product_random_4">Egypt Eggplant</string>
+    <string name="product_random_5">Foggy Fish</string>
+    <string name="product_random_6">Graceful Grape</string>
+    <string name="product_random_7">Holy Hamburger</string>
+    <string name="product_random_8">Icy Ice</string>
+    <string name="product_random_9">Jelly Juice</string>
+    <string name="product_random_10">Kind Kiwi</string>
+    <string name="product_random_11">Loyal Lemon</string>
+    <string name="product_random_12">Mighty Mushroom</string>
+    <string name="product_random_13">Nervous Nectarine</string>
+    <string name="product_random_14">Optimistic Onion</string>
+    <string name="product_random_15">Pompous Pumpkin</string>
+    <string name="product_random_16">Quick Quin</string>
+    <string name="product_random_17">Rusty Radish</string>
+    <string name="product_random_18">Smart Strawberry</string>
+    <string name="product_random_19">Tactical Tomato</string>
+    <string name="product_random_20">Unsure Ugli</string>
+    <string name="product_random_21">Vulgar Vanilla</string>
+    <string name="product_random_22">Wily Watermelon</string>
+    <string name="product_random_23">X-treme Ximenia</string>
+    <string name="product_random_24">Young Yam</string>
+    <string name="product_random_25">Zero Zephyr</string>
+    <string name="product_random_26">Somebody</string>
+    <string name="product_random_27">Somebody</string>
+    <string name="product_random_28">Somebody</string>
+    <string name="product_random_29">Somebody</string>
+    <string name="product_random_30">Somebody</string>
+    <string name="product_random_31">Somebody</string>
+    <string name="product_random_32">Somebody</string>
+
+
+    <!-- Payers -->
+    <string name="payers_title">Плательщики</string>
+    <string name="payer_default">Кто-то</string>
+    <string name="add_payer">Добавить плательщика</string>
+    <string name="payer_removed">Плательщик удален</string>
+    <string name="check_stub">Категория</string>
+    <!-- Random names -->
+    <string name="payer_random_0">Adria Arjona</string>
+    <string name="payer_random_1">Benny Benassi</string>
+    <string name="payer_random_2">Carmen Consoli</string>
+    <string name="payer_random_3">Dean DeBlois</string>
+    <string name="payer_random_4">Earl Emerson</string>
+    <string name="payer_random_5">Freddy Freeman</string>
+    <string name="payer_random_6">Gillian Gilbert</string>
+    <string name="payer_random_7">Heidi Happy</string>
+    <string name="payer_random_8">Ivan Illich</string>
+    <string name="payer_random_9">Johnny Jewel</string>
+    <string name="payer_random_10">Kate Kane</string>
+    <string name="payer_random_11">Louise Lombard</string>
+    <string name="payer_random_12">Michael Myers</string>
+    <string name="payer_random_13">Nicholas Nickleby</string>
+    <string name="payer_random_14">Otto Octavius</string>
+    <string name="payer_random_15">Peter Pan</string>
+    <string name="payer_random_16">Quentin Quire</string>
+    <string name="payer_random_17">Ryan Reynolds</string>
+    <string name="payer_random_18">Samuel Sterns</string>
+    <string name="payer_random_19">Tina Turner</string>
+    <string name="payer_random_20">Utane Uta</string>
+    <string name="payer_random_21">Vincent Vega</string>
+    <string name="payer_random_22">Walter White</string>
+    <string name="payer_random_23">The xXx</string>
+    <string name="payer_random_24">Yuri Yasuda</string>
+    <string name="payer_random_25">Zohan</string>
+    <string name="payer_random_26">Somebody</string>
+    <string name="payer_random_27">Somebody</string>
+    <string name="payer_random_28">Somebody</string>
+    <string name="payer_random_29">Somebody</string>
+    <string name="payer_random_30">Somebody</string>
+    <string name="payer_random_31">Somebody</string>
+    <string name="payer_random_32">Somebody</string>
+
+
+    <!-- Results -->
+    <string name="results_title">Результаты</string>
+    <string name="no_results">Нет результатов</string>
+    <string name="nothing_to_calculate">Нечего считать</string>
+    <string name="no_debts">Долгов нет</string>
+    <string name="results_payers_alert">Суммы должны сходиться</string>
+
+    <string name="result_products">категорий на</string>
+    <string name="result_1_product">категория на</string>
+    <string name="result_2_3_4_products">категории на</string>
+
+    <string name="result_payers">плательщиков на</string>
+    <string name="result_1_payer">плательщик на</string>
+    <string name="result_2_3_4_payers">плательщика на</string>
+
+
+    <!-- Misc -->
+    <string name="sum_default">100+200</string>
+    <string name="equals_default">= 0</string>
+    <string name="undo">Отмена</string>
+    <string name="arrow_description">к</string>
+    <string name="reorder_description">переместить</string>
+    <string name="expand_description">открыть</string>
+
+</resources>

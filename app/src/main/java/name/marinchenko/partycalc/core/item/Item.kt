@@ -5,8 +5,8 @@ import name.marinchenko.partycalc.core.formatDouble
 
 abstract class Item(
         override val id: Long,
-        val hintTitle: String,
-        val hintSum: String,
+        var hintTitle: String,
+        var hintSum: String,
         override val num: Int
 ): NumItem, Textable {
 

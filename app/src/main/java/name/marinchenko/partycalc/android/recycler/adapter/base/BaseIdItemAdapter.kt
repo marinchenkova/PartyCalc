@@ -1,14 +1,11 @@
 package name.marinchenko.partycalc.android.recycler.adapter.base
 
 import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import name.marinchenko.partycalc.android.recycler.BindListener
-import name.marinchenko.partycalc.android.util.swapItems
+import name.marinchenko.partycalc.android.recycler.listener.BindListener
 import name.marinchenko.partycalc.core.item.IdItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
 
 abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protected val ctx: Context):
         RecyclerView.Adapter<VH>(), IdItemAdapter<I>, BindListener {

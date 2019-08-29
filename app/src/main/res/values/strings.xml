@@ -8,6 +8,7 @@
     <string name="toolbar_copy_to_clipboard">Copy to clipboard</string>
     <string name="toolbar_copied">Party copied to clipboard</string>
 
+
     <!-- Session -->
     <string name="session_title">Parties</string>
     <string name="session_default_name">Party</string>
@@ -52,6 +53,13 @@
     <string name="product_random_23">X-treme Ximenia</string>
     <string name="product_random_24">Young Yam</string>
     <string name="product_random_25">Zero Zephyr</string>
+    <string name="product_random_26">Unknown substance</string>
+    <string name="product_random_27">Everything</string>
+    <string name="product_random_28">Kryptonite</string>
+    <string name="product_random_29">Potato Free</string>
+    <string name="product_random_30">Can\'t remember</string>
+    <string name="product_random_31">Nothing</string>
+    <string name="product_random_32">\?\?\?</string>
 
 
     <!-- Payers -->
@@ -79,7 +87,7 @@
     <string name="payer_random_15">Peter Pan</string>
     <string name="payer_random_16">Quentin Quire</string>
     <string name="payer_random_17">Ryan Reynolds</string>
-    <string name="payer_random_18">Samuel Sterns</string>
+    <string name="payer_random_18">Turanga Leela</string>
     <string name="payer_random_19">Tina Turner</string>
     <string name="payer_random_20">Utane Uta</string>
     <string name="payer_random_21">Vincent Vega</string>
@@ -87,6 +95,13 @@
     <string name="payer_random_23">The xXx</string>
     <string name="payer_random_24">Yuri Yasuda</string>
     <string name="payer_random_25">Zohan</string>
+    <string name="payer_random_26">R2D2</string>
+    <string name="payer_random_27">The God Himself</string>
+    <string name="payer_random_28">Samuel Sterns</string>
+    <string name="payer_random_29">You!</string>
+    <string name="payer_random_30">Pikachu</string>
+    <string name="payer_random_31">Philip J. Fry</string>
+    <string name="payer_random_32">Stranger</string>
 
 
     <!-- Results -->
@@ -94,13 +109,15 @@
     <string name="no_results">No results</string>
     <string name="nothing_to_calculate">Nothing to calculate</string>
     <string name="no_debts">No debts</string>
-    <string name="results_payers_alert">Payers sum must match categories sum</string>
+    <string name="results_payers_alert">Sums must match</string>
 
-    <string name="result_products">categories for</string>
     <string name="result_1_product">category for</string>
+    <string name="result_2_3_4_products">categories for</string>
+    <string name="result_products">categories for</string>
 
-    <string name="result_payers">payers for</string>
     <string name="result_1_payer">payer for</string>
+    <string name="result_2_3_4_payers">payers for</string>
+    <string name="result_payers">payers for</string>
 
 
     <!-- Misc -->
@@ -110,5 +127,27 @@
     <string name="arrow_description">to</string>
     <string name="reorder_description">reorder</string>
     <string name="expand_description">expand</string>
+
+
+
+    <!-- Prefs -->
+    <string name="title_activity_settings">Settings</string>
+    <!-- Share -->
+    <string name="share_header">Share</string>
+    <string name="attach_products">Include products</string>
+    <string name="attach_products_summary">Include categories section when sharing</string>
+    <string name="attach_payers">Include payers</string>
+    <string name="attach_payers_summary">Include payers section when sharing</string>
+    <!-- Calculate -->
+    <string name="calc_header">Adding items</string>
+    <string name="check_default">Include new categories for payers</string>
+    <string name="check_default_summary">Set categories checked when added</string>
+
+    <!-- Display -->
+    <string name="display_header">Display</string>
+    <string name="show_title_hints">Show title hints</string>
+    <string name="show_title_hints_summary">Show title hints for categories and payers</string>
+    <string name="show_sum_hints">Show sum hints</string>
+    <string name="show_sum_hints_summary">Show expressions as sum hints</string>
 
 </resources>

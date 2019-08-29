@@ -37,4 +37,12 @@
     <color name="mat200_8">#80CBC4</color>
     <color name="mat200_9">#A5D6A7</color>
     <color name="mat200_10">#C5E1A5</color>
+    <color name="mat200_11">#E6EE9C</color>
+    <color name="mat200_12">#FFF59D</color>
+    <color name="mat200_13">#FFE082</color>
+    <color name="mat200_14">#FFCC80</color>
+    <color name="mat200_15">#FFAB91</color>
+
+    <color name="mat300_0">#E57373</color>
+    <color name="mat300_1">#F06292</color>
 </resources>

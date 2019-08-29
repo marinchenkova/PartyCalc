@@ -16,7 +16,10 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.TranslateAnimation
 import android.widget.EditText
+import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.core.formatDouble
 import org.jetbrains.anko.vibrator
+import java.lang.Exception
 import java.util.*
 
 
@@ -84,17 +87,26 @@ fun SpannableStringBuilder.span(what: Any): SpannableStringBuilder {
     return this
 }
 
-fun isSingular(num: Int) = num == 1
+fun Context.getProductCaseByNum(num: Int) = getCaseByNum(
+        num,
+        getString(R.string.result_1_product),
+        getString(R.string.result_2_3_4_products),
+        getString(R.string.result_products)
+)
 
-fun getStringByNum(num: Int, singular: String, plural: String): String {
-    return if (isSingular(num)) singular else plural
-}
+fun Context.getPayerCaseByNum(num: Int) = getCaseByNum(
+        num,
+        getString(R.string.result_1_payer),
+        getString(R.string.result_2_3_4_payers),
+        getString(R.string.result_payers)
+)
 
-fun List<Any>.swapItems(from: Int, to: Int) {
-    if (from < to) for (i in from until to) {
-        Collections.swap(this, i, i + 1)
-    }
-    else for (i in from downTo to + 1) {
-        Collections.swap(this, i, i - 1)
+fun getCaseByNum(num: Int, case1: String, case234: String, caseElse: String): String {
+    return when (num % 100) {
+        1, 21, 31, 41, 51, 61, 71, 81, 91 -> case1
+        2, 3, 4, 22, 23, 24, 32, 33, 34,
+        42, 43, 44, 52, 53, 54, 62, 63, 64,
+        72, 73, 74, 82, 83, 84, 92, 93, 94 -> case234
+        else -> caseElse
     }
 }

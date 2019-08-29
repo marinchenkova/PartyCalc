@@ -1,6 +1,5 @@
 package name.marinchenko.partycalc.core.item
 
-import name.marinchenko.partycalc.android.util.swapItems
 import name.marinchenko.partycalc.core.formatDouble
 
 class Payer(

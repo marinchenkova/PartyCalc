@@ -3,8 +3,7 @@ package name.marinchenko.partycalc.android.recycler.viewHolder.base
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import kotlinx.android.synthetic.main.payer_item.view.*
-import name.marinchenko.partycalc.android.recycler.SelectListener
+import name.marinchenko.partycalc.android.recycler.listener.SelectListener
 import name.marinchenko.partycalc.android.util.highlight
 import name.marinchenko.partycalc.core.item.IdItem
 

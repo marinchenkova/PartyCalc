@@ -7,28 +7,24 @@ import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.base.WorkActivity
-import name.marinchenko.partycalc.android.recycler.ItemTouchListener
-import name.marinchenko.partycalc.android.util.Loader
 import name.marinchenko.partycalc.android.recycler.adapter.PayerAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.ProductAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
+import name.marinchenko.partycalc.android.recycler.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.recycler.viewHolder.SummaryViewHolder
-import name.marinchenko.partycalc.android.storage.getAnimateSessionLoading
-import name.marinchenko.partycalc.android.storage.getShareIncludePayers
-import name.marinchenko.partycalc.android.storage.getShareIncludeProducts
-import name.marinchenko.partycalc.android.storage.getShareIncludeResults
 import name.marinchenko.partycalc.android.storage.session.SESSION_ID
 import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.storage.session.SessionRepo
-import name.marinchenko.partycalc.android.util.setVisible
+import name.marinchenko.partycalc.android.util.Loader
+import name.marinchenko.partycalc.android.storage.getShareIncludePayers
+import name.marinchenko.partycalc.android.storage.getShareIncludeProducts
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
@@ -58,6 +54,11 @@ class MainActivity : WorkActivity() {
         initSummaryHolder()
 
         initData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkHints()
     }
 
     private fun loadSession() {
@@ -179,7 +180,24 @@ class MainActivity : WorkActivity() {
 
     private fun initData() {
         progressbar.visibility = View.VISIBLE
-        val loader = Loader(4) { progressbar.visibility = View.INVISIBLE }
+        val loader = Loader(4) {
+            progressbar.visibility = View.INVISIBLE
+            checkHints()
+        }
+
+        productAdapter.onLoad {
+            list_products.scheduleLayoutAnimation()
+            loader.loaded()
+        }
+        payerAdapter.onLoad {
+            list_payers.scheduleLayoutAnimation()
+            loader.loaded()
+        }
+        resultAdapter.onLoad {
+            list_results.scheduleLayoutAnimation()
+            loader.loaded()
+        }
+        summaryHolder.onLoad { loader.loaded() }
 
         Handler().postDelayed({
             productAdapter.load(session.products)
@@ -187,20 +205,25 @@ class MainActivity : WorkActivity() {
             resultAdapter.load(session.results)
             summaryHolder.load(session.payers, session.products)
         }, 0)
+    }
 
-        productAdapter.onLoad {
-            if (getAnimateSessionLoading()) list_products.scheduleLayoutAnimation()
+    private fun checkHints() {
+        val loader = Loader(2) { doAsync { sessionRepo.saveSession(session.also {
+            it.products = productAdapter.getItems()
+            it.payers = payerAdapter.getItems()
+        })}}
+
+        productAdapter.onChecked {
             loader.loaded()
+            list_products.scheduleLayoutAnimation()
         }
-        payerAdapter.onLoad {
-            if (getAnimateSessionLoading()) list_payers.scheduleLayoutAnimation()
+        payerAdapter.onChecked {
             loader.loaded()
+            list_payers.scheduleLayoutAnimation()
         }
-        resultAdapter.onLoad {
-            if (getAnimateSessionLoading()) list_results.scheduleLayoutAnimation()
-            loader.loaded()
-        }
-        summaryHolder.onLoad { loader.loaded() }
+
+        productAdapter.checkShowHints()
+        payerAdapter.checkShowHints()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -230,7 +253,7 @@ class MainActivity : WorkActivity() {
             .title(session.title)
             .products(productAdapter.getItems(), getShareIncludeProducts())
             .payers(payerAdapter.getItems(), getShareIncludePayers())
-            .results(resultAdapter.getItems(), getShareIncludeResults())
+            .results(resultAdapter.getItems())
             .build()
 
 }

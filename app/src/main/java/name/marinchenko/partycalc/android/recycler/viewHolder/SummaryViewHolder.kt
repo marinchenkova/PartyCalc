@@ -4,22 +4,16 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
-import name.marinchenko.partycalc.android.recycler.adapter.ResultAdapter
-import name.marinchenko.partycalc.android.storage.getIgnoreCentsTo
-import name.marinchenko.partycalc.android.util.getStringByNum
+import name.marinchenko.partycalc.android.util.*
 import name.marinchenko.partycalc.android.util.summary.Summary
 import name.marinchenko.partycalc.android.util.summary.SummaryState
-import name.marinchenko.partycalc.android.util.setVisible
-import name.marinchenko.partycalc.android.util.spanDiff
-import name.marinchenko.partycalc.android.util.spanSummary
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.formatDouble
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.toast
 import kotlin.math.abs
 
 class SummaryViewHolder(private val activity: MainActivity) {
@@ -75,19 +69,19 @@ class SummaryViewHolder(private val activity: MainActivity) {
     }
 
     private fun bindProductSummary(summary: Summary) {
-        activity.result_products?.text = initSummary(
-                summary,
-                activity.getString(R.string.result_1_product),
-                activity.getString(R.string.result_products),
+        activity.result_products?.text = spanSummary(
+                summary.size.toString(),
+                activity.getProductCaseByNum(summary.size),
+                formatDouble(summary.sum),
                 activity.getColor(R.color.colorPrimary)
         )
     }
 
     private fun bindPayerSummary(summary: Summary) {
-        activity.result_payers?.text = initSummary(
-                summary,
-                activity.getString(R.string.result_1_payer),
-                activity.getString(R.string.result_payers),
+        activity.result_payers?.text = spanSummary(
+                summary.size.toString(),
+                activity.getPayerCaseByNum(summary.size),
+                formatDouble(summary.sum),
                 activity.getColor(R.color.colorPrimary)
         )
     }
@@ -105,7 +99,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
     private fun loadSummary(): List<Result> {
         val state = SummaryState(
                 payers.isEmpty() || products.isEmpty(),
-                abs(productSum - payerSum) <= activity.getIgnoreCentsTo()
+                abs(productSum - payerSum) <= 0
         ).state
 
         val results = when (state) {
@@ -121,22 +115,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
 
     private fun calculate(products: List<Product>, payers: List<Payer>): List<Result>
             = PartyCalc.calculateParty(products, payers)
-            .filter { it.sum > activity.getIgnoreCentsTo() }
-
-    private fun initSummary(
-            summary: Summary,
-            singular: String,
-            plural: String,
-            color: Int) = spanSummary(
-            summary.size.toString(),
-            getStringByNum(
-                    summary.size,
-                    singular,
-                    plural
-            ),
-            formatDouble(summary.sum),
-            color
-    )
+            .filter { it.sum > 0 }
 
     private fun initNoResults(state: SummaryState.State, resultsAreEmpty: Boolean) {
         when (state) {

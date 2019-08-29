@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator
 import name.marinchenko.partycalc.core.item.*
 import org.w3c.dom.Text
 import java.lang.Exception
+import java.util.*
 import kotlin.random.Random
 
 class PartyCalc(
@@ -214,4 +215,4 @@ fun randomExcept(from: Int, to: Int, used: Set<Int>): Int {
     return if (list.isEmpty()) -1 else list[randomInt(0, list.size - 1)]
 }
 
-fun formatDouble(num: Double) = String.format("%.2f", num)
+fun formatDouble(num: Double) = String.format(Locale.ROOT, "%.2f", num)
