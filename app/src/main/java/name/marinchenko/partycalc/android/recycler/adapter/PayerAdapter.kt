@@ -11,7 +11,9 @@ import name.marinchenko.partycalc.android.recycler.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
 import name.marinchenko.partycalc.core.item.Product
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.uiThread
 
 
 class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
@@ -28,23 +30,35 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
 
     val productCallback = object : IdItemAdapter.Callback<Product> {
         override fun onAddItem(item: Product, position: Int, undoRemove: Boolean) {
-            list.forEach {
-                it.addPayerCheck(item, position, ctx.getPayerCheckDefaultState(), undoRemove)
+            ctx.doAsync {
+                list.forEach {
+                    it.addPayerCheck(item, position, ctx.getPayerCheckDefaultState(), undoRemove)
+                }
+                uiThread {
+                    notifyDataSetChanged()
+                    callback?.onUpdateList(list)
+                }
             }
-            notifyDataSetChanged()
-            callback?.onUpdateList(list)
         }
 
         override fun onRemoveItem(item: Product, position: Int) {
-            list.forEach { it.removePayerCheck(item) }
-            notifyDataSetChanged()
-            callback?.onUpdateList(list)
+            ctx.doAsync {
+                list.forEach { it.removePayerCheck(item) }
+                uiThread {
+                    notifyDataSetChanged()
+                    callback?.onUpdateList(list)
+                }
+            }
         }
 
         override fun onEditItem(item: Product, position: Int) {
-            list.forEach { it.editPayerCheck(item) }
-            notifyDataSetChanged()
-            callback?.onUpdateList(list)
+            ctx.doAsync {
+                list.forEach { it.editPayerCheck(item) }
+                uiThread {
+                    notifyDataSetChanged()
+                    callback?.onUpdateList(list)
+                }
+            }
         }
 
         override fun onUpdateList(new: List<Product>) {}
@@ -57,13 +71,19 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
     }
 
     fun newItem() {
-        val item = factory.nextItem(
-                list.map { it.num }.toHashSet(),
-                list.map { it.id }.toHashSet()
-        )
-        val products = loadProducts?.invoke()
-        if (products != null) item.newPayerChecks(products, ctx.getPayerCheckDefaultState())
-        addItem(item)
+        ctx.doAsync {
+            val item = factory.nextItem(
+                    list.map { it.num }.toHashSet(),
+                    list.map { it.id }.toHashSet()
+            )
+            uiThread {
+                val products = loadProducts?.invoke()
+                doAsync {
+                    if (products != null) item.newPayerChecks(products, ctx.getPayerCheckDefaultState())
+                    uiThread { addItem(item) }
+                }
+            }
+        }
     }
 
     private fun setExpanded(expanded: Boolean, position: Int) {

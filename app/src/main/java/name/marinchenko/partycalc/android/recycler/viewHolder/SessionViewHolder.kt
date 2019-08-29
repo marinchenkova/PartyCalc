@@ -2,12 +2,14 @@ package name.marinchenko.partycalc.android.recycler.viewHolder
 
 import android.content.Context
 import android.view.View
+import kotlinx.android.synthetic.main.session_item.*
 import kotlinx.android.synthetic.main.session_item.view.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.util.afterInput
 import name.marinchenko.partycalc.android.util.spanDiff
 import name.marinchenko.partycalc.android.recycler.viewHolder.base.AbstractItemViewHolder
+import name.marinchenko.partycalc.android.util.setVisible
 import name.marinchenko.partycalc.core.PartyCalc
 
 class SessionViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Session>(ctx, view) {

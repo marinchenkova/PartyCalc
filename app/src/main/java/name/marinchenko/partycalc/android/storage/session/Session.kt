@@ -20,7 +20,7 @@ data class Session(
         var payers: List<Payer>,
         var results: List<Result>
 ) : IdItem {
-
+    
     fun getDateString() = date.formatFull()
 
     fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title

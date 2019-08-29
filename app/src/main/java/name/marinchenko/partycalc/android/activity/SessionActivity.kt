@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_session.*
+import kotlinx.android.synthetic.main.session_item.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.base.WorkActivity
 import name.marinchenko.partycalc.android.recycler.adapter.SessionAdapter
@@ -27,6 +28,7 @@ class SessionActivity : WorkActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session)
 
@@ -103,4 +105,5 @@ class SessionActivity : WorkActivity() {
     private fun showNoSessions(show: Boolean) {
         no_sessions?.setVisible(show)
     }
+
 }

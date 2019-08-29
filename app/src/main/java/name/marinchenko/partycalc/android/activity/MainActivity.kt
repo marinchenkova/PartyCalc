@@ -52,7 +52,8 @@ class MainActivity : WorkActivity() {
         initToolbar(session.getAvailableTitle())
         initRecyclerViews()
         initSummaryHolder()
-        initData()
+
+        doAsync { initData() }
     }
 
     private fun loadSession() {
@@ -89,10 +90,12 @@ class MainActivity : WorkActivity() {
             }
             override fun onUpdateList(new: List<Product>) {
                 payerAdapter.productCallback.onUpdateList(new)
-                sessionRepo.saveSession(session.also {
-                    it.products = productAdapter.getItems()
-                    it.payers = payerAdapter.getItems()
-                })
+                doAsync {
+                    sessionRepo.saveSession(session.also {
+                        it.products = productAdapter.getItems()
+                        it.payers = payerAdapter.getItems()
+                    })
+                }
             }
         }
 
@@ -114,13 +117,17 @@ class MainActivity : WorkActivity() {
         payerAdapter
                 .onLoadProducts { productAdapter.getItems() }
                 .onExpandAction { _, _ ->
-                    sessionRepo.saveSession(session.also {
-                        it.payers = payerAdapter.getItems()
-                    })
+                    doAsync {
+                        sessionRepo.saveSession(session.also {
+                            it.payers = payerAdapter.getItems()
+                        })
+                    }
                 }
 
         resultAdapter = ResultAdapter(this).onDoneAction { results ->
-            sessionRepo.saveSession(session.also { it.results = results })
+            doAsync {
+                sessionRepo.saveSession(session.also { it.results = results })
+            }
         }
 
         list_products.adapter = productAdapter
@@ -156,21 +163,21 @@ class MainActivity : WorkActivity() {
         summaryHolder = SummaryViewHolder(this).onSumEqualityAction { results ->
             resultAdapter.load(results)
 
-            sessionRepo.saveSession(session.also {
-                it.products = productAdapter.getItems()
-                it.payers = payerAdapter.getItems()
-                it.results = results
-            })
+            doAsync {
+                sessionRepo.saveSession(session.also {
+                    it.products = productAdapter.getItems()
+                    it.payers = payerAdapter.getItems()
+                    it.results = results
+                })
+            }
         }
     }
 
     private fun initData() {
-        doAsync {
-            productAdapter.load(session.products)
-            payerAdapter.load(session.payers)
-            summaryHolder.load(session.payers, session.products)
-            resultAdapter.load(session.results)
-        }
+        productAdapter.load(session.products)
+        payerAdapter.load(session.payers)
+        resultAdapter.load(session.results)
+        summaryHolder.load(session.payers, session.products)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

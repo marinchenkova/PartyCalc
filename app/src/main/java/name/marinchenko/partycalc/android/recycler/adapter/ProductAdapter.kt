@@ -8,18 +8,25 @@ import name.marinchenko.partycalc.android.recycler.adapter.base.TouchAdapter
 import name.marinchenko.partycalc.android.recycler.factory.ProductFactory
 import name.marinchenko.partycalc.android.recycler.viewHolder.ProductViewHolder
 import name.marinchenko.partycalc.core.item.Product
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.uiThread
 
 class ProductAdapter(ctx: Context): TouchAdapter<ProductViewHolder, Product>(ctx) {
 
     private val factory = ProductFactory(ctx)
 
     fun newItem() {
-        val item = factory.nextItem(
-                list.map { it.num }.toHashSet(),
-                list.map { it.id }.toHashSet()
-        )
-        addItem(item)
+        ctx.doAsync {
+            val item = factory.nextItem(
+                    list.map { it.num }.toHashSet(),
+                    list.map { it.id }.toHashSet()
+            )
+            uiThread {
+                addItem(item)
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

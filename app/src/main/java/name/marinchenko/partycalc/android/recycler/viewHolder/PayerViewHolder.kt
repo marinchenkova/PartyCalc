@@ -1,26 +1,20 @@
 package name.marinchenko.partycalc.android.recycler.viewHolder
 
-import android.animation.LayoutTransition
 import android.content.Context
-import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.payer_item.view.*
 import name.marinchenko.partycalc.android.recycler.adapter.PayerCheckAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.PayerCheckCompactAdapter
-import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
+import name.marinchenko.partycalc.android.recycler.viewHolder.base.AbstractItemViewHolder
 import name.marinchenko.partycalc.android.util.afterInput
+import name.marinchenko.partycalc.android.util.afterTextChanged
 import name.marinchenko.partycalc.android.util.isVisible
 import name.marinchenko.partycalc.android.util.setVisible
-import name.marinchenko.partycalc.android.recycler.viewHolder.base.AbstractItemViewHolder
-import name.marinchenko.partycalc.android.util.afterTextChanged
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.formatDouble
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
-import name.marinchenko.partycalc.core.item.Product
 
 
 class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(ctx, view) {

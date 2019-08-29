@@ -17,6 +17,8 @@ import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import kotlin.math.abs
 
 class SummaryViewHolder(private val activity: MainActivity) {
@@ -102,7 +104,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
         val results = when (state) {
             SummaryState.State.SumsAreNotEqual,
             SummaryState.State.NothingToCalculate -> emptyList()
-            SummaryState.State.Ok -> calculate()
+            SummaryState.State.Ok -> calculate(products, payers)
         }
 
         initNoResults(state, results.isEmpty())
@@ -110,7 +112,8 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return results
     }
 
-    private fun calculate(): List<Result> = PartyCalc.calculateParty(products, payers)
+    private fun calculate(products: List<Product>, payers: List<Payer>): List<Result>
+            = PartyCalc.calculateParty(products, payers)
             .filter { it.sum > activity.getIgnoreCentsTo() }
 
     private fun initSummary(
