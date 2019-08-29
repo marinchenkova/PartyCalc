@@ -28,7 +28,7 @@ abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protect
 
     override fun addItem(item: I) {
         list.add(item)
-        notifyDataSetChanged()
+        notifyItemInserted(list.size)
         callback?.onAddItem(item, list.indexOf(item))
     }
 

@@ -1,6 +1,7 @@
 package name.marinchenko.partycalc.core.item
 
 import name.marinchenko.partycalc.core.PartyCalc
+import name.marinchenko.partycalc.core.formatDouble
 
 abstract class Item(
         override val id: Long,
@@ -16,6 +17,10 @@ abstract class Item(
     fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
 
     fun sum() = PartyCalc.parseSumString(sumString)
+
+    fun availableSum() = formatDouble(PartyCalc.parseSumString(
+            if (sumString.isEmpty()) hintSum else sumString
+    ))
 
     override fun toString() = "${javaClass.simpleName}(str=$id, title=$title, sum=${sum()}, hintTitle=$hintTitle)"
 

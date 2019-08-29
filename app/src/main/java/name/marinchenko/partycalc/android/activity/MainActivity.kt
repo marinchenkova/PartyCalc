@@ -1,11 +1,13 @@
 package name.marinchenko.partycalc.android.activity
 
 
+import android.animation.LayoutTransition
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -109,7 +111,13 @@ class MainActivity : WorkActivity() {
             }
         }
 
-        payerAdapter.onLoadProducts { productAdapter.getItems() }
+        payerAdapter
+                .onLoadProducts { productAdapter.getItems() }
+                .onExpandAction { _, _ ->
+                    sessionRepo.saveSession(session.also {
+                        it.payers = payerAdapter.getItems()
+                    })
+                }
 
         resultAdapter = ResultAdapter(this).onDoneAction { results ->
             sessionRepo.saveSession(session.also { it.results = results })

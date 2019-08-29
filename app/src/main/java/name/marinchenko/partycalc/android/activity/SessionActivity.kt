@@ -58,7 +58,6 @@ class SessionActivity : WorkActivity() {
                 as SessionAdapter
 
         sessionAdapter.callback = object : IdItemAdapter.Callback<Session> {
-            override fun onMoveItems(from: Int, to: Int) {}
             override fun onAddItem(item: Session, position: Int, undoRemove: Boolean) {
                 doAsync { sessionRepo.saveSession(item) }
             }

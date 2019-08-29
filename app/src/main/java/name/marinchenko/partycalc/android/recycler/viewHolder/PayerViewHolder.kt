@@ -1,9 +1,12 @@
 package name.marinchenko.partycalc.android.recycler.viewHolder
 
+import android.animation.LayoutTransition
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.payer_item.view.*
 import name.marinchenko.partycalc.android.recycler.adapter.PayerCheckAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.PayerCheckCompactAdapter
@@ -49,7 +52,10 @@ class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(c
     override fun bind(item: Payer, position: Int) {
         adapter.parentPosition = position
 
-        itemView.expander?.setOnClickListener { onExpand?.invoke(expandView(), position) }
+        itemView.expander?.setOnClickListener {
+            onExpand?.invoke(expandView(), position)
+            //animateExpander(isExpanded())
+        }
 
         itemView.item_title?.setText(item.title)
         itemView.item_title?.hint = item.hintTitle
@@ -65,7 +71,7 @@ class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(c
                 position
         )}
 
-        itemView.equals?.hint = "= ${formatDouble(PartyCalc.parseSumString(item.sumString))}"
+        itemView.equals?.hint = "= ${item.availableSum()}"
         itemView.item_sum?.afterTextChanged { text ->
             itemView.equals?.hint = "= ${formatDouble(PartyCalc.parseSumString(text))}"
         }
@@ -90,10 +96,20 @@ class PayerViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Payer>(c
     }
 
     private fun expandView(expanded: Boolean = !isExpanded()): Boolean {
-        if (adapter.itemCount > 0) itemView.list_payer_checks?.setVisible(expanded)
+        if (adapter.itemCount > 0) {
+            itemView.list_payer_checks?.setVisible(expanded)
+            animateExpander(expanded)
+        }
         return itemView.list_payer_checks?.isVisible() ?: false
     }
 
     private fun isExpanded() = itemView.list_payer_checks?.visibility == View.VISIBLE
+
+    private fun animateExpander(expand: Boolean) {
+        val rotation = if (expand) 180f else 0f
+        itemView.expander?.animate()?.rotation(rotation)?.setDuration(200)?.start()
+    }
+
+
 
 }

@@ -18,6 +18,13 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
 
     private val factory = PayerFactory(ctx)
     private var loadProducts: (() -> List<Product>)? = null
+    private var onExpand: ((item: Payer, position: Int) -> Unit)? = null
+
+
+    fun onExpandAction(action: (item: Payer, position: Int) -> Unit): PayerAdapter {
+        onExpand = action
+        return this
+    }
 
     val productCallback = object : IdItemAdapter.Callback<Product> {
         override fun onAddItem(item: Product, position: Int, undoRemove: Boolean) {
@@ -61,6 +68,7 @@ class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
 
     private fun setExpanded(expanded: Boolean, position: Int) {
         list[position].isExpanded = expanded
+        onExpand?.invoke(list[position], position)
     }
 
     private fun onPayerCheckClick(check: PayerCheck, payerPosition: Int) {

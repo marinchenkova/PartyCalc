@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import org.jetbrains.anko.vibrator
 import java.util.*

@@ -1,7 +1,6 @@
 package name.marinchenko.partycalc.android.recycler.viewHolder
 
 import android.content.Context
-import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.product_item.view.*
 import name.marinchenko.partycalc.android.recycler.viewHolder.base.AbstractItemViewHolder
@@ -30,7 +29,7 @@ class ProductViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Produc
                 position
         )}
 
-        itemView.equals?.hint = "= ${formatDouble(PartyCalc.parseSumString(item.sumString))}"
+        itemView.equals?.hint = "= ${item.availableSum()}"
         itemView.item_sum?.afterTextChanged { text ->
             itemView.equals?.hint = "= ${formatDouble(PartyCalc.parseSumString(text))}"
         }
