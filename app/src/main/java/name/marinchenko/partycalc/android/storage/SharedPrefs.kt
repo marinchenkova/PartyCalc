@@ -33,6 +33,10 @@ fun Context.getShowSumHints() = prefs().getBoolean(Path.PREFS_SHOW_SUM_HINTS, tr
 fun Context.setShowSumHints(value: Boolean) = prefs().edit().putBoolean(Path.PREFS_SHOW_SUM_HINTS, value)
 
 
+fun Context.getAnimateSessionLoading() = prefs().getBoolean(Path.PREFS_ANIMATE_SESSION_LOADING, true)
+fun Context.setAnimateSessionLoading(value: Boolean) = prefs().edit().putBoolean(Path.PREFS_ANIMATE_SESSION_LOADING, value)
+
+
 object Path {
     const val PREFS_FILENAME = "name.marinchenko.partycalc.prefs"
 
@@ -46,5 +50,7 @@ object Path {
 
     const val PREFS_SHOW_TITLE_HINTS = "show_title_hints"
     const val PREFS_SHOW_SUM_HINTS = "show_sum_hints"
+
+    const val PREFS_ANIMATE_SESSION_LOADING = "animate_session_loading"
 
 }

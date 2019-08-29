@@ -1,11 +1,13 @@
 package name.marinchenko.partycalc.android.activity
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.View
 import kotlinx.android.synthetic.main.activity_session.*
 import kotlinx.android.synthetic.main.session_item.*
+import kotlinx.android.synthetic.main.toolbar.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.base.WorkActivity
 import name.marinchenko.partycalc.android.recycler.adapter.SessionAdapter
@@ -13,6 +15,7 @@ import name.marinchenko.partycalc.android.storage.session.SESSION_ID
 import name.marinchenko.partycalc.android.storage.session.SessionRepo
 import name.marinchenko.partycalc.android.recycler.ItemTouchListener
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
+import name.marinchenko.partycalc.android.storage.getAnimateSessionLoading
 import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.util.setVisible
 import org.jetbrains.anko.doAsync
@@ -94,12 +97,10 @@ class SessionActivity : WorkActivity() {
     }
 
     private fun initData() {
-        doAsync {
+        Handler().postDelayed({
             val sessions = sessionRepo.getAllSessions()
-            uiThread {
-                sessionAdapter.load(sessions)
-            }
-        }
+            sessionAdapter.load(sessions)
+        }, 0)
     }
 
     private fun showNoSessions(show: Boolean) {

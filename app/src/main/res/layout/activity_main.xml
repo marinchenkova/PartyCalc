@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
+            android:layoutAnimation="@anim/up_to_down_anim"
             />
 
         <androidx.cardview.widget.CardView
@@ -77,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
+            android:layoutAnimation="@anim/up_to_down_anim"
             />
 
         <androidx.cardview.widget.CardView
@@ -157,6 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
+            android:layoutAnimation="@anim/up_to_down_anim"
             />
 
         <androidx.cardview.widget.CardView

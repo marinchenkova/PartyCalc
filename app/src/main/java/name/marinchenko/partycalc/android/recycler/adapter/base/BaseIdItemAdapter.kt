@@ -13,6 +13,7 @@ import java.util.*
 abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protected val ctx: Context):
         RecyclerView.Adapter<VH>(), IdItemAdapter<I>, BindListener {
 
+    private var onLoad: (() -> Unit)? = null
     var callback: IdItemAdapter.Callback<I>? = null
     protected val list = mutableListOf<I>()
     protected var onBind = false
@@ -21,12 +22,18 @@ abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protect
 
     fun getItems() = list
 
+    fun onLoad(action: () -> Unit): BaseIdItemAdapter<*,*> {
+        onLoad = action
+        return this
+    }
+
     override fun load(new: List<I>) {
         ctx.doAsync {
             list.clear()
             list.addAll(new)
             uiThread {
                 notifyDataSetChanged()
+                onLoad?.invoke()
             }
         }
     }

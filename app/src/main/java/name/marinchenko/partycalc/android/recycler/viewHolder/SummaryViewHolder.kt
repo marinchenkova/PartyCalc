@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
+import name.marinchenko.partycalc.android.recycler.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.storage.getIgnoreCentsTo
 import name.marinchenko.partycalc.android.util.getStringByNum
 import name.marinchenko.partycalc.android.util.summary.Summary
@@ -30,7 +31,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
 
     private var background: Drawable? = null
     private var onSumEquality: ((results: List<Result>) -> Unit)? = null
-
+    private var onLoad: (() -> Unit)? = null
 
     init {
         background = activity.no_results_layout?.background
@@ -41,10 +42,16 @@ class SummaryViewHolder(private val activity: MainActivity) {
         return this
     }
 
+    fun onLoad(action: () -> Unit): SummaryViewHolder {
+        onLoad = action
+        return this
+    }
+
     fun load(payers: List<Payer>, products: List<Product>) {
         payersUpdated(payers)
         productsUpdated(products)
         loadSummary()
+        onLoad?.invoke()
     }
 
     fun update(payers: List<Payer>, products: List<Product>) {

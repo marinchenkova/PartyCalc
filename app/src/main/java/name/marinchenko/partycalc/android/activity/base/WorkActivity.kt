@@ -27,11 +27,9 @@ abstract class WorkActivity: ToolbarActivity() {
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
         if (event?.keyCode == KeyEvent.KEYCODE_ENTER
                 && event.action == KeyEvent.ACTION_UP) {
-            val v = currentFocus
-            inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
             baseLayout.requestFocus()
         }
-
         return super.dispatchKeyEvent(event)
     }
 

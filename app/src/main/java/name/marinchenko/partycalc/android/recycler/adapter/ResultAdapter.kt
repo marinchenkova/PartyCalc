@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.recycler.adapter.base.BaseIdItemAdapter
 import name.marinchenko.partycalc.android.recycler.viewHolder.ResultViewHolder
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.layoutInflater
@@ -13,10 +14,16 @@ class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewH
 
     private val list = mutableListOf<Result>()
     private lateinit var onDone: (results: List<Result>) -> Unit
+    private var onLoad: (() -> Unit)? = null
 
 
     fun onDoneAction(action: (results: List<Result>) -> Unit): ResultAdapter {
         onDone = action
+        return this
+    }
+
+    fun onLoad(action: () -> Unit): ResultAdapter {
+        onLoad = action
         return this
     }
 
@@ -26,6 +33,7 @@ class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewH
         list.clear()
         list.addAll(new)
         notifyDataSetChanged()
+        onLoad?.invoke()
     }
 
     override fun getItemCount() = list.size

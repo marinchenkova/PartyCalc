@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,9 +8,22 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar" >
+        style="@style/Toolbar"
+        />
 
-    </androidx.appcompat.widget.Toolbar>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:max="100"
+        android:layout_below="@id/toolbar"
+        android:backgroundTint="@color/colorWhite"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:layout_marginTop="-7dp"
+        android:visibility="invisible"
+        />
 
 
-</LinearLayout>
+</RelativeLayout>
