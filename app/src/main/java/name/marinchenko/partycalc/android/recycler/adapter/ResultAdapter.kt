@@ -36,10 +36,6 @@ class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewH
         onLoad?.invoke()
     }
 
-    fun checkDone() {
-
-    }
-
     override fun getItemCount() = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
