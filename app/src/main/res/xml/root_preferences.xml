@@ -1,17 +1,15 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/share_header">
+    <PreferenceCategory app:title="@string/share_header" app:summary="@string/share_summary">
 
         <CheckBoxPreference
             app:key="share_include_products"
             app:defaultValue="false"
-            app:summary="@string/attach_products_summary"
             app:title="@string/attach_products" />
 
         <CheckBoxPreference
             app:key="share_include_payers"
             app:defaultValue="false"
-            app:summary="@string/attach_payers_summary"
             app:title="@string/attach_payers" />
 
     </PreferenceCategory>

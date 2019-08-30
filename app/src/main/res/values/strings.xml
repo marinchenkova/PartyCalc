@@ -120,6 +120,25 @@
     <string name="result_payers">payers for</string>
 
 
+    <!-- Prefs -->
+    <string name="title_activity_settings">Settings</string>
+    <!-- Share -->
+    <string name="share_header">Share</string>
+    <string name="share_summary">What section must be attached except results</string>
+    <string name="attach_products">Categories</string>
+    <string name="attach_payers">Payers</string>
+    <!-- Calculate -->
+    <string name="calc_header">Adding items</string>
+    <string name="check_default">Switch on category checks</string>
+    <string name="check_default_summary">Set categories checked when added</string>
+    <!-- Display -->
+    <string name="display_header">Display</string>
+    <string name="show_title_hints">Generate titles</string>
+    <string name="show_title_hints_summary">At name and category title fields</string>
+    <string name="show_sum_hints">Generate expressions</string>
+    <string name="show_sum_hints_summary">At sum field</string>
+
+
     <!-- Misc -->
     <string name="sum_default">100+200</string>
     <string name="equals_default">= 0</string>
@@ -127,27 +146,5 @@
     <string name="arrow_description">to</string>
     <string name="reorder_description">reorder</string>
     <string name="expand_description">expand</string>
-
-
-
-    <!-- Prefs -->
-    <string name="title_activity_settings">Settings</string>
-    <!-- Share -->
-    <string name="share_header">Share</string>
-    <string name="attach_products">Include products</string>
-    <string name="attach_products_summary">Include categories section when sharing</string>
-    <string name="attach_payers">Include payers</string>
-    <string name="attach_payers_summary">Include payers section when sharing</string>
-    <!-- Calculate -->
-    <string name="calc_header">Adding items</string>
-    <string name="check_default">Include new categories for payers</string>
-    <string name="check_default_summary">Set categories checked when added</string>
-
-    <!-- Display -->
-    <string name="display_header">Display</string>
-    <string name="show_title_hints">Show title hints</string>
-    <string name="show_title_hints_summary">Show title hints for categories and payers</string>
-    <string name="show_sum_hints">Show sum hints</string>
-    <string name="show_sum_hints_summary">Show expressions as sum hints</string>
 
 </resources>

@@ -119,6 +119,25 @@
     <string name="result_2_3_4_payers">плательщика на</string>
 
 
+    <!-- Prefs -->
+    <string name="title_activity_settings">Настройки</string>
+    <!-- Share -->
+    <string name="share_header">Распространение</string>
+    <string name="share_summary">Что прикреплять кроме результатов</string>
+    <string name="attach_products">Категории</string>
+    <string name="attach_payers">Плательщики</string>
+    <!-- Calculate -->
+    <string name="calc_header">Добавление</string>
+    <string name="check_default">Включать категории</string>
+    <string name="check_default_summary">Ставить галочку всем плательщикам при добавлении категории</string>
+    <!-- Display -->
+    <string name="display_header">Отображение</string>
+    <string name="show_title_hints">Генерировать названия</string>
+    <string name="show_title_hints_summary">В поле ввода имен и названий категориий</string>
+    <string name="show_sum_hints">Генерировать выражения</string>
+    <string name="show_sum_hints_summary">В поле суммы</string>
+
+
     <!-- Misc -->
     <string name="sum_default">100+200</string>
     <string name="equals_default">= 0</string>
