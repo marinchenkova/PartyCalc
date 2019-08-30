@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.recycler.adapter.base.BaseIdItemAdapter
 import name.marinchenko.partycalc.android.recycler.viewHolder.ResultViewHolder
+import name.marinchenko.partycalc.android.storage.checkShowHints
 import name.marinchenko.partycalc.core.item.Result
 import org.jetbrains.anko.layoutInflater
 
@@ -16,6 +17,14 @@ class ResultAdapter(private val ctx: Context) : RecyclerView.Adapter<ResultViewH
     private lateinit var onDone: (results: List<Result>) -> Unit
     private var onLoad: (() -> Unit)? = null
 
+
+    fun checkShowHints() {
+        list.forEach {
+            ctx.checkShowHints(it.who)
+            ctx.checkShowHints(it.toWhom)
+        }
+        notifyDataSetChanged()
+    }
 
     fun onDoneAction(action: (results: List<Result>) -> Unit): ResultAdapter {
         onDone = action

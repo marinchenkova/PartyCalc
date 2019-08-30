@@ -4,6 +4,7 @@ package name.marinchenko.partycalc.android.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,16 +20,21 @@ import name.marinchenko.partycalc.android.recycler.adapter.ResultAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
 import name.marinchenko.partycalc.android.recycler.listener.ItemTouchListener
 import name.marinchenko.partycalc.android.recycler.viewHolder.SummaryViewHolder
+import name.marinchenko.partycalc.android.storage.getEasterActivated
+import name.marinchenko.partycalc.android.storage.getShareIncludePayers
+import name.marinchenko.partycalc.android.storage.getShareIncludeProducts
 import name.marinchenko.partycalc.android.storage.session.SESSION_ID
 import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.storage.session.SessionRepo
+import name.marinchenko.partycalc.android.storage.setEasterActivated
 import name.marinchenko.partycalc.android.util.Loader
-import name.marinchenko.partycalc.android.storage.getShareIncludePayers
-import name.marinchenko.partycalc.android.storage.getShareIncludeProducts
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 
 class MainActivity : WorkActivity() {
@@ -41,7 +47,6 @@ class MainActivity : WorkActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
-    private var loaded = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,13 +59,23 @@ class MainActivity : WorkActivity() {
         initRecyclerViews()
         initSummaryHolder()
 
-        initData(true)
+        initData()
     }
 
     override fun onResume() {
         super.onResume()
-        initData(false)
-        loaded = false
+        checkShowHints()
+    }
+
+    private fun checkShowHints() {
+        Log.d("checkShowHints", "")
+        doAsync {
+            session.checkShowHints(this@MainActivity)
+            sessionRepo.saveSession(session)
+        }
+        productAdapter.checkShowHints()
+        payerAdapter.checkShowHints()
+        resultAdapter.checkShowHints()
     }
 
     private fun loadSession() {
@@ -71,6 +86,7 @@ class MainActivity : WorkActivity() {
     private fun initRecyclerViews() {
         initLayoutManagers()
         initAdapters()
+        initEaster()
         initItemTouchHelpers()
         initButtons()
     }
@@ -142,6 +158,31 @@ class MainActivity : WorkActivity() {
         list_results.adapter = resultAdapter
     }
 
+    private fun initEaster() {
+        if (getEasterActivated()) return
+
+        val loaderOne = Loader(1, true, productAdapter, payerAdapter) { easterOne() }
+        val loaderBoth = Loader(2, true, productAdapter, payerAdapter) { easterBoth() }
+
+        productAdapter.onEaster { ok ->
+            loaderOne.loaded(productAdapter, ok)
+            loaderBoth.loaded(productAdapter, ok)
+        }
+        payerAdapter.onEaster { ok ->
+            loaderOne.loaded(payerAdapter, ok)
+            loaderBoth.loaded(payerAdapter, ok)
+        }
+    }
+
+    private fun easterOne() {
+        longToast(R.string.easter_one)
+    }
+
+    private fun easterBoth() {
+        setEasterActivated(true)
+        longToast(R.string.easter_both)
+    }
+
     private fun initItemTouchHelpers() {
         val productTouchHelper = ItemTouchHelper(ItemTouchListener()
                 .onSwipeAction { holder, _ ->
@@ -180,40 +221,36 @@ class MainActivity : WorkActivity() {
         }
     }
 
-    private fun initData(animate: Boolean) {
-        if (loaded) return
-        loaded = true
-
-        if (animate) progressbar.visibility = View.VISIBLE
-        val loader = Loader(4) {
-            if (animate) progressbar.visibility = View.INVISIBLE
+    private fun initData() {
+        progressbar.visibility = View.VISIBLE
+        val loader = Loader(
+                4,
+                true,
+                productAdapter, payerAdapter, resultAdapter, summaryHolder
+        ) {
+            progressbar.visibility = View.INVISIBLE
         }
 
         productAdapter.onLoad {
-            if (animate) list_products.scheduleLayoutAnimation()
-            loader.loaded()
+            list_products.scheduleLayoutAnimation()
+            loader.loaded(productAdapter)
         }
         payerAdapter.onLoad {
-            if (animate) list_payers.scheduleLayoutAnimation()
-            loader.loaded()
+            list_payers.scheduleLayoutAnimation()
+            loader.loaded(payerAdapter)
         }
         resultAdapter.onLoad {
-            if (animate) list_results.scheduleLayoutAnimation()
-            loader.loaded()
+            list_results.scheduleLayoutAnimation()
+            loader.loaded(resultAdapter)
         }
-        summaryHolder.onLoad { loader.loaded() }
+        summaryHolder.onLoad { loader.loaded(summaryHolder) }
 
-        if (animate) Handler().postDelayed({ load() }, 0)
-        else load()
-    }
-
-    private fun load() {
-        session.checkShowHints(this)
-        doAsync { sessionRepo.saveSession(session) }
-        productAdapter.load(session.products)
-        payerAdapter.load(session.payers)
-        resultAdapter.load(session.results)
-        summaryHolder.load(session.payers, session.products)
+        Handler().postDelayed({
+            productAdapter.load(session.products)
+            payerAdapter.load(session.payers)
+            resultAdapter.load(session.results)
+            summaryHolder.load(session.payers, session.products)
+        }, 0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

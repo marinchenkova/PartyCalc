@@ -1,6 +1,7 @@
 package name.marinchenko.partycalc.android.storage.session
 
 import android.content.Context
+import name.marinchenko.partycalc.android.storage.checkShowHints
 import name.marinchenko.partycalc.android.storage.getPreferredProductHint
 import name.marinchenko.partycalc.android.storage.getPreferredSumHint
 import name.marinchenko.partycalc.android.storage.getShowSumHints
@@ -29,22 +30,12 @@ data class Session(
     fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
 
     fun checkShowHints(ctx: Context) {
-        checkShowHints(products, ctx)
-        checkShowHints(payers, ctx)
+        ctx.checkShowHints(products)
+        ctx.checkShowHints(payers)
         results.forEach {
-            checkShowHints(it.who, ctx)
-            checkShowHints(it.toWhom, ctx)
+            ctx.checkShowHints(it.who)
+            ctx.checkShowHints(it.toWhom)
         }
-    }
-
-    private fun checkShowHints(list: List<Item>, ctx: Context) {
-        list.forEach { checkShowHints(it, ctx) }
-    }
-
-    private fun checkShowHints(item: Item, ctx: Context) {
-        item.hintTitle = ctx.getPreferredProductHint(item.num)
-        item.hintSum = if (item.hintSum.isNotEmpty() && ctx.getShowSumHints()) item.hintSum
-        else ctx.getPreferredSumHint()
     }
 
 }

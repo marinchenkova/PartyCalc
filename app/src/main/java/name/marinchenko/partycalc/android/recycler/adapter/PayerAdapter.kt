@@ -3,8 +3,8 @@ package name.marinchenko.partycalc.android.recycler.adapter
 import android.content.Context
 import android.view.ViewGroup
 import name.marinchenko.partycalc.R
+import name.marinchenko.partycalc.android.recycler.adapter.base.ItemAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
-import name.marinchenko.partycalc.android.recycler.adapter.base.TouchAdapter
 import name.marinchenko.partycalc.android.recycler.factory.PayerFactory
 import name.marinchenko.partycalc.android.recycler.viewHolder.PayerViewHolder
 import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
@@ -16,7 +16,7 @@ import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.uiThread
 
 
-class PayerAdapter(ctx: Context): TouchAdapter<PayerViewHolder, Payer>(ctx) {
+class PayerAdapter(ctx: Context): ItemAdapter<PayerViewHolder, Payer>(ctx) {
 
     private val factory = PayerFactory(ctx)
     private var loadProducts: (() -> List<Product>)? = null

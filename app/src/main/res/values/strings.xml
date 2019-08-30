@@ -4,6 +4,7 @@
     <!-- Toolbar -->
     <string name="toolbar_popup">Popup menu</string>
     <string name="toolbar_popup_settings">Settings</string>
+    <string name="toolbar_popup_instruction">How to use</string>
     <string name="toolbar_share">Share party</string>
     <string name="toolbar_copy_to_clipboard">Copy to clipboard</string>
     <string name="toolbar_copied">Party copied to clipboard</string>
@@ -137,6 +138,24 @@
     <string name="show_title_hints_summary">At name and category title fields</string>
     <string name="show_sum_hints">Generate expressions</string>
     <string name="show_sum_hints_summary">At sum field</string>
+
+
+    <!-- Easter -->
+    <string name="easter_one">Nice. What\'s next?</string>
+    <string name="easter_both">Check How to use page</string>
+    <string name="easter">8. Check this: 41.84201, -89.485937</string>
+
+
+    <!-- How to use -->
+    <string name="instruction_title">How to use</string>
+    <string name="instruction_header">PartyCalc will help you to calculate debts after party. For this:</string>
+    <string name="instruction_1">1. Add party with plus button</string>
+    <string name="instruction_2">2. Add categories and enter their costs</string>
+    <string name="instruction_3">3. Add payers and enter their spending, wherein sums of categories and payers must match</string>
+    <string name="instruction_4">4. Enter expressions right at sum fields</string>
+    <string name="instruction_5">5. App will calculate debts</string>
+    <string name="instruction_6">6. Set debts as done with checkbox</string>
+    <string name="instruction_7">7. Share results with share button</string>
 
 
     <!-- Misc -->

@@ -1,11 +1,10 @@
 package name.marinchenko.partycalc.android.recycler.adapter.base
 
 import android.content.Context
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import name.marinchenko.partycalc.android.recycler.listener.BindListener
 import name.marinchenko.partycalc.core.item.IdItem
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protected val ctx: Context):
         RecyclerView.Adapter<VH>(), IdItemAdapter<I>, BindListener {
@@ -25,14 +24,10 @@ abstract class BaseIdItemAdapter<VH: RecyclerView.ViewHolder, I: IdItem>(protect
     }
 
     override fun load(new: List<I>) {
-        ctx.doAsync {
-            list.clear()
-            list.addAll(new)
-            uiThread {
-                notifyDataSetChanged()
-                onLoad?.invoke()
-            }
-        }
+        list.clear()
+        list.addAll(new)
+        notifyDataSetChanged()
+        onLoad?.invoke()
     }
 
     override fun addItem(item: I) {

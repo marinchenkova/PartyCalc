@@ -5,9 +5,7 @@ import androidx.preference.PreferenceManager
 import name.marinchenko.partycalc.android.util.getRandomPayerTitle
 import name.marinchenko.partycalc.android.util.getRandomProductTitle
 import name.marinchenko.partycalc.core.PartyCalc
-
-
-private const val IGNORE_CENTS_TO_DEFAULT = "0"
+import name.marinchenko.partycalc.core.item.Item
 
 
 private fun Context.prefs() = PreferenceManager.getDefaultSharedPreferences(this)
@@ -25,14 +23,32 @@ fun Context.getPreferredPayerHint(num: Int) = if (getShowTitleHints()) getRandom
 fun Context.getShowSumHints() = prefs().getBoolean(Path.PREFS_SHOW_SUM_HINTS, true)
 fun Context.getPreferredSumHint() = if (getShowSumHints()) PartyCalc.getRandomHintSum() else ""
 
+fun Context.getEasterActivated() = prefs().getBoolean(Path.PREFS_EASTER, false)
+
+fun Context.setEasterActivated(value: Boolean) {
+    prefs().edit().putBoolean(Path.PREFS_EASTER, value).apply()
+}
+
+
+fun Context.checkShowHints(list: List<Item>) {
+    list.forEach { checkShowHints(it) }
+}
+
+fun Context.checkShowHints(item: Item) {
+    item.hintTitle = getPreferredProductHint(item.num)
+    item.hintSum = if (item.hintSum.isNotEmpty() && getShowSumHints()) item.hintSum
+    else getPreferredSumHint()
+}
+
 
 object Path {
     const val PREFS_SHARE_INCLUDE_PRODUCTS = "share_include_products"
     const val PREFS_SHARE_INCLUDE_PAYRES = "share_include_payers"
 
     const val PREFS_PAYER_CHECK_DEFAULT_STATE = "payer_check_default_state"
-    const val PREFS_IGNORE_CENTS_TO = "ignore_cents_to"
 
     const val PREFS_SHOW_TITLE_HINTS = "show_title_hints"
     const val PREFS_SHOW_SUM_HINTS = "show_sum_hints"
+
+    const val PREFS_EASTER = "easter"
 }

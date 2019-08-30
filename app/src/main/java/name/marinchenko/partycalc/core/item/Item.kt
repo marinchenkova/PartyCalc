@@ -22,7 +22,7 @@ abstract class Item(
             if (sumString.isEmpty()) hintSum else sumString
     ))
 
-    override fun toString() = "${javaClass.simpleName}(str=$id, title=$title, sum=${sum()}, hintTitle=$hintTitle)"
+    override fun toString() = "${javaClass.simpleName}(id=$id, title=$title, sum=${sum()}, hintTitle=$hintTitle)"
 
     override fun hashCode() = id.toInt()
 
