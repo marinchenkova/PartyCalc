@@ -19,7 +19,8 @@ import kotlin.math.abs
 class SummaryViewHolder(private val activity: MainActivity) {
 
     private val products = mutableListOf<Product>()
-    private var payers = mutableListOf<Payer>()
+    private val payers = mutableListOf<Payer>()
+    private val results = mutableListOf<Payer>()
     private var productSum = 0.0
     private var payerSum = 0.0
 

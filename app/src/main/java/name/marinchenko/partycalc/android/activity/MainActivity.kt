@@ -41,6 +41,7 @@ class MainActivity : WorkActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var payerAdapter: PayerAdapter
     private lateinit var resultAdapter: ResultAdapter
+    private var loaded = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,12 +54,13 @@ class MainActivity : WorkActivity() {
         initRecyclerViews()
         initSummaryHolder()
 
-        initData()
+        initData(true)
     }
 
     override fun onResume() {
         super.onResume()
-        checkHints()
+        initData(false)
+        loaded = false
     }
 
     private fun loadSession() {
@@ -178,52 +180,40 @@ class MainActivity : WorkActivity() {
         }
     }
 
-    private fun initData() {
-        progressbar.visibility = View.VISIBLE
+    private fun initData(animate: Boolean) {
+        if (loaded) return
+        loaded = true
+
+        if (animate) progressbar.visibility = View.VISIBLE
         val loader = Loader(4) {
-            progressbar.visibility = View.INVISIBLE
-            checkHints()
+            if (animate) progressbar.visibility = View.INVISIBLE
         }
 
         productAdapter.onLoad {
-            list_products.scheduleLayoutAnimation()
+            if (animate) list_products.scheduleLayoutAnimation()
             loader.loaded()
         }
         payerAdapter.onLoad {
-            list_payers.scheduleLayoutAnimation()
+            if (animate) list_payers.scheduleLayoutAnimation()
             loader.loaded()
         }
         resultAdapter.onLoad {
-            list_results.scheduleLayoutAnimation()
+            if (animate) list_results.scheduleLayoutAnimation()
             loader.loaded()
         }
         summaryHolder.onLoad { loader.loaded() }
 
-        Handler().postDelayed({
-            productAdapter.load(session.products)
-            payerAdapter.load(session.payers)
-            resultAdapter.load(session.results)
-            summaryHolder.load(session.payers, session.products)
-        }, 0)
+        if (animate) Handler().postDelayed({ load() }, 0)
+        else load()
     }
 
-    private fun checkHints() {
-        val loader = Loader(2) { doAsync { sessionRepo.saveSession(session.also {
-            it.products = productAdapter.getItems()
-            it.payers = payerAdapter.getItems()
-        })}}
-
-        productAdapter.onChecked {
-            loader.loaded()
-            list_products.scheduleLayoutAnimation()
-        }
-        payerAdapter.onChecked {
-            loader.loaded()
-            list_payers.scheduleLayoutAnimation()
-        }
-
-        productAdapter.checkShowHints()
-        payerAdapter.checkShowHints()
+    private fun load() {
+        session.checkShowHints(this)
+        doAsync { sessionRepo.saveSession(session) }
+        productAdapter.load(session.products)
+        payerAdapter.load(session.payers)
+        resultAdapter.load(session.results)
+        summaryHolder.load(session.payers, session.products)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -250,7 +240,7 @@ class MainActivity : WorkActivity() {
     }
 
     private fun getPartyText() = PartyCalc.TextBuilder()
-            .title(session.title)
+            .title(session.getAvailableTitle())
             .products(productAdapter.getItems(), getShareIncludeProducts())
             .payers(payerAdapter.getItems(), getShareIncludePayers())
             .results(resultAdapter.getItems())
