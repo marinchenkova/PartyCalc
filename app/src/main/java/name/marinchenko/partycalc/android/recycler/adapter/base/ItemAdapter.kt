@@ -3,13 +3,15 @@ package name.marinchenko.partycalc.android.recycler.adapter.base
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import name.marinchenko.partycalc.android.storage.checkShowHints
+import name.marinchenko.partycalc.android.util.NUM_EN
+import name.marinchenko.partycalc.android.util.NUM_RU
+import name.marinchenko.partycalc.android.util.getLanguage
+import name.marinchenko.partycalc.android.util.getNumByLanguage
 import name.marinchenko.partycalc.core.item.Item
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 
-private const val NUM_EN = 26
-private const val NUM_RU = 33
 
 abstract class ItemAdapter<VH: RecyclerView.ViewHolder, I: Item>(ctx: Context):
         TouchAdapter<VH, I>(ctx) {
@@ -40,10 +42,7 @@ abstract class ItemAdapter<VH: RecyclerView.ViewHolder, I: Item>(ctx: Context):
     private fun checkEaster() {
         val listCopy = list
         ctx.doAsync {
-            val num = when (Locale.getDefault().language) {
-                "ru" -> NUM_RU
-                else -> NUM_EN
-            }
+            val num = getNumByLanguage()
 
             if (listCopy.size < num) {
                 uiThread { onEaster?.invoke(false) }

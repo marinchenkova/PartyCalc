@@ -54,13 +54,13 @@
     <string name="product_random_23">X-treme Ximenia</string>
     <string name="product_random_24">Young Yam</string>
     <string name="product_random_25">Zero Zephyr</string>
-    <string name="product_random_26">Unknown substance</string>
-    <string name="product_random_27">Everything</string>
-    <string name="product_random_28">Kryptonite</string>
-    <string name="product_random_29">Potato Free</string>
-    <string name="product_random_30">Can\'t remember</string>
-    <string name="product_random_31">Nothing</string>
-    <string name="product_random_32">\?\?\?</string>
+    <string name="product_random_26">Something</string>
+    <string name="product_random_27">Something</string>
+    <string name="product_random_28">Something</string>
+    <string name="product_random_29">Something</string>
+    <string name="product_random_30">Something</string>
+    <string name="product_random_31">Something</string>
+    <string name="product_random_32">Something</string>
 
 
     <!-- Payers -->
@@ -96,13 +96,13 @@
     <string name="payer_random_23">Xue Xuan</string>
     <string name="payer_random_24">Yin Yang</string>
     <string name="payer_random_25">Zoë Zebra</string>
-    <string name="payer_random_26">R2D2</string>
-    <string name="payer_random_27">This guy</string>
-    <string name="payer_random_28">Turanga Leela</string>
-    <string name="payer_random_29">That guy</string>
-    <string name="payer_random_30">Pikachu</string>
-    <string name="payer_random_31">Philip J. Fry</string>
-    <string name="payer_random_32">Stranger</string>
+    <string name="payer_random_26">Somebody</string>
+    <string name="payer_random_27">Somebody</string>
+    <string name="payer_random_28">Somebody</string>
+    <string name="payer_random_29">Somebody</string>
+    <string name="payer_random_30">Somebody</string>
+    <string name="payer_random_31">Somebody</string>
+    <string name="payer_random_32">Somebody</string>
 
 
     <!-- Results -->

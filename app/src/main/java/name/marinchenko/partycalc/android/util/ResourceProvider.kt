@@ -3,15 +3,14 @@ package name.marinchenko.partycalc.android.util
 import android.content.Context
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.core.randomInt
+import java.util.*
 
 
-const val RANDOM_PRODUCTS_NUM = 33
-const val RANDOM_PAYERS_NUM = 33
-const val RANDOM_COLORS_NUM = 33
-
+const val NUM_EN = 26
+const val NUM_RU = 33
 
 fun Context.getRandomColorResId(num: Int? = null) = getColor(
-        when (num ?: randomInt(0, RANDOM_COLORS_NUM - 1)) {
+        when (num ?: randomInt(0, getNumByLanguage() - 1)) {
             0 -> R.color.mat100_0
             1 -> R.color.mat100_1
             2 -> R.color.mat100_2
@@ -38,19 +37,24 @@ fun Context.getRandomColorResId(num: Int? = null) = getColor(
             23 -> R.color.mat200_7
             24 -> R.color.mat200_8
             25 -> R.color.mat200_9
-            26 -> R.color.mat200_10
-            27 -> R.color.mat200_11
-            28 -> R.color.mat200_12
-            29 -> R.color.mat200_13
-            30 -> R.color.mat200_14
-            31 -> R.color.mat200_15
-            32 -> R.color.mat300_0
-            else -> R.color.mat300_1
+            else -> when (getLanguage()) {
+                "ru" -> when (num) {
+                    26 -> R.color.mat200_10
+                    27 -> R.color.mat200_11
+                    28 -> R.color.mat200_12
+                    29 -> R.color.mat200_13
+                    30 -> R.color.mat200_14
+                    31 -> R.color.mat200_15
+                    32 -> R.color.mat300_0
+                    else -> R.color.mat300_1
+                }
+                else -> R.color.mat200_10
+            }
         }
 )
 
 fun Context.getRandomProductTitle(num: Int? = null): String = getString(
-        when (num ?: randomInt(0, RANDOM_PRODUCTS_NUM - 1)) {
+        when (num ?: randomInt(0, getNumByLanguage() - 1)) {
             0 -> R.string.product_random_0
             1 -> R.string.product_random_1
             2 -> R.string.product_random_2
@@ -77,19 +81,24 @@ fun Context.getRandomProductTitle(num: Int? = null): String = getString(
             23 -> R.string.product_random_23
             24 -> R.string.product_random_24
             25 -> R.string.product_random_25
-            26 -> R.string.product_random_26
-            27 -> R.string.product_random_27
-            28 -> R.string.product_random_28
-            29 -> R.string.product_random_29
-            30 -> R.string.product_random_30
-            31 -> R.string.product_random_31
-            32 -> R.string.product_random_32
-            else -> R.string.product_default
+            else -> when (getLanguage()) {
+                "ru" -> when (num) {
+                    26 -> R.string.product_random_26
+                    27 -> R.string.product_random_27
+                    28 -> R.string.product_random_28
+                    29 -> R.string.product_random_29
+                    30 -> R.string.product_random_30
+                    31 -> R.string.product_random_31
+                    32 -> R.string.product_random_32
+                    else -> R.string.product_default
+                }
+                else -> R.string.product_default
+            }
         }
 )
 
 fun Context.getRandomPayerTitle(num: Int? = null): String = getString(
-        when (num ?: randomInt(0, RANDOM_PAYERS_NUM - 1)) {
+        when (num ?: randomInt(0, getNumByLanguage() - 1)) {
             0 -> R.string.payer_random_0
             1 -> R.string.payer_random_1
             2 -> R.string.payer_random_2
@@ -116,13 +125,25 @@ fun Context.getRandomPayerTitle(num: Int? = null): String = getString(
             23 -> R.string.payer_random_23
             24 -> R.string.payer_random_24
             25 -> R.string.payer_random_25
-            26 -> R.string.payer_random_26
-            27 -> R.string.payer_random_27
-            28 -> R.string.payer_random_28
-            29 -> R.string.payer_random_29
-            30 -> R.string.payer_random_30
-            31 -> R.string.payer_random_31
-            32 -> R.string.payer_random_32
-            else -> R.string.payer_default
+            else -> when (getLanguage()) {
+                "ru" -> when (num) {
+                    26 -> R.string.payer_random_26
+                    27 -> R.string.payer_random_27
+                    28 -> R.string.payer_random_28
+                    29 -> R.string.payer_random_29
+                    30 -> R.string.payer_random_30
+                    31 -> R.string.payer_random_31
+                    32 -> R.string.payer_random_32
+                    else -> R.string.payer_default
+                }
+                else -> R.string.payer_default
+            }
         }
 )
+
+fun getLanguage(): String = Locale.getDefault().language
+
+fun getNumByLanguage() = when (getLanguage()) {
+    "ru" -> NUM_RU
+    else -> NUM_EN
+}
