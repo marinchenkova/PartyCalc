@@ -151,7 +151,7 @@
     <string name="instruction_header">PartyCalc will help you to calculate debts after party. For this:</string>
     <string name="instruction_1">1. Add party with plus button</string>
     <string name="instruction_2">2. Add categories and enter their costs</string>
-    <string name="instruction_3">3. Add payers and enter their spending, wherein sums of categories and payers must match</string>
+    <string name="instruction_3">3. Add payers, their spending and categories they consumed, wherein sums of categories and payers must match</string>
     <string name="instruction_4">4. Enter expressions right at sum fields</string>
     <string name="instruction_5">5. App will calculate debts</string>
     <string name="instruction_6">6. Set debts as done with checkbox</string>
