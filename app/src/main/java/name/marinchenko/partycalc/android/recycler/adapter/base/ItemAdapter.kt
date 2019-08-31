@@ -20,8 +20,10 @@ abstract class ItemAdapter<VH: RecyclerView.ViewHolder, I: Item>(ctx: Context):
 
 
     fun checkShowHints() {
-        ctx.checkShowHints(list)
-        notifyDataSetChanged()
+        ctx.doAsync {
+            ctx.checkShowHints(list)
+            uiThread { notifyDataSetChanged() }
+        }
     }
 
     fun onEaster(action: (ok: Boolean) -> Unit): ItemAdapter<*,*> {

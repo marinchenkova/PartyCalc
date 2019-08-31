@@ -95,6 +95,8 @@ class SessionActivity : WorkActivity() {
     private fun initData() {
         Handler().postDelayed({
             val sessions = sessionRepo.getAllSessions()
+            //sessions.forEach { it.checkHintTitle(this) }
+            //doAsync { sessionRepo.saveAllSessions(sessions) }
             sessionAdapter.load(sessions)
         }, 0)
     }

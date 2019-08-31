@@ -68,14 +68,15 @@ class MainActivity : WorkActivity() {
     }
 
     private fun checkShowHints() {
-        Log.d("checkShowHints", "")
-        doAsync {
-            session.checkShowHints(this@MainActivity)
-            sessionRepo.saveSession(session)
-        }
-        productAdapter.checkShowHints()
-        payerAdapter.checkShowHints()
-        resultAdapter.checkShowHints()
+        Handler().postDelayed({
+            doAsync {
+                session.checkShowHints(this@MainActivity)
+                sessionRepo.saveSession(session)
+            }
+            productAdapter.checkShowHints()
+            payerAdapter.checkShowHints()
+            resultAdapter.checkShowHints()
+        }, 0)
     }
 
     private fun loadSession() {
