@@ -3,14 +3,9 @@ package name.marinchenko.partycalc.android.storage.session
 import android.content.Context
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.storage.checkShowHints
-import name.marinchenko.partycalc.android.storage.getPreferredProductHint
-import name.marinchenko.partycalc.android.storage.getPreferredSumHint
-import name.marinchenko.partycalc.android.storage.getShowSumHints
-import name.marinchenko.partycalc.android.util.formatDayMonthYear
+import name.marinchenko.partycalc.android.util.formatDayMonth
 import name.marinchenko.partycalc.android.util.formatFull
 import name.marinchenko.partycalc.core.item.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.util.*
 
 
@@ -32,7 +27,7 @@ data class Session(
     fun getAvailableTitle() = if (title.isEmpty()) hintTitle else title
 
     fun checkHintTitle(ctx: Context) {
-        hintTitle = "${ctx.getString(R.string.session_default_name)} ${date.formatDayMonthYear()}"
+        hintTitle = "${ctx.getString(R.string.session_default_name)} ${date.formatDayMonth()}"
     }
 
     fun checkShowHints(ctx: Context) {

@@ -1,6 +1,7 @@
 package name.marinchenko.partycalc.android.util
 
 import android.content.Context
+import androidx.core.content.ContextCompat.getColor
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.core.randomInt
 import java.util.*
@@ -9,7 +10,8 @@ import java.util.*
 const val NUM_EN = 26
 const val NUM_RU = 33
 
-fun Context.getRandomColorResId(num: Int? = null) = getColor(
+
+fun getRandomColorResId(ctx: Context, num: Int? = null) = getColor(ctx,
         when (num ?: randomInt(0, getNumByLanguage() - 1)) {
             0 -> R.color.mat100_0
             1 -> R.color.mat100_1

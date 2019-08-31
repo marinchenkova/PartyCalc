@@ -2,6 +2,8 @@ package name.marinchenko.partycalc.android.recycler.viewHolder
 
 import android.content.Context
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import kotlinx.android.synthetic.main.session_item.*
 import kotlinx.android.synthetic.main.session_item.view.*
 import name.marinchenko.partycalc.R
@@ -30,14 +32,14 @@ class SessionViewHolder(ctx: Context, view: View): AbstractItemViewHolder<Sessio
         val sumString = spanDiff(
                 ctx.getString(R.string.summary_sum),
                 PartyCalc.itemListSumString(item.products),
-                ctx.getColor(R.color.colorPrimary)
+                getColor(ctx, R.color.colorPrimary)
         )
         itemView.summary_sum?.text = sumString
 
         val doneString = spanDiff(
                 ctx.getString(R.string.summary_done),
                 PartyCalc.resultsDone(item.results),
-                ctx.getColor(R.color.colorPrimary)
+                getColor(ctx, R.color.colorPrimary)
         )
         itemView.summary_done?.text = doneString
     }

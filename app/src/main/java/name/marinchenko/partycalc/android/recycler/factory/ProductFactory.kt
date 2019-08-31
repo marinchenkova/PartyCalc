@@ -20,7 +20,7 @@ class ProductFactory(ctx: Context): ItemFactory<Product>(ctx) {
                 nextId(usedIds),
                 ctx.getPreferredProductHint(num),
                 ctx.getPreferredSumHint(),
-                ctx.getRandomColorResId(num),
+                getRandomColorResId(ctx, num),
                 num
         ).also { it.sumString = sum }
     }

@@ -1,6 +1,8 @@
 package name.marinchenko.partycalc.android.recycler.viewHolder
 
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import kotlinx.android.synthetic.main.activity_main.*
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.activity.MainActivity
@@ -20,7 +22,6 @@ class SummaryViewHolder(private val activity: MainActivity) {
 
     private val products = mutableListOf<Product>()
     private val payers = mutableListOf<Payer>()
-    private val results = mutableListOf<Payer>()
     private var productSum = 0.0
     private var payerSum = 0.0
 
@@ -74,7 +75,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
                 summary.size.toString(),
                 activity.getProductCaseByNum(summary.size),
                 formatDouble(summary.sum),
-                activity.getColor(R.color.colorPrimary)
+                getColor(activity, R.color.colorPrimary)
         )
     }
 
@@ -83,7 +84,7 @@ class SummaryViewHolder(private val activity: MainActivity) {
                 summary.size.toString(),
                 activity.getPayerCaseByNum(summary.size),
                 formatDouble(summary.sum),
-                activity.getColor(R.color.colorPrimary)
+                getColor(activity, R.color.colorPrimary)
         )
     }
 
@@ -130,10 +131,10 @@ class SummaryViewHolder(private val activity: MainActivity) {
                 activity.no_results?.text = spanDiff(
                         activity.getString(R.string.results_payers_alert),
                         sumDiff(),
-                        activity.getColor(R.color.colorPrimary)
+                        getColor(activity, R.color.colorPrimary)
                 )
                 activity.no_results?.textSize = 14f
-                activity.no_results_layout?.backgroundColor = activity.getColor(R.color.colorRed_alert)
+                activity.no_results_layout?.backgroundColor = getColor(activity, R.color.colorRed_alert)
             }
 
             SummaryState.State.NothingToCalculate -> {

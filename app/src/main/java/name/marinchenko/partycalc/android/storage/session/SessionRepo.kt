@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.storage.*
-import name.marinchenko.partycalc.android.util.formatDayMonthYear
+import name.marinchenko.partycalc.android.util.formatDayMonth
 import name.marinchenko.partycalc.android.util.now
 import name.marinchenko.partycalc.core.randomExcept
 
@@ -21,7 +21,7 @@ class SessionRepo(private val ctx: Context): ISessionRepo {
         return Session(
                 randomExcept(usedIds()),
                 title,
-                "${defaultSessionTitle()} ${now.formatDayMonthYear()}",
+                "${defaultSessionTitle()} ${now.formatDayMonth()}",
                 now,
                 emptyList(),
                 emptyList(),
