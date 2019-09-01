@@ -31,7 +31,7 @@ class SessionActivity : WorkActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_session)
 
-        initToolbar(getString(R.string.app_name), false)
+        initToolbar(getString(R.string.session_title), false)
         initRecyclerViews()
     }
 

@@ -7,6 +7,8 @@ import name.marinchenko.partycalc.android.recycler.adapter.base.ItemAdapter
 import name.marinchenko.partycalc.android.recycler.adapter.base.IdItemAdapter
 import name.marinchenko.partycalc.android.recycler.factory.PayerFactory
 import name.marinchenko.partycalc.android.recycler.viewHolder.PayerViewHolder
+import name.marinchenko.partycalc.android.storage.checkShowHintsPayers
+import name.marinchenko.partycalc.android.storage.checkShowHintsProducts
 import name.marinchenko.partycalc.android.storage.getPayerCheckDefaultState
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.PayerCheck
@@ -22,6 +24,13 @@ class PayerAdapter(ctx: Context): ItemAdapter<PayerViewHolder, Payer>(ctx) {
     private var loadProducts: (() -> List<Product>)? = null
     private var onExpand: ((item: Payer, position: Int) -> Unit)? = null
 
+
+    fun checkShowHints() {
+        ctx.doAsync {
+            ctx.checkShowHintsPayers(list)
+            uiThread { notifyDataSetChanged() }
+        }
+    }
 
     fun onExpandAction(action: (item: Payer, position: Int) -> Unit): PayerAdapter {
         onExpand = action

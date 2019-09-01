@@ -30,16 +30,26 @@ fun Context.setEasterActivated(value: Boolean) {
 }
 
 
-fun Context.checkShowHints(list: List<Item>) {
-    list.forEach { checkShowHints(it) }
+fun Context.checkShowHintsProducts(list: List<Item>) {
+    list.forEach { checkShowHintsProducts(it) }
 }
 
-fun Context.checkShowHints(item: Item) {
+fun Context.checkShowHintsProducts(item: Item) {
     item.hintTitle = getPreferredProductHint(item.num)
     item.hintSum = if (item.hintSum.isNotEmpty() && getShowSumHints()) item.hintSum
     else getPreferredSumHint()
 }
 
+
+fun Context.checkShowHintsPayers(list: List<Item>) {
+    list.forEach { checkShowHintsPayers(it) }
+}
+
+fun Context.checkShowHintsPayers(item: Item) {
+    item.hintTitle = getPreferredPayerHint(item.num)
+    item.hintSum = if (item.hintSum.isNotEmpty() && getShowSumHints()) item.hintSum
+    else getPreferredSumHint()
+}
 
 object Path {
     const val PREFS_SHARE_INCLUDE_PRODUCTS = "share_include_products"

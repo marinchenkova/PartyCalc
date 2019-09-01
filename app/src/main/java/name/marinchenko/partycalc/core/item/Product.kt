@@ -15,6 +15,6 @@ class Product(
         num
 ) {
 
-    override fun toText() = "${getAvailableTitle()} for ${formatDouble(sum())}"
+    override fun toText() = "${getAvailableTitle()} — ${formatDouble(sum())}"
 
 }

@@ -2,7 +2,8 @@ package name.marinchenko.partycalc.android.storage.session
 
 import android.content.Context
 import name.marinchenko.partycalc.R
-import name.marinchenko.partycalc.android.storage.checkShowHints
+import name.marinchenko.partycalc.android.storage.checkShowHintsPayers
+import name.marinchenko.partycalc.android.storage.checkShowHintsProducts
 import name.marinchenko.partycalc.android.util.formatDayMonth
 import name.marinchenko.partycalc.android.util.formatFull
 import name.marinchenko.partycalc.core.item.*
@@ -31,12 +32,11 @@ data class Session(
     }
 
     fun checkShowHints(ctx: Context) {
-
-        ctx.checkShowHints(products)
-        ctx.checkShowHints(payers)
+        ctx.checkShowHintsProducts(products)
+        ctx.checkShowHintsPayers(payers)
         results.forEach {
-            ctx.checkShowHints(it.who)
-            ctx.checkShowHints(it.toWhom)
+            ctx.checkShowHintsPayers(it.who)
+            ctx.checkShowHintsPayers(it.toWhom)
         }
     }
 

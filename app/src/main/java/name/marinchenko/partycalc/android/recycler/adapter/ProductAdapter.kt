@@ -6,6 +6,7 @@ import name.marinchenko.partycalc.R
 import name.marinchenko.partycalc.android.recycler.adapter.base.ItemAdapter
 import name.marinchenko.partycalc.android.recycler.factory.ProductFactory
 import name.marinchenko.partycalc.android.recycler.viewHolder.ProductViewHolder
+import name.marinchenko.partycalc.android.storage.checkShowHintsProducts
 import name.marinchenko.partycalc.core.item.Product
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
@@ -15,6 +16,13 @@ class ProductAdapter(ctx: Context): ItemAdapter<ProductViewHolder, Product>(ctx)
 
     private val factory = ProductFactory(ctx)
 
+
+    fun checkShowHints() {
+        ctx.doAsync {
+            ctx.checkShowHintsProducts(list)
+            uiThread { notifyDataSetChanged() }
+        }
+    }
 
     fun newItem() {
         ctx.doAsync {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PartyCalc</string>
+    <string name="app_name">Party Calculator</string>
 
     <!-- Toolbar -->
     <string name="toolbar_popup">Меню</string>
@@ -59,7 +59,7 @@
     <string name="product_random_29">Ььь…</string>
     <string name="product_random_30">Эстонский Эль</string>
     <string name="product_random_31">Юбилей Юнца</string>
-    <string name="product_random_32">Ягермайстер</string>
+    <string name="product_random_32">Ядрёный Ягермайстер</string>
 
 
     <!-- Payers -->

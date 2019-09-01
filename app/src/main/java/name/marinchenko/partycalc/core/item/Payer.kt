@@ -1,5 +1,6 @@
 package name.marinchenko.partycalc.core.item
 
+import android.content.Context
 import name.marinchenko.partycalc.core.formatDouble
 
 class Payer(
@@ -41,7 +42,7 @@ class Payer(
         payerChecks.addAll(new.map { PayerCheck(it, isChecked) })
     }
 
-    override fun toText() = "${getAvailableTitle()} payed ${formatDouble(sum())} for:\n" +
+    override fun toText() = "${getAvailableTitle()} — ${formatDouble(sum())}:\n" +
             payerChecks.filter { it.isChecked }.joinToString("\n") { it.toText() }
 
     override fun toString() = "Payer(str=$id, hintTitle=$hintTitle, hintSum=$hintSum, " +

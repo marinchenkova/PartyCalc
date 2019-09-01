@@ -113,25 +113,25 @@ class PartyCalc(
         fun title(title: String, include: Boolean = true) = appendText("$title\n", include)
 
         fun products(products: List<Product>, include: Boolean = true): TextBuilder {
-            val text = "${products.size} categories for " +
-                        itemListSumString(products) + ":\n" +
-                        itemsText(products) + "\n"
+            val text =
+                    itemListSumString(products) + ":\n" +
+                    itemsText(products) + "\n"
             return appendText(text, include)
         }
 
         fun payers(payers: List<Payer>, include: Boolean = true): TextBuilder {
-            val text = "${payers.size} payers for " +
+            val text =
                     itemListSumString(payers) + ":\n" +
                     itemsText(payers) + "\n"
             return appendText(text, include)
         }
 
         fun results(results: List<Result>, include: Boolean = true): TextBuilder {
-            val text = "Results:\n" + itemsText(results) + "\n"
+            val text = itemsText(results) + "\n"
             return appendText(text, include)
         }
 
-        private fun appendText(text: String, include: Boolean = true): TextBuilder {
+        fun appendText(text: String, include: Boolean = true): TextBuilder {
             if (include) stringBuilder.append(text)
             return this
         }
@@ -189,7 +189,7 @@ class PartyCalc(
 
         @JvmStatic
         fun itemsText(items: List<Textable>): String {
-            return if (items.isEmpty()) "empty"
+            return if (items.isEmpty()) "—"
             else items.joinToString("\n") { it.toText() }
         }
 

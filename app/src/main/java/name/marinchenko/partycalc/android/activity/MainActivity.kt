@@ -28,6 +28,8 @@ import name.marinchenko.partycalc.android.storage.session.Session
 import name.marinchenko.partycalc.android.storage.session.SessionRepo
 import name.marinchenko.partycalc.android.storage.setEasterActivated
 import name.marinchenko.partycalc.android.util.Loader
+import name.marinchenko.partycalc.android.util.getPayerCaseByNum
+import name.marinchenko.partycalc.android.util.getProductCaseByNum
 import name.marinchenko.partycalc.core.PartyCalc
 import name.marinchenko.partycalc.core.item.Payer
 import name.marinchenko.partycalc.core.item.Product
@@ -277,11 +279,19 @@ class MainActivity : WorkActivity() {
         startActivity(Intent.createChooser(sendIntent, getString(R.string.toolbar_share)))
     }
 
-    private fun getPartyText() = PartyCalc.TextBuilder()
-            .title(session.getAvailableTitle())
-            .products(productAdapter.getItems(), getShareIncludeProducts())
-            .payers(payerAdapter.getItems(), getShareIncludePayers())
-            .results(resultAdapter.getItems())
-            .build()
+    private fun getPartyText(): String {
+        val products = productAdapter.getItems()
+        val payers = payerAdapter.getItems()
+        val results = resultAdapter.getItems()
+        return PartyCalc.TextBuilder()
+                .title(session.getAvailableTitle())
+                .appendText("${products.size} ${getProductCaseByNum(products.size)} ")
+                .products(products, getShareIncludeProducts())
+                .appendText("${payers.size} ${getPayerCaseByNum(payers.size)} ")
+                .payers(payers, getShareIncludePayers())
+                .appendText("${getString(R.string.results_title)}: \n")
+                .results(results)
+                .build()
+    }
 
 }
